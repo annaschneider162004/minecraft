@@ -1,0 +1,14 @@
+{
+  "fantasy": {
+    "wall": "minecraft:stone_bricks",
+    "tower": "minecraft:deepslate_bricks",
+    "floor": "minecraft:spruce_planks",
+    "trim": "minecraft:quartz_pillar"
+  },
+  "nether": {
+    "wall": "minecraft:nether_bricks",
+    "tower": "minecraft:blackstone",
+    "floor": "minecraft:polished_blackstone_bricks",
+    "trim": "minecraft:basalt"
+  }
+}
