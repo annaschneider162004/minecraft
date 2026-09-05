@@ -71,7 +71,9 @@ def generate_project(
     if options.generate_staged_schematics:
         for stage in build.stages:
             stage_path = os.path.join(output_dir, f"{safe_output_name}_{stage.key}.schem")
-            write_schematic(stage.model, stage_path, f"{display_name} - {stage.title}", AUTHOR, stage.description)
+            stage_name = display_name if stage.key == "07_full_build" else f"{display_name} - {stage.title}"
+            stage_description = build.description if stage.key == "07_full_build" else stage.description
+            write_schematic(stage.model, stage_path, stage_name, AUTHOR, stage_description)
             stage_paths.append(stage_path)
         written_files["stage_paths"] = stage_paths
 

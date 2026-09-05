@@ -13,6 +13,10 @@ class StoryAnalyzerTests(unittest.TestCase):
         analysis = analyze_story("A floating sky temple above a cloud island with a glowing core.", build_type="auto")
         self.assertEqual(analysis.selected_build_type, "floating_temple")
 
+    def test_auto_defaults_to_cliffside_when_no_keywords_match(self):
+        analysis = analyze_story("Build something beautiful for my next video.", build_type="auto")
+        self.assertEqual(analysis.selected_build_type, "survival_cliffside_base")
+
 
 if __name__ == "__main__":
     unittest.main()

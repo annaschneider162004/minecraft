@@ -81,7 +81,7 @@ Depending on the options you select, the tool writes:
 - `build_name_04_roof_or_top.schem`
 - `build_name_05_secret_room.schem`
 - `build_name_06_decorations.schem`
-- `build_name_07_full_build.schem`
+- `build_name_07_full_build.schem` - staged numeric copy of the same final structure as `build_name.schem`
 - `build_name_materials.txt`
 - `build_name_give_commands.txt`
 - `build_name_baritone_steps.txt`

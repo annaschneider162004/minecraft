@@ -92,6 +92,8 @@ BUILD_TYPES = [
     "floating_temple",
 ]
 
+BUILD_PRIORITY = BUILD_TYPES[1:]
+
 
 def _normalize(text: str) -> str:
     return re.sub(r"\s+", " ", (text or "").strip().lower())
@@ -115,9 +117,10 @@ def analyze_story(story_text: str, build_type: str = "auto") -> BuildAnalysis:
                 scores[candidate] += weight
 
     if build_type == "auto":
-        selected = max(KEYWORDS, key=lambda candidate: (scores[candidate], candidate))
-        if not scores[selected]:
+        if not any(scores[candidate] for candidate in BUILD_PRIORITY):
             selected = "survival_cliffside_base"
+        else:
+            selected = max(BUILD_PRIORITY, key=lambda candidate: (scores[candidate], -BUILD_PRIORITY.index(candidate)))
     else:
         selected = build_type
 

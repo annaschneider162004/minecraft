@@ -30,8 +30,11 @@ class GenerationTests(unittest.TestCase):
 
             with gzip.open(result["full_schematic"], "rb") as handle:
                 payload = handle.read()
+            with gzip.open(result["stage_paths"][-1], "rb") as handle:
+                final_stage_payload = handle.read()
             self.assertIn(b"Schematic", payload)
             self.assertIn(b"Palette", payload)
+            self.assertEqual(payload, final_stage_payload)
             self.assertGreater(os.path.getsize(result["full_schematic"]), 100)
             self.assertGreater(sum(result["material_counts"].values()), 0)
 
