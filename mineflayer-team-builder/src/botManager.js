@@ -139,14 +139,6 @@ class BotManager {
       this.config.origin.z + block.z
     );
 
-    const currentBlock = bot.blockAt(worldPosition);
-    if (currentBlock && normalizeBlockName(currentBlock.name) === normalizeBlockName(block.block)) {
-      return "skipped";
-    }
-    if (currentBlock && normalizeBlockName(currentBlock.name) !== "air") {
-      return "skipped";
-    }
-
     await moveNear(
       bot,
       { x: worldPosition.x, y: worldPosition.y, z: worldPosition.z },
@@ -158,13 +150,25 @@ class BotManager {
       throw new Error(`Không có vật liệu ${block.block} trong inventory.`);
     }
 
-    const support = this.findSupportBlock(bot, worldPosition);
-    if (!support) {
-      throw new Error("Không tìm thấy block để đặt bám vào.");
-    }
-
     for (let attempt = 0; attempt <= this.config.maxPlacementRetries; attempt += 1) {
       try {
+        const currentBlock = bot.blockAt(worldPosition);
+        if (currentBlock && normalizeBlockName(currentBlock.name) === normalizeBlockName(block.block)) {
+          return "skipped";
+        }
+        if (currentBlock && normalizeBlockName(currentBlock.name) !== "air") {
+          if (!this.config.replaceOccupiedBlocks) {
+            return "skipped";
+          }
+          await bot.dig(currentBlock, true);
+          await sleep(150);
+        }
+
+        const support = this.findSupportBlock(bot, worldPosition);
+        if (!support) {
+          throw new Error("Không tìm thấy block để đặt bám vào.");
+        }
+
         await bot.lookAt(worldPosition.plus(new Vec3(0.5, 0.5, 0.5)), true);
         await bot.placeBlock(support.supportBlock, support.faceVector);
         return "placed";

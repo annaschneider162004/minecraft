@@ -23,3 +23,22 @@ test("buildAssignments groups by role and falls back for unmatched roles", () =>
   assert.equal(assignments[1].blocks[0].role, "walls");
   assert.equal(assignments[0].blocks.length + assignments[1].blocks.length, 3);
 });
+
+test("buildAssignments falls back to round robin when roles are missing", () => {
+  const plan = {
+    size: { width: 4, height: 2, length: 4 },
+    blocks: [
+      { x: 0, y: 0, z: 0, block: "minecraft:stone" },
+      { x: 1, y: 0, z: 0, block: "minecraft:stone" },
+      { x: 2, y: 0, z: 0, block: "minecraft:stone" },
+    ],
+  };
+  const bots = [
+    { username: "Bot_A" },
+    { username: "Bot_B" },
+  ];
+
+  const assignments = buildAssignments(plan, bots, { x: 0, y: 64, z: 0 });
+  assert.equal(assignments[0].blocks.length, 2);
+  assert.equal(assignments[1].blocks.length, 1);
+});

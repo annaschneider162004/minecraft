@@ -246,6 +246,31 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(payload["recommendedBotCount"], 3)
             self.assertTrue(any(block["role"] == "structure" for block in payload["blocks"]))
 
+    def test_generation_can_export_four_bot_role_mapping(self):
+        story = "A fantasy library with towers, roof, and secret room."
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = generate_project(
+                story_text=story,
+                build_type="ancient_library",
+                build_name="Four Bot Library",
+                output_name="four_bot_library",
+                output_dir=tempdir,
+                options=GenerationOptions(
+                    generate_staged_schematics=False,
+                    generate_material_list=False,
+                    generate_material_commands=False,
+                    generate_baritone_steps=False,
+                    generate_youtube_notes=False,
+                    generate_mineflayer_plan=True,
+                    team_bot_count=4,
+                ),
+            )
+
+            with open(result["mineflayer_plan"], "r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+            self.assertEqual(payload["recommendedBotCount"], 4)
+            self.assertTrue(any(block["role"] == "finishing" for block in payload["blocks"]))
+
     def test_creative_tools_generate_idea_and_titles(self):
         idea = generate_build_idea(theme="wizard", keyword="moon archive")
         self.assertEqual(idea.recommended_build_type, "wizard_tower")
