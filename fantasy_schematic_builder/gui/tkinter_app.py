@@ -70,6 +70,7 @@ class BuilderGUI:
         self.root.geometry("1180x820")
         self.root.minsize(980, 700)
         self.root.configure(bg=self.COLORS["bg"])
+        self.root.protocol("WM_DELETE_WINDOW", self.close)
 
         self.last_generated_idea = None
         self.build_type = tk.StringVar(value=get_display_build_type("auto"))
@@ -89,6 +90,7 @@ class BuilderGUI:
 
         self.generate_button = None
         self.output_text = None
+        self.poll_after_id = None
 
         self._configure_theme()
         self._build_layout()
@@ -408,19 +410,30 @@ class BuilderGUI:
             result_queue.put(("success", result))
 
         threading.Thread(target=worker, daemon=True).start()
-        self.root.after(100, lambda: self._poll_generation_result(result_queue))
+        self.poll_after_id = self.root.after(100, lambda: self._poll_generation_result(result_queue))
 
     def _poll_generation_result(self, result_queue: queue.Queue[tuple[str, object]]) -> None:
+        self.poll_after_id = None
         try:
             state, payload = result_queue.get_nowait()
         except queue.Empty:
-            self.root.after(100, lambda: self._poll_generation_result(result_queue))
+            if self.root.winfo_exists():
+                self.poll_after_id = self.root.after(100, lambda: self._poll_generation_result(result_queue))
             return
 
         if state == "success":
             self._on_generation_success(payload)
             return
         self._on_generation_error(str(payload))
+
+    def close(self) -> None:
+        if self.poll_after_id is not None:
+            try:
+                self.root.after_cancel(self.poll_after_id)
+            except tk.TclError:  # pragma: no cover - window shutdown race
+                pass
+            self.poll_after_id = None
+        self.root.destroy()
 
     def _on_generation_success(self, result):
         if self.generate_button is not None:

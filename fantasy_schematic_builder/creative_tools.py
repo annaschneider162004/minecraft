@@ -334,7 +334,7 @@ def generate_youtube_title_package(
     focus_phrase = _pick_focus_phrase(story_text, build_type, build_name)
     effective_build_type = build_type if build_type in BUILD_TYPES else "auto"
     analysis = analyze_story(story_text or build_name or focus_phrase, build_type=effective_build_type)
-    hint = BUILD_TYPE_TITLE_HINTS[analysis.selected_build_type]
+    hint = BUILD_TYPE_TITLE_HINTS.get(analysis.selected_build_type, "Fantasy Build")
     rng = random.Random(_build_seed(story_text, build_type, build_name, str(count)))
     titles = [
         f"I Asked AI to Build a {hint} in Minecraft",
