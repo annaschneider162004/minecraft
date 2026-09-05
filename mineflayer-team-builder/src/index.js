@@ -40,9 +40,6 @@ async function main() {
   }
 
   const config = loadConfig(args.config);
-  if (!Array.isArray(config.bots) || config.bots.length === 0) {
-    throw new Error("Config Mineflayer phải có ít nhất 1 bot trong bots.");
-  }
   const plan = loadBuildPlan(config.planFile);
   const planOrigin = plan.origin || { x: 0, y: 0, z: 0 };
   const buildOrigin = config.origin || planOrigin;
