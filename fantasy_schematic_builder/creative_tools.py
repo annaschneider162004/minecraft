@@ -259,8 +259,6 @@ def generate_build_idea(theme: str = "fantasy", keyword: str = "") -> BuildIdea:
     detail_pool = list(profile["features"])
     rng.shuffle(detail_pool)
     palette = list(profile["palette"])
-    if keyword_label:
-        palette.insert(1, keyword_label.lower().replace(" ", "_"))
     staged_plan = [
         "Dọn mặt bằng và đặt phần nền chính.",
         "Dựng khung tường, cổng hoặc lõi trung tâm.",

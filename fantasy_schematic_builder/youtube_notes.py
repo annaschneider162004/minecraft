@@ -26,8 +26,11 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str, story_text: 
             "- Replay Mod sunrise pull-back for the final completed build.",
         ]
     )
-    extra_title_list = title_package.titles[1:] or title_package.titles
-    extra_titles = "\n".join(f"- {title}" for title in extra_title_list)
+    extra_title_list = title_package.titles[1:]
+    extra_titles_section = ""
+    if extra_title_list:
+        extra_titles = "\n".join(f"- {title}" for title in extra_title_list)
+        extra_titles_section = f"\n## More title ideas\n{extra_titles}\n"
     thumbnail_texts = "\n".join(f"- {text}" for text in title_package.thumbnail_texts)
     return f"""# {build.display_name}
 
@@ -42,9 +45,7 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str, story_text: 
 
 ## Suggested YouTube title
 {suggested_title}
-
-## More title ideas
-{extra_titles}
+{extra_titles_section}
 
 ## Thumbnail text ideas
 {thumbnail_texts}

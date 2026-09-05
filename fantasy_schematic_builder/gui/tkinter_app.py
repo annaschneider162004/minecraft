@@ -91,6 +91,7 @@ class BuilderGUI:
         self.generate_button = None
         self.output_text = None
         self.is_generating = False
+        self.is_closing = False
         self.poll_after_id = None
 
         self._configure_theme()
@@ -438,6 +439,8 @@ class BuilderGUI:
 
     def _poll_generation_result(self, result_queue: queue.Queue[tuple[str, object]]) -> None:
         self.poll_after_id = None
+        if self.is_closing or not self.root.winfo_exists():
+            return
         try:
             state, payload = result_queue.get_nowait()
         except queue.Empty:
@@ -451,6 +454,7 @@ class BuilderGUI:
         self._on_generation_error(str(payload))
 
     def close(self) -> None:
+        self.is_closing = True
         if self.poll_after_id is not None:
             try:
                 self.root.after_cancel(self.poll_after_id)
@@ -460,6 +464,9 @@ class BuilderGUI:
         self.root.destroy()
 
     def _on_generation_success(self, result):
+        if self.is_closing or not self.root.winfo_exists():
+            self.is_generating = False
+            return
         self.is_generating = False
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
@@ -488,6 +495,9 @@ class BuilderGUI:
         self.status.set(f"Đã tạo file thành công tại: {result['output_dir']}")
 
     def _on_generation_error(self, message):
+        if self.is_closing or not self.root.winfo_exists():
+            self.is_generating = False
+            return
         self.is_generating = False
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
