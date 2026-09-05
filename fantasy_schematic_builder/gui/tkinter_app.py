@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import queue
 import threading
 
 try:  # pragma: no cover - import availability depends on the host Python build
@@ -389,6 +390,7 @@ class BuilderGUI:
         if self.generate_button is not None:
             self.generate_button.configure(state="disabled")
         self.status.set("Đang tạo file schematic và dữ liệu đi kèm...")
+        result_queue: queue.Queue[tuple[str, object]] = queue.Queue()
 
         def worker():
             try:
@@ -401,12 +403,24 @@ class BuilderGUI:
                     options=options,
                 )
             except Exception as exc:  # pragma: no cover - GUI error display path
-                error_message = str(exc)
-                self.root.after(0, lambda message=error_message: self._on_generation_error(message))
+                result_queue.put(("error", str(exc)))
                 return
-            self.root.after(0, lambda generation_result=result: self._on_generation_success(generation_result))
+            result_queue.put(("success", result))
 
         threading.Thread(target=worker, daemon=True).start()
+        self.root.after(100, lambda: self._poll_generation_result(result_queue))
+
+    def _poll_generation_result(self, result_queue: queue.Queue[tuple[str, object]]) -> None:
+        try:
+            state, payload = result_queue.get_nowait()
+        except queue.Empty:
+            self.root.after(100, lambda: self._poll_generation_result(result_queue))
+            return
+
+        if state == "success":
+            self._on_generation_success(payload)
+            return
+        self._on_generation_error(str(payload))
 
     def _on_generation_success(self, result):
         if self.generate_button is not None:

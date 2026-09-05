@@ -350,7 +350,9 @@ def generate_youtube_title_package(
         f"Tôi dùng AI xây {hint} trong Minecraft",
         f"Biến câu chuyện fantasy thành Minecraft build: {focus_phrase}",
     ]
-    ordered_titles = list(dict.fromkeys(titles))[: max(8, min(count, 12))]
+    unique_titles = list(dict.fromkeys(titles))
+    limit = max(1, min(count, len(unique_titles)))
+    ordered_titles = unique_titles[:limit]
     thumbs = list(THUMBNAIL_TEXT_POOL)
     rng.shuffle(thumbs)
     return TitlePackage(titles=ordered_titles, thumbnail_texts=thumbs[:4])

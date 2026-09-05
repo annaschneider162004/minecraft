@@ -14,6 +14,7 @@ from fantasy_schematic_builder.creative_tools import (  # noqa: E402
     format_title_package,
     generate_build_idea,
     generate_youtube_title_package,
+    idea_to_story_prompt,
 )
 from fantasy_schematic_builder.models import GenerationOptions  # noqa: E402
 from fantasy_schematic_builder.story_analyzer import BUILD_TYPES  # noqa: E402
@@ -66,7 +67,7 @@ def main(argv: list[str] | None = None) -> int:
         if not story_text and idea is None:
             parser.error("--generate-titles requires --story or --generate-idea")
         title_package = generate_youtube_title_package(
-            story_text=story_text or format_build_idea(idea),
+            story_text=story_text or idea_to_story_prompt(idea),
             build_type=args.build_type,
             build_name=args.name,
         )

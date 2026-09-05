@@ -205,6 +205,15 @@ class GenerationTests(unittest.TestCase):
         self.assertGreaterEqual(len(titles.thumbnail_texts), 4)
         self.assertTrue(any("Minecraft" in title for title in titles.titles))
 
+    def test_title_package_respects_requested_count(self):
+        titles = generate_youtube_title_package(
+            story_text="A floating temple above the clouds with secret rooms.",
+            build_type="floating_temple",
+            build_name="Sky Shrine",
+            count=3,
+        )
+        self.assertEqual(len(titles.titles), 3)
+
     def test_cli_supports_generate_idea_and_titles_without_story_export(self):
         stdout = StringIO()
         with redirect_stdout(stdout):
