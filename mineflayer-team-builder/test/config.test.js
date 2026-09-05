@@ -31,3 +31,25 @@ test("loadConfig applies large-team batching defaults", () => {
     fs.rmSync(tempdir, { recursive: true, force: true });
   }
 });
+
+test("loadConfig rejects empty bot lists before planning", () => {
+  const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
+  try {
+    const configPath = path.join(tempdir, "team-config.json");
+    const planPath = path.join(tempdir, "team-plan.json");
+    fs.writeFileSync(planPath, JSON.stringify({ blocks: [] }), "utf8");
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify({
+        host: "localhost",
+        bots: [],
+        planFile: "./team-plan.json",
+      }),
+      "utf8"
+    );
+
+    assert.throws(() => loadConfig(configPath), /ít nhất 1 bot/);
+  } finally {
+    fs.rmSync(tempdir, { recursive: true, force: true });
+  }
+});
