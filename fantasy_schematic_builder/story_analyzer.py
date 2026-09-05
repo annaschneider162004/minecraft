@@ -114,6 +114,10 @@ def summarize_story(story_text: str, limit: int = 220) -> str:
 
 
 def analyze_story(story_text: str, build_type: str = "auto") -> BuildAnalysis:
+    if build_type not in BUILD_TYPES:
+        accepted = ", ".join(BUILD_TYPES)
+        raise ValueError(f"Unsupported build type '{build_type}'. Expected one of: {accepted}.")
+
     normalized = _normalize(story_text)
     scores = defaultdict(int)
 

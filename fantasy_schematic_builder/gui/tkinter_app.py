@@ -120,7 +120,8 @@ class BuilderGUI:
                     options=options,
                 )
             except Exception as exc:  # pragma: no cover - GUI error display path
-                self.root.after(0, lambda message=str(exc): self._on_generation_error(message))
+                error_message = str(exc)
+                self.root.after(0, lambda message=error_message: self._on_generation_error(message))
                 return
             self.root.after(0, lambda generation_result=result: self._on_generation_success(generation_result))
 

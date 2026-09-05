@@ -37,6 +37,8 @@ def main(argv: list[str] | None = None) -> int:
         try:
             from fantasy_schematic_builder.gui.tkinter_app import run_gui  # noqa: E402
         except ModuleNotFoundError as exc:
+            if exc.name not in {"tkinter", "_tkinter"}:
+                raise
             parser.exit(1, f"GUI is unavailable because tkinter could not be imported: {exc}\n")
         run_gui()
         return 0
