@@ -5,11 +5,12 @@
   "auth": "offline",
   "origin": { "x": 0, "y": 64, "z": 0 },
   "bots": [
-    { "username": "Builder_Mason", "role": "foundation" },
-    { "username": "Builder_Carpenter", "role": "walls" },
-    { "username": "Builder_Guardian", "role": "towers" },
-    { "username": "Builder_Roofer", "role": "roof" },
-    { "username": "Builder_Decorator", "role": "decorations" }
+    { "username": "Builder_01", "role": "foundation", "assignedStages": ["foundation"], "teamIndex": 1 },
+    { "username": "Builder_02", "role": "walls", "assignedStages": ["walls"], "teamIndex": 2 },
+    { "username": "Builder_03", "role": "towers", "assignedStages": ["towers"], "teamIndex": 3 },
+    { "username": "Builder_04", "role": "roof", "assignedStages": ["roof"], "teamIndex": 4 },
+    { "username": "Builder_05", "role": "secret_room", "assignedStages": ["secret_room"], "teamIndex": 5 },
+    { "username": "Builder_06", "role": "decorations", "assignedStages": ["decorations"], "teamIndex": 6 }
   ],
   "planFile": "./example_team_plan.json",
   "creativeMode": true,
@@ -17,5 +18,8 @@
   "commandPrefix": "/",
   "placementDelayMs": 700,
   "movementTimeoutMs": 15000,
-  "maxPlacementRetries": 2
+  "connectTimeoutMs": 30000,
+  "maxPlacementRetries": 2,
+  "joinBatchSize": 5,
+  "joinBatchDelayMs": 3000
 }

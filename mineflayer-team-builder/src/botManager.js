@@ -27,7 +27,22 @@ class BotManager {
   }
 
   async connectAll() {
-    const connected = await Promise.all(this.assignments.map((assignment) => this.connectBot(assignment.bot)));
+    const batchSize = Math.max(1, Number(this.config.joinBatchSize) || 1);
+    const batchDelayMs = Math.max(0, Number(this.config.joinBatchDelayMs) || 0);
+    const connected = [];
+    const totalBatches = Math.ceil(this.assignments.length / batchSize);
+
+    for (let start = 0; start < this.assignments.length; start += batchSize) {
+      const batchIndex = Math.floor(start / batchSize);
+      const batch = this.assignments.slice(start, start + batchSize);
+      this.logger.info(`Đang kết nối batch ${batchIndex + 1}/${totalBatches}...`);
+      const batchConnected = await Promise.all(batch.map((assignment) => this.connectBot(assignment.bot)));
+      connected.push(...batchConnected);
+      if (batchIndex < totalBatches - 1 && batchDelayMs > 0) {
+        await sleep(batchDelayMs);
+      }
+    }
+
     return connected;
   }
 

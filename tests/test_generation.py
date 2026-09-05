@@ -3,6 +3,7 @@ import json
 import os
 import tempfile
 import unittest
+from contextlib import redirect_stderr
 from contextlib import redirect_stdout
 from io import StringIO
 
@@ -211,10 +212,13 @@ class GenerationTests(unittest.TestCase):
             )
 
             self.assertIn("mineflayer_plan", result)
+            self.assertIn("mineflayer_config", result)
             self.assertTrue(os.path.exists(result["mineflayer_plan"]))
+            self.assertTrue(os.path.exists(result["mineflayer_config"]))
             with open(result["mineflayer_plan"], "r", encoding="utf-8") as handle:
                 payload = json.load(handle)
             self.assertEqual(payload["recommendedBotCount"], 6)
+            self.assertEqual(payload["availableStageRoles"], ["foundation", "walls", "towers", "roof", "secret_room", "decorations"])
             self.assertGreater(len(payload["blocks"]), 0)
             self.assertIn(payload["blocks"][0]["stage"], {"foundation", "walls", "towers", "roof", "secret_room", "decorations"})
             self.assertIn(payload["blocks"][0]["role"], {"foundation", "walls", "towers", "roof", "secret_room", "decorations"})
@@ -245,6 +249,13 @@ class GenerationTests(unittest.TestCase):
                 payload = json.load(handle)
             self.assertEqual(payload["recommendedBotCount"], 3)
             self.assertTrue(any(block["role"] == "structure" for block in payload["blocks"]))
+            config_path = os.path.join(tempdir, "cli_mineflayer_team_config.json")
+            self.assertTrue(os.path.exists(config_path))
+            with open(config_path, "r", encoding="utf-8") as handle:
+                config_payload = json.load(handle)
+            self.assertEqual(config_payload["bots"][0]["username"], "Builder_01")
+            self.assertEqual(config_payload["bots"][1]["assignedStages"], ["walls", "towers"])
+            self.assertEqual(config_payload["planFile"], "cli_mineflayer_mineflayer_plan.json")
 
     def test_generation_can_export_four_bot_role_mapping(self):
         story = "A fantasy library with towers, roof, and secret room."
@@ -270,6 +281,82 @@ class GenerationTests(unittest.TestCase):
                 payload = json.load(handle)
             self.assertEqual(payload["recommendedBotCount"], 4)
             self.assertTrue(any(block["role"] == "finishing" for block in payload["blocks"]))
+
+    def test_cli_accepts_fifty_team_bots_and_generates_config(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "--story",
+                        "Một vương quốc fantasy lớn với tháp, tường thành, phòng bí mật và sân trang trí.",
+                        "--build-type",
+                        "wizard_tower",
+                        "--output-name",
+                        "wizard_50",
+                        "--output-dir",
+                        tempdir,
+                        "--mineflayer-plan",
+                        "--team-bots",
+                        "50",
+                        "--staged",
+                    ]
+                )
+            self.assertEqual(exit_code, 0)
+            plan_path = os.path.join(tempdir, "wizard_50_mineflayer_plan.json")
+            config_path = os.path.join(tempdir, "wizard_50_team_config.json")
+            self.assertTrue(os.path.exists(plan_path))
+            self.assertTrue(os.path.exists(config_path))
+            with open(config_path, "r", encoding="utf-8") as handle:
+                config_payload = json.load(handle)
+            self.assertEqual(len(config_payload["bots"]), 50)
+            self.assertEqual(config_payload["bots"][0]["username"], "Builder_01")
+            self.assertEqual(config_payload["bots"][-1]["username"], "Builder_50")
+            self.assertEqual(config_payload["joinBatchSize"], 5)
+            self.assertEqual(config_payload["joinBatchDelayMs"], 3000)
+            self.assertEqual(config_payload["placementDelayMs"], 1000)
+            self.assertGreaterEqual(
+                {bot["role"] for bot in config_payload["bots"]},
+                {"foundation", "walls", "towers", "roof", "secret_room", "decorations"},
+            )
+
+    def test_cli_rejects_invalid_team_bot_counts(self):
+        for value in ("0", "51", "abc"):
+            stderr = StringIO()
+            with self.assertRaises(SystemExit) as exc, redirect_stderr(stderr):
+                main(
+                    [
+                        "--story",
+                        "A tower.",
+                        "--build-type",
+                        "wizard_tower",
+                        "--team-bots",
+                        value,
+                    ]
+                )
+            self.assertEqual(exc.exception.code, 2)
+            self.assertIn("Số bot Mineflayer", stderr.getvalue())
+
+    def test_generation_uses_mid_size_mineflayer_delay_defaults(self):
+        story = "A sky fortress with towers, roof, and hidden chamber."
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = generate_project(
+                story_text=story,
+                build_type="floating_temple",
+                build_name="Twenty Bot Fortress",
+                output_name="twenty_bot_fortress",
+                output_dir=tempdir,
+                options=GenerationOptions(
+                    generate_staged_schematics=False,
+                    generate_material_commands=False,
+                    generate_mineflayer_plan=True,
+                    team_bot_count=20,
+                ),
+            )
+
+            with open(result["mineflayer_config"], "r", encoding="utf-8") as handle:
+                config_payload = json.load(handle)
+            self.assertEqual(config_payload["placementDelayMs"], 900)
 
     def test_creative_tools_generate_idea_and_titles(self):
         idea = generate_build_idea(theme="wizard", keyword="moon archive")
