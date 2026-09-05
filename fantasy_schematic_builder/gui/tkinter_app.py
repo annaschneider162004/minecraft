@@ -90,6 +90,7 @@ class BuilderGUI:
 
         self.generate_button = None
         self.output_text = None
+        self.is_generating = False
         self.poll_after_id = None
 
         self._configure_theme()
@@ -368,6 +369,10 @@ class BuilderGUI:
         self.status.set(f"Đã tạo {len(titles.titles)} gợi ý tiêu đề YouTube.")
 
     def generate(self):
+        if self.is_generating:
+            messagebox.showinfo("Đang xử lý", "Ứng dụng đang tạo schematic. Vui lòng chờ tác vụ hiện tại hoàn tất.")
+            return
+
         story = self.story_text.get("1.0", "end").strip()
         if not story and self.last_generated_idea is not None:
             story = idea_to_story_prompt(self.last_generated_idea)
@@ -389,6 +394,7 @@ class BuilderGUI:
             generate_baritone=self.generate_baritone.get(),
             generate_notes=self.generate_notes.get(),
         )
+        self.is_generating = True
         if self.generate_button is not None:
             self.generate_button.configure(state="disabled")
         self.status.set("Đang tạo file schematic và dữ liệu đi kèm...")
@@ -436,6 +442,7 @@ class BuilderGUI:
         self.root.destroy()
 
     def _on_generation_success(self, result):
+        self.is_generating = False
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
         selected_label = get_display_build_type(result["selected_build_type"])
@@ -463,6 +470,7 @@ class BuilderGUI:
         self.status.set(f"Đã tạo file thành công tại: {result['output_dir']}")
 
     def _on_generation_error(self, message):
+        self.is_generating = False
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
         messagebox.showerror("Lỗi", f"Không thể tạo file:\n{message}")

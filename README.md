@@ -76,7 +76,7 @@ python fantasy_schematic_builder/app.py --story examples/story_dragon_cave.txt -
 - `--generate-idea` - print an offline build idea to the console
 - `--idea-theme fantasy|medieval|survival|dragon|wizard|ocean|sky|nether|ancient|village|castle|cave|temple`
 - `--idea-keyword "..."` - inject an extra keyword into the generated idea
-- `--generate-titles` - print offline YouTube title suggestions and thumbnail text
+- `--generate-titles` - print offline YouTube title suggestions and thumbnail text (requires `--story` or `--generate-idea`)
 
 ## Output location
 
