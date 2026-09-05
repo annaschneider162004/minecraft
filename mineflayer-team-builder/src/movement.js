@@ -13,14 +13,16 @@ function createMovements(bot) {
 async function moveNear(bot, position, timeoutMs) {
   const target = new Vec3(position.x, position.y, position.z);
   const goal = new goals.GoalNear(target.x, target.y, target.z, 2);
+  const gotoPromise = bot.pathfinder.goto(goal);
   let timeoutId;
   try {
     await Promise.race([
-      bot.pathfinder.goto(goal),
+      gotoPromise,
       new Promise((_, reject) => {
         timeoutId = setTimeout(() => {
+          bot.pathfinder.stop();
           bot.pathfinder.setGoal(null);
-          reject(new Error("Di chuyển quá thời gian cho phép."));
+          gotoPromise.catch(() => {}).finally(() => reject(new Error("Di chuyển quá thời gian cho phép.")));
         }, timeoutMs);
       }),
     ]);

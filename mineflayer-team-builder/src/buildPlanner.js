@@ -65,6 +65,9 @@ function assignByRole(plan, bots, origin) {
 }
 
 function buildAssignments(plan, bots, origin) {
+  if (!Array.isArray(bots) || bots.length === 0) {
+    throw new Error("Cần ít nhất một bot để chia build plan.");
+  }
   const hasRoleHints = plan.blocks.some((block) => Boolean(block.role));
   if (!hasRoleHints) {
     return assignRoundRobin(plan.blocks, bots, origin);

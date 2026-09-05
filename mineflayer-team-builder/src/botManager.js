@@ -45,28 +45,41 @@ class BotManager {
     bot.loadPlugin(pathfinder);
 
     await new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error(`Bot ${botConfig.username} kết nối quá lâu.`)), this.config.connectTimeoutMs);
-
-      bot.once("spawn", () => {
+      let settled = false;
+      const settle = (callback, value) => {
+        if (settled) {
+          return;
+        }
+        settled = true;
         clearTimeout(timer);
+        bot.removeListener("spawn", onSpawn);
+        bot.removeListener("error", onError);
+        bot.removeListener("kicked", onKicked);
+        callback(value);
+      };
+      const timer = setTimeout(() => settle(reject, new Error(`Bot ${botConfig.username} kết nối quá lâu.`)), this.config.connectTimeoutMs);
+
+      const onSpawn = () => {
         try {
           bot.pathfinder.setMovements(createMovements(bot));
         } catch (error) {
           logger.warn(`Không thể khởi tạo pathfinder: ${error.message}`);
         }
         logger.info("Đã spawn vào server.");
-        resolve();
-      });
+        settle(resolve);
+      };
 
-      bot.once("error", (error) => {
-        clearTimeout(timer);
-        reject(error);
-      });
+      const onError = (error) => {
+        settle(reject, error);
+      };
 
-      bot.once("kicked", (reason) => {
-        clearTimeout(timer);
-        reject(new Error(`Bot bị kick: ${reason}`));
-      });
+      const onKicked = (reason) => {
+        settle(reject, new Error(`Bot bị kick: ${reason}`));
+      };
+
+      bot.once("spawn", onSpawn);
+      bot.once("error", onError);
+      bot.once("kicked", onKicked);
     });
 
     if (this.config.creativeMode && this.config.issueCreativeCommands) {

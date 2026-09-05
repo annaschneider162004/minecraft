@@ -117,9 +117,9 @@ When YouTube notes are enabled, the notes file also includes multiple title sugg
 
 ## Optional Mineflayer team builder
 
-- The optional Node.js prototype lives in `/home/runner/work/minecraft/minecraft/mineflayer-team-builder`.
+- The optional Node.js prototype lives in `mineflayer-team-builder/`.
 - It reads the exported `*_mineflayer_plan.json`, connects multiple Mineflayer bots to a **singleplayer LAN/local/private server**, and splits the structure into team roles for cinematic build videos.
-- See `/home/runner/work/minecraft/minecraft/mineflayer-team-builder/README.md` for setup, safety notes, and the YouTube workflow.
+- See `mineflayer-team-builder/README.md` for setup, safety notes, and the YouTube workflow.
 
 ## Baritone and Minecraft 1.20.1 usage
 

@@ -24,7 +24,7 @@ Công cụ này là một hệ phụ **Node.js + Mineflayer** tách riêng khỏ
 ## Cài đặt
 
 ```bash
-cd /home/runner/work/minecraft/minecraft/mineflayer-team-builder
+cd mineflayer-team-builder
 npm install
 ```
 
@@ -33,11 +33,11 @@ npm install
 ### CLI
 
 ```bash
-python /home/runner/work/minecraft/minecraft/fantasy_schematic_builder/app.py \
-  --story /home/runner/work/minecraft/minecraft/examples/story_wizard_tower.txt \
+python fantasy_schematic_builder/app.py \
+  --story examples/story_wizard_tower.txt \
   --build-type wizard_tower \
   --output-name wizard_team \
-  --output-dir /home/runner/work/minecraft/minecraft/output \
+  --output-dir output \
   --mineflayer-plan \
   --team-bots 6
 ```
@@ -53,9 +53,7 @@ Python generator vẫn hoạt động riêng bình thường. Nếu bạn chỉ 
 
 ## Cấu hình bot
 
-Sửa file:
-
-`/home/runner/work/minecraft/minecraft/mineflayer-team-builder/examples/team-build-config.json`
+Sửa file `mineflayer-team-builder/examples/team-build-config.json`
 
 Ví dụ vai trò cho video:
 
@@ -79,14 +77,14 @@ Các trường quan trọng:
 ### Kiểm tra plan/config trước
 
 ```bash
-cd /home/runner/work/minecraft/minecraft/mineflayer-team-builder
+cd mineflayer-team-builder
 npm start -- --config examples/team-build-config.json --dry-run
 ```
 
 ### Chạy thật
 
 ```bash
-cd /home/runner/work/minecraft/minecraft/mineflayer-team-builder
+cd mineflayer-team-builder
 npm start -- --config examples/team-build-config.json
 ```
 
