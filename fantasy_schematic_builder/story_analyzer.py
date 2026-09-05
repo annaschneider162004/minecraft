@@ -127,14 +127,14 @@ def analyze_story(story_text: str, build_type: str = "auto") -> BuildAnalysis:
             selected = "survival_cliffside_base"
         else:
             selected = max(BUILD_PRIORITY, key=lambda candidate: (scores[candidate], -BUILD_PRIORITY_ORDER[candidate]))
+        detected_themes = []
+        for candidate, label in THEME_LABELS.items():
+            if scores[candidate] > 0 or candidate == selected:
+                detected_themes.extend(label.split())
+        detected_themes = sorted(set(detected_themes))
     else:
         selected = build_type
-
-    detected_themes = []
-    for candidate, label in THEME_LABELS.items():
-        if scores[candidate] > 0 or candidate == selected:
-            detected_themes.extend(label.split())
-    detected_themes = sorted(set(detected_themes))
+        detected_themes = sorted(set(THEME_LABELS[selected].split()))
 
     return BuildAnalysis(
         selected_build_type=selected,

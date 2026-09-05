@@ -32,8 +32,11 @@ def write_give_commands_file(materials: Counter, output_path: str) -> None:
 
 def write_baritone_steps_file(stage_paths: list[str], output_path: str) -> None:
     with open(output_path, "w", encoding="utf-8") as handle:
-        handle.write("# Staged schematics are cumulative for easier Baritone building.\n")
-        handle.write("# Put the .schem files in .minecraft/schematics, then run each step in order.\n")
+        if len(stage_paths) > 1:
+            handle.write("# Staged schematics are cumulative for easier Baritone building.\n")
+            handle.write("# Put the .schem files in .minecraft/schematics, then run each step in order.\n")
+        else:
+            handle.write("# Put the .schem file in .minecraft/schematics and run the single build command below.\n")
         handle.write("# If Baritone pauses after materials are given, run #resume.\n\n")
         for stage_path in stage_paths:
             handle.write(f"#build {os.path.basename(stage_path)}\n")

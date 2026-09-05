@@ -67,6 +67,9 @@ class GenerationTests(unittest.TestCase):
             self.assertNotIn("materials", result)
             self.assertNotIn("give_commands", result)
             self.assertNotIn("youtube_notes", result)
+            with open(result["baritone_steps"], "r", encoding="utf-8") as handle:
+                baritone_steps = handle.read()
+            self.assertIn("#build sky_temple.schem", baritone_steps)
 
     def test_cli_defaults_to_full_only_and_supports_staged_flag(self):
         with tempfile.TemporaryDirectory() as tempdir:
