@@ -34,13 +34,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.gui:
+        from fantasy_schematic_builder.gui.tkinter_app import run_gui  # noqa: E402
         try:
-            from fantasy_schematic_builder.gui.tkinter_app import run_gui  # noqa: E402
-        except ModuleNotFoundError as exc:
-            if exc.name not in {"tkinter", "_tkinter"}:
-                raise
-            parser.exit(1, f"GUI is unavailable because tkinter could not be imported: {exc}\n")
-        run_gui()
+            run_gui()
+        except RuntimeError as exc:
+            parser.exit(1, f"{exc}\n")
         return 0
 
     if not args.story:

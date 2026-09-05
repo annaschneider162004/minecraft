@@ -21,6 +21,16 @@ class StoryAnalyzerTests(unittest.TestCase):
         analysis = analyze_story("Maybe the build should feel quiet and lonely.", build_type="auto")
         self.assertEqual(analysis.selected_build_type, "survival_cliffside_base")
 
+    def test_multi_word_vietnamese_keyword_matches(self):
+        analysis = analyze_story("Một căn cứ sinh tồn nằm trên vách núi đầy gió.", build_type="auto")
+        self.assertEqual(analysis.selected_build_type, "survival_cliffside_base")
+
+    def test_explicit_build_type_uses_selected_theme_labels(self):
+        analysis = analyze_story("A dragon shrine with treasure and obsidian.", build_type="wizard_tower")
+        self.assertEqual(analysis.selected_build_type, "wizard_tower")
+        self.assertIn("wizard", analysis.detected_themes)
+        self.assertNotIn("dragon", analysis.detected_themes)
+
 
 if __name__ == "__main__":
     unittest.main()

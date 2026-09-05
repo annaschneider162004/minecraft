@@ -2,12 +2,39 @@ from __future__ import annotations
 
 import os
 import threading
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+
+try:  # pragma: no cover - import availability depends on the host Python build
+    import tkinter as tk
+    from tkinter import filedialog, messagebox, ttk
+    TKINTER_IMPORT_ERROR = None
+except ModuleNotFoundError as exc:  # pragma: no cover - exercised indirectly via CLI fallback
+    tk = None
+    filedialog = None
+    messagebox = None
+    ttk = None
+    TKINTER_IMPORT_ERROR = exc
 
 from fantasy_schematic_builder.builder import default_output_directory, generate_project
 from fantasy_schematic_builder.models import GenerationOptions
 from fantasy_schematic_builder.story_analyzer import BUILD_TYPES
+
+
+def build_generation_options(
+    generate_full: bool,
+    generate_staged: bool,
+    generate_materials: bool,
+    generate_commands: bool,
+    generate_baritone: bool,
+    generate_notes: bool,
+) -> GenerationOptions:
+    return GenerationOptions(
+        generate_full_schematic=generate_full,
+        generate_staged_schematics=generate_staged,
+        generate_material_list=generate_materials,
+        generate_material_commands=generate_commands,
+        generate_baritone_steps=generate_baritone,
+        generate_youtube_notes=generate_notes,
+    )
 
 
 class BuilderGUI:
@@ -97,13 +124,17 @@ class BuilderGUI:
             messagebox.showerror("Missing story", "Please paste a fantasy story or load a .txt file first.")
             return
 
-        options = GenerationOptions(
-            generate_full_schematic=self.generate_full.get(),
-            generate_staged_schematics=self.generate_staged.get(),
-            generate_material_list=self.generate_materials.get(),
-            generate_material_commands=self.generate_commands.get(),
-            generate_baritone_steps=self.generate_baritone.get(),
-            generate_youtube_notes=self.generate_notes.get(),
+        build_type = self.build_type.get()
+        build_name = self.build_name.get()
+        output_name = self.output_name.get()
+        output_dir = self.output_dir.get()
+        options = build_generation_options(
+            generate_full=self.generate_full.get(),
+            generate_staged=self.generate_staged.get(),
+            generate_materials=self.generate_materials.get(),
+            generate_commands=self.generate_commands.get(),
+            generate_baritone=self.generate_baritone.get(),
+            generate_notes=self.generate_notes.get(),
         )
         if self.generate_button is not None:
             self.generate_button.configure(state="disabled")
@@ -113,10 +144,10 @@ class BuilderGUI:
             try:
                 result = generate_project(
                     story_text=story,
-                    build_type=self.build_type.get(),
-                    build_name=self.build_name.get(),
-                    output_name=self.output_name.get(),
-                    output_dir=self.output_dir.get(),
+                    build_type=build_type,
+                    build_name=build_name,
+                    output_name=output_name,
+                    output_dir=output_dir,
                     options=options,
                 )
             except Exception as exc:  # pragma: no cover - GUI error display path
@@ -144,6 +175,8 @@ class BuilderGUI:
 
 
 def run_gui():
+    if TKINTER_IMPORT_ERROR is not None:
+        raise RuntimeError(f"GUI is unavailable because tkinter could not be imported: {TKINTER_IMPORT_ERROR}")
     root = tk.Tk()
     BuilderGUI(root)
     root.mainloop()
