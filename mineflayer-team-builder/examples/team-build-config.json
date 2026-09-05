@@ -1,0 +1,21 @@
+{
+  "host": "localhost",
+  "port": 25565,
+  "version": false,
+  "auth": "offline",
+  "origin": { "x": 0, "y": 64, "z": 0 },
+  "bots": [
+    { "username": "Builder_Mason", "role": "foundation" },
+    { "username": "Builder_Carpenter", "role": "walls" },
+    { "username": "Builder_Guardian", "role": "towers" },
+    { "username": "Builder_Roofer", "role": "roof" },
+    { "username": "Builder_Decorator", "role": "decorations" }
+  ],
+  "planFile": "./example_team_plan.json",
+  "creativeMode": true,
+  "issueCreativeCommands": false,
+  "commandPrefix": "/",
+  "placementDelayMs": 700,
+  "movementTimeoutMs": 15000,
+  "maxPlacementRetries": 2
+}

@@ -1,0 +1,18 @@
+{
+  "name": "secret_fantasy_base",
+  "buildType": "wizard_tower",
+  "size": { "width": 7, "height": 6, "length": 7 },
+  "origin": { "x": 0, "y": 64, "z": 0 },
+  "recommendedBotCount": 5,
+  "blocks": [
+    { "x": 2, "y": 0, "z": 2, "block": "minecraft:stone_bricks", "stage": "foundation", "role": "foundation" },
+    { "x": 3, "y": 0, "z": 2, "block": "minecraft:stone_bricks", "stage": "foundation", "role": "foundation" },
+    { "x": 2, "y": 1, "z": 2, "block": "minecraft:spruce_planks", "stage": "walls", "role": "walls" },
+    { "x": 4, "y": 1, "z": 2, "block": "minecraft:spruce_planks", "stage": "walls", "role": "walls" },
+    { "x": 1, "y": 1, "z": 1, "block": "minecraft:dark_oak_log[axis=y]", "stage": "towers", "role": "towers" },
+    { "x": 5, "y": 1, "z": 5, "block": "minecraft:dark_oak_log[axis=y]", "stage": "towers", "role": "towers" },
+    { "x": 3, "y": 4, "z": 3, "block": "minecraft:dark_oak_planks", "stage": "roof", "role": "roof" },
+    { "x": 3, "y": 2, "z": 4, "block": "minecraft:bookshelf", "stage": "secret_room", "role": "secret_room" },
+    { "x": 3, "y": 3, "z": 3, "block": "minecraft:lantern", "stage": "decorations", "role": "decorations" }
+  ]
+}

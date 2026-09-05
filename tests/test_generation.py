@@ -1,4 +1,5 @@
 import gzip
+import json
 import os
 import tempfile
 import unittest
@@ -21,13 +22,15 @@ from fantasy_schematic_builder.gui.tkinter_app import build_generation_options
 
 class GenerationTests(unittest.TestCase):
     def test_gui_option_mapping_helper(self):
-        options = build_generation_options(True, False, True, False, True, False)
+        options = build_generation_options(True, False, True, False, True, False, True, 4)
         self.assertTrue(options.generate_full_schematic)
         self.assertFalse(options.generate_staged_schematics)
         self.assertTrue(options.generate_material_list)
         self.assertFalse(options.generate_material_commands)
         self.assertTrue(options.generate_baritone_steps)
         self.assertFalse(options.generate_youtube_notes)
+        self.assertTrue(options.generate_mineflayer_plan)
+        self.assertEqual(options.team_bot_count, 4)
 
     def test_generation_writes_full_and_staged_schematics(self):
         story = "A wizard mage builds a magic tower with an observatory and hidden room."
@@ -189,6 +192,59 @@ class GenerationTests(unittest.TestCase):
             self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_materials.txt")))
             self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_give_commands.txt")))
             self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_youtube_notes.md")))
+
+    def test_generation_can_export_mineflayer_plan(self):
+        story = "Một pháp sư xây tháp ma thuật có lõi phát sáng và phòng bí mật."
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = generate_project(
+                story_text=story,
+                build_type="wizard_tower",
+                build_name="Arcane Team Tower",
+                output_name="arcane_team_tower",
+                output_dir=tempdir,
+                options=GenerationOptions(
+                    generate_staged_schematics=False,
+                    generate_material_commands=False,
+                    generate_mineflayer_plan=True,
+                    team_bot_count=6,
+                ),
+            )
+
+            self.assertIn("mineflayer_plan", result)
+            self.assertTrue(os.path.exists(result["mineflayer_plan"]))
+            with open(result["mineflayer_plan"], "r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+            self.assertEqual(payload["recommendedBotCount"], 6)
+            self.assertGreater(len(payload["blocks"]), 0)
+            self.assertIn(payload["blocks"][0]["stage"], {"foundation", "walls", "towers", "roof", "secret_room", "decorations"})
+            self.assertIn(payload["blocks"][0]["role"], {"foundation", "walls", "towers", "roof", "secret_room", "decorations"})
+
+    def test_cli_can_export_mineflayer_plan_for_three_bots(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "--story",
+                        "A floating fantasy temple with a hidden room.",
+                        "--build-type",
+                        "floating_temple",
+                        "--output-name",
+                        "cli_mineflayer",
+                        "--output-dir",
+                        tempdir,
+                        "--mineflayer-plan",
+                        "--team-bots",
+                        "3",
+                    ]
+                )
+            self.assertEqual(exit_code, 0)
+            plan_path = os.path.join(tempdir, "cli_mineflayer_mineflayer_plan.json")
+            self.assertTrue(os.path.exists(plan_path))
+            with open(plan_path, "r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+            self.assertEqual(payload["recommendedBotCount"], 3)
+            self.assertTrue(any(block["role"] == "structure" for block in payload["blocks"]))
 
     def test_creative_tools_generate_idea_and_titles(self):
         idea = generate_build_idea(theme="wizard", keyword="moon archive")

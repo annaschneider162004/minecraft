@@ -1,0 +1,21 @@
+{
+  "name": "mineflayer-team-builder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mineflayer multi-bot builder prototype for private Minecraft fantasy build videos",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "minecraft-data": "^3.98.0",
+    "mineflayer": "^4.33.0",
+    "mineflayer-pathfinder": "^2.4.5",
+    "vec3": "^0.1.10"
+  }
+}
