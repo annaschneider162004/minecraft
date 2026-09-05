@@ -16,7 +16,7 @@ Công cụ này là một hệ phụ **Node.js + Mineflayer** tách riêng khỏ
 
 ## Yêu cầu
 
-- Node.js 20+ hoặc mới hơn
+- Node.js 22+ hoặc mới hơn
 - Minecraft Java server local/private hoặc Singleplayer mở LAN
 - Tài khoản/offline auth phù hợp với server test của bạn
 - Khuyên dùng world backup trước khi chạy bot

@@ -7,7 +7,14 @@ const { equipBlockItem, normalizeBlockName } = require("./inventory");
 const { createLogger } = require("./logger");
 const { createMovements, moveNear } = require("./movement");
 
-const SUPPORT_OFFSET = new Vec3(0, -1, 0);
+const SUPPORT_FACES = [
+  new Vec3(0, -1, 0),
+  new Vec3(1, 0, 0),
+  new Vec3(-1, 0, 0),
+  new Vec3(0, 0, 1),
+  new Vec3(0, 0, -1),
+  new Vec3(0, 1, 0),
+];
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -109,6 +116,22 @@ class BotManager {
     logger.info(`Hoàn tất: placed=${placed}, skipped=${skipped}, failed=${failed}.`);
   }
 
+  findSupportBlock(bot, worldPosition) {
+    for (const offset of SUPPORT_FACES) {
+      const supportPosition = worldPosition.plus(offset);
+      const supportBlock = bot.blockAt(supportPosition);
+      if (!supportBlock || normalizeBlockName(supportBlock.name) === "air") {
+        continue;
+      }
+      const faceVector = worldPosition.minus(supportBlock.position);
+      const isUnitFace = Math.abs(faceVector.x) + Math.abs(faceVector.y) + Math.abs(faceVector.z) === 1;
+      if (isUnitFace) {
+        return { supportBlock, faceVector };
+      }
+    }
+    return null;
+  }
+
   async placeBlock(bot, mcData, block) {
     const worldPosition = new Vec3(
       this.config.origin.x + block.x,
@@ -135,22 +158,15 @@ class BotManager {
       throw new Error(`Không có vật liệu ${block.block} trong inventory.`);
     }
 
-    let supportBlock = bot.blockAt(worldPosition.plus(SUPPORT_OFFSET));
-    if (!supportBlock || normalizeBlockName(supportBlock.name) === "air") {
-      supportBlock = bot.blockAt(worldPosition.offset(1, 0, 0))
-        || bot.blockAt(worldPosition.offset(-1, 0, 0))
-        || bot.blockAt(worldPosition.offset(0, 0, 1))
-        || bot.blockAt(worldPosition.offset(0, 0, -1));
-    }
-    if (!supportBlock || normalizeBlockName(supportBlock.name) === "air") {
+    const support = this.findSupportBlock(bot, worldPosition);
+    if (!support) {
       throw new Error("Không tìm thấy block để đặt bám vào.");
     }
 
     for (let attempt = 0; attempt <= this.config.maxPlacementRetries; attempt += 1) {
       try {
-        const faceVector = worldPosition.minus(supportBlock.position);
         await bot.lookAt(worldPosition.plus(new Vec3(0.5, 0.5, 0.5)), true);
-        await bot.placeBlock(supportBlock, faceVector);
+        await bot.placeBlock(support.supportBlock, support.faceVector);
         return "placed";
       } catch (error) {
         if (attempt === this.config.maxPlacementRetries) {
