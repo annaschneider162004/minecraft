@@ -9,8 +9,10 @@ Công cụ này là một hệ phụ **Node.js + Mineflayer** tách riêng khỏ
 ## Công cụ này làm gì?
 
 - đọc JSON build plan do Python export ra
+- đọc luôn file config team bot do Python tự sinh ra
 - chia việc theo `role` như nền móng / tường / tháp / mái / trang trí
 - kết nối nhiều bot Mineflayer vào server Minecraft local/private
+- kết nối bot theo từng batch để mode `40–50 bot` ổn định hơn
 - cho bot di chuyển gần block cần đặt, đặt block từ thấp lên cao, log tiến độ rõ ràng
 - bỏ qua block đã có sẵn để bot không kẹt mãi
 
@@ -40,6 +42,15 @@ python fantasy_schematic_builder/app.py \
   --output-dir output \
   --mineflayer-plan \
   --team-bots 6
+
+python fantasy_schematic_builder/app.py \
+  --story examples/story_wizard_tower.txt \
+  --build-type wizard_tower \
+  --output-name wizard_50 \
+  --output-dir output \
+  --mineflayer-plan \
+  --team-bots 50 \
+  --staged
 ```
 
 ### GUI
@@ -47,21 +58,30 @@ python fantasy_schematic_builder/app.py \
 Trong GUI, bật:
 
 - **Tạo kế hoạch Mineflayer team bot**
-- **Số bot: 3 / 4 / 6**
+- **Số bot Mineflayer (1–50)**
+- **Bật chế độ đội bot lớn (Mass Bot Mode)** để chọn nhanh `10 / 20 / 30 / 40 / 50`
 
 Python generator vẫn hoạt động riêng bình thường. Nếu bạn chỉ muốn `.schem`, bạn không cần cài Node.js.
 
 ## Cấu hình bot
 
-Sửa file `mineflayer-team-builder/examples/team-build-config.json`
+Mặc định Python sẽ tự sinh:
+
+- `*_mineflayer_plan.json`
+- `*_team_config.json`
+
+Bạn có thể chạy trực tiếp file config sinh sẵn đó hoặc chỉnh thêm nếu cần.
 
 Ví dụ vai trò cho video:
 
-- `Builder_Mason` = nền móng
-- `Builder_Carpenter` = tường gỗ
-- `Builder_Guardian` = tháp
-- `Builder_Roofer` = mái
-- `Builder_Decorator` = trang trí / phòng bí mật
+- `Builder_01` = nền móng
+- `Builder_02` = tường
+- `Builder_03` = tháp
+- `Builder_04` = mái
+- `Builder_05` = phòng bí mật
+- `Builder_06` = trang trí
+
+Với `Mass Bot Mode`, tool sẽ tiếp tục sinh `Builder_07` tới `Builder_50` và tự lặp role theo đội lớn.
 
 Các trường quan trọng:
 
@@ -71,6 +91,8 @@ Các trường quan trọng:
 - `planFile`: đường dẫn tới file JSON plan
 - `creativeMode`: bật/tắt logic ưu tiên creative
 - `issueCreativeCommands`: nếu `true`, bot sẽ thử chat lệnh `/gamemode creative <bot>`
+- `joinBatchSize`, `joinBatchDelayMs`: số bot vào mỗi đợt và thời gian chờ giữa các batch
+- `assignedStages`: metadata để bot ít vai trò hơn vẫn nhận đúng stage như `roof / secret_room / decorations`
 
 ## Chạy bot
 
@@ -78,22 +100,22 @@ Các trường quan trọng:
 
 ```bash
 cd mineflayer-team-builder
-npm start -- --config examples/team-build-config.json --dry-run
+npm start -- --config ../output/<name>_team_config.json --dry-run
 ```
 
 ### Chạy thật
 
 ```bash
 cd mineflayer-team-builder
-npm start -- --config examples/team-build-config.json
+npm start -- --config ../output/<name>_team_config.json
 ```
 
 Luồng cơ bản:
 
 1. load config
 2. load build plan JSON
-3. chia block theo role, nếu thiếu role phù hợp thì chia round-robin
-4. kết nối tất cả bot
+3. chia block theo role, nếu role gộp thì dùng thêm `assignedStages`, nếu vẫn thiếu thì chia đều fallback
+4. kết nối bot theo batch
 5. bot xây từ thấp lên cao, có delay để timelapse nhìn rõ hơn
 
 ## Ghi hình YouTube
@@ -102,13 +124,16 @@ Workflow gợi ý:
 
 1. Viết câu chuyện fantasy
 2. Dùng Python tool tạo `.schem`, staged files, YouTube notes, và `*_mineflayer_plan.json`
-3. Mở world local/private để thử build
-4. Cho đội bot vào xây
+3. Lấy luôn file `*_team_config.json` vừa được sinh ra
+4. Mở world local/private để thử build
+5. Cho đội bot vào xây
 5. Dùng Replay Mod hoặc camera account để quay timelapse cinematic
 
 Sample title:
 
 - `6 AI Builders Made This Secret Fantasy Base in Minecraft`
+- `20 AI Builders Made a Fantasy Kingdom in Minecraft`
+- `50 AI Builders Created a Secret Kingdom in Minecraft`
 
 Thumbnail text:
 
@@ -152,3 +177,11 @@ Ví dụ các block phổ biến:
 - Khuyến nghị mạnh nhất là dùng **JSON build plan do Python export** thay vì parse trực tiếp file `.schem` trong Node.
 - Prototype này ưu tiên dễ hiểu, dễ sửa, và đủ tốt để làm nền tảng team-building video.
 - Nếu một block đặt lỗi quá số lần retry hoặc bị chặn đường đi, bot sẽ log lỗi rồi bỏ qua block đó thay vì treo vô hạn.
+
+## Khuyến nghị cho đội lớn 40–50 bot
+
+- Test tăng dần: `6 → 10 → 20 → 30 → 50`.
+- Chỉ dùng ở server private/LAN/local hoặc nơi bạn có quyền.
+- 16GB RAM là mức tối thiểu; 32GB RAM được khuyến nghị khi thử 50 bot.
+- Giảm `view-distance` và `simulation-distance` để giảm lag.
+- Backup world trước khi chạy build lớn.

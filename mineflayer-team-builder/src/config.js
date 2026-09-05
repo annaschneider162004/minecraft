@@ -50,6 +50,8 @@ function loadConfig(configArg) {
     movementTimeoutMs: withDefault(parsed.movementTimeoutMs, 15000),
     connectTimeoutMs: withDefault(parsed.connectTimeoutMs, withDefault(readNumberEnv("TEAM_BUILDER_CONNECT_TIMEOUT_MS"), 30000)),
     maxPlacementRetries: withDefault(parsed.maxPlacementRetries, 2),
+    joinBatchSize: withDefault(parsed.joinBatchSize, 5),
+    joinBatchDelayMs: withDefault(parsed.joinBatchDelayMs, 3000),
     replaceOccupiedBlocks: parsed.replaceOccupiedBlocks === true,
   };
 }

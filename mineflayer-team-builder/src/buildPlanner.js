@@ -31,20 +31,40 @@ function assignByRole(plan, bots, origin) {
   const assignments = bots.map((bot) => ({ bot, blocks: [] }));
   const unmatched = [];
   const roleToAssignments = new Map();
+  const stageToAssignments = new Map();
 
   for (const assignment of assignments) {
-    const role = assignment.bot.role || "";
-    if (!roleToAssignments.has(role)) {
-      roleToAssignments.set(role, []);
-    }
-    roleToAssignments.get(role).push(assignment);
+    const roles = Array.isArray(assignment.bot.roles)
+      ? assignment.bot.roles
+      : [assignment.bot.role || ""];
+    roles.filter(Boolean).forEach((role) => {
+      if (!roleToAssignments.has(role)) {
+        roleToAssignments.set(role, []);
+      }
+      roleToAssignments.get(role).push(assignment);
+    });
+    const stages = Array.isArray(assignment.bot.assignedStages) ? assignment.bot.assignedStages : [];
+    stages.filter(Boolean).forEach((stage) => {
+      if (!stageToAssignments.has(stage)) {
+        stageToAssignments.set(stage, []);
+      }
+      stageToAssignments.get(stage).push(assignment);
+    });
+  }
+
+  function selectLeastLoaded(candidates) {
+    return candidates.reduce((best, current) => (current.blocks.length < best.blocks.length ? current : best));
   }
 
   for (const block of plan.blocks) {
     const matchingAssignments = block.role ? roleToAssignments.get(block.role) : null;
     if (matchingAssignments && matchingAssignments.length > 0) {
-      const target = matchingAssignments.reduce((best, current) => (current.blocks.length < best.blocks.length ? current : best));
-      target.blocks.push(block);
+      selectLeastLoaded(matchingAssignments).blocks.push(block);
+      continue;
+    }
+    const stageAssignments = block.stage ? stageToAssignments.get(block.stage) : null;
+    if (stageAssignments && stageAssignments.length > 0) {
+      selectLeastLoaded(stageAssignments).blocks.push(block);
       continue;
     }
     unmatched.push(block);
@@ -53,8 +73,7 @@ function assignByRole(plan, bots, origin) {
   if (unmatched.length > 0) {
     const sortedUnmatched = sortBlocks(unmatched, origin);
     for (const block of sortedUnmatched) {
-      const target = assignments.reduce((best, current) => (current.blocks.length < best.blocks.length ? current : best));
-      target.blocks.push(block);
+      selectLeastLoaded(assignments).blocks.push(block);
     }
   }
 

@@ -18,7 +18,7 @@ A user-friendly Python tool for turning English or Vietnamese fantasy story prom
 - Sponge schematic v2-style `.schem` writer using gzip-compressed NBT, a block palette, and varint `BlockData`.
 - Cumulative staged schematic exports for easier Baritone building.
 - Material list, `/give` command export, Baritone build steps, and YouTube notes.
-- Optional Mineflayer team build plan JSON export plus a separate `mineflayer-team-builder/` Node.js bot prototype.
+- Optional Mineflayer team build plan JSON export plus auto-generated `*_team_config.json` for the separate `mineflayer-team-builder/` Node.js bot prototype.
 - Example story files in `/examples`.
 
 ## Requirements
@@ -42,6 +42,7 @@ The GUI lets you:
 - dùng ngay ý tưởng vừa tạo để đổ vào ô prompt
 - tạo nhiều tiêu đề YouTube và chữ thumbnail
 - bật/tắt tạo schematic đầy đủ, schematic theo giai đoạn, danh sách vật liệu, lệnh `/give`, hướng dẫn Baritone, và ghi chú YouTube
+- bật **Tạo kế hoạch Mineflayer team bot**, nhập `Số bot Mineflayer (1–50)`, và dùng **Mass Bot Mode** để chọn nhanh `10 / 20 / 30 / 40 / 50`
 
 ### Quy trình GUI gợi ý
 
@@ -60,6 +61,7 @@ python fantasy_schematic_builder/app.py --story examples/story_cliffside.txt --b
 python fantasy_schematic_builder/app.py --generate-idea --idea-theme dragon --idea-keyword relic
 python fantasy_schematic_builder/app.py --story examples/story_dragon_cave.txt --build-type auto --generate-titles
 python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt --build-type wizard_tower --output-name wizard_team --mineflayer-plan --team-bots 6
+python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt --build-type wizard_tower --output-name wizard_50 --mineflayer-plan --team-bots 50 --staged
 ```
 
 ### Useful CLI options
@@ -76,8 +78,8 @@ python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt 
 - `--no-give-commands` - skip `/give` command export
 - `--no-baritone` - skip Baritone step export
 - `--no-youtube-notes` - skip YouTube/story notes export
-- `--mineflayer-plan` - generate a JSON build plan for the optional Mineflayer multi-bot subsystem
-- `--team-bots 3|4|6` - choose the recommended bot-role split encoded into the Mineflayer plan
+- `--mineflayer-plan` - generate a JSON build plan plus `*_team_config.json` for the optional Mineflayer multi-bot subsystem
+- `--team-bots 1-50` - choose the Mineflayer bot count encoded into the generated plan/config
 - `--generate-idea` - print an offline build idea to the console
 - `--idea-theme fantasy|medieval|survival|dragon|wizard|ocean|sky|nether|ancient|village|castle|cave|temple`
 - `--idea-keyword "..."` - inject an extra keyword into the generated idea
@@ -110,6 +112,7 @@ Depending on the options you select, the tool writes:
 - `build_name_baritone_steps.txt`
 - `build_name_youtube_notes.md`
 - `build_name_mineflayer_plan.json`
+- `build_name_team_config.json`
 
 Staged schematics are **cumulative**. That means each later stage includes everything from the earlier stages so Baritone can continue more reliably.
 If staged exports are disabled but Baritone steps are enabled, the steps file falls back to the full schematic.
@@ -118,8 +121,37 @@ When YouTube notes are enabled, the notes file also includes multiple title sugg
 ## Optional Mineflayer team builder
 
 - The optional Node.js prototype lives in `mineflayer-team-builder/`.
-- It reads the exported `*_mineflayer_plan.json`, connects multiple Mineflayer bots to a **singleplayer LAN/local/private server**, and splits the structure into team roles for cinematic build videos.
+- It reads the exported `*_mineflayer_plan.json` and `*_team_config.json`, connects multiple Mineflayer bots to a **singleplayer LAN/local/private server**, and splits the structure into team roles for cinematic build videos.
 - See `mineflayer-team-builder/README.md` for setup, safety notes, and the YouTube workflow.
+
+### Large-team Mineflayer quick start
+
+1. Chạy GUI: `python fantasy_schematic_builder/app.py --gui`
+2. Bật **Tạo kế hoạch Mineflayer team bot**
+3. Bật **Bật chế độ đội bot lớn (Mass Bot Mode)**
+4. Chọn nhanh `10`, `20`, `30`, `40`, hoặc `50`, hoặc nhập tay bất kỳ số nào từ `1–50`
+5. Xuất file rồi chạy:
+
+```bash
+cd mineflayer-team-builder
+npm start -- --config ../output/<name>_team_config.json --dry-run
+npm start -- --config ../output/<name>_team_config.json
+```
+
+Khuyến nghị test tăng dần: `6 → 10 → 20 → 30 → 50`.
+
+### Mẹo hiệu năng & an toàn cho 40–50 bot
+
+- Chỉ dùng trên server private/LAN/local hoặc nơi bạn có quyền tự động hóa.
+- Nên backup world trước khi test.
+- 16GB RAM là mức tối thiểu; 32GB RAM phù hợp hơn cho 50 bot.
+- Giảm `view-distance` và `simulation-distance` trên server để ổn định hơn.
+- Với đội lớn, config sinh sẵn mặc định kết nối theo batch để bot không join cùng lúc.
+
+### Gợi ý title YouTube
+
+- `20 AI Builders Made a Fantasy Kingdom in Minecraft`
+- `50 AI Builders Created a Secret Kingdom in Minecraft`
 
 ## Baritone and Minecraft 1.20.1 usage
 

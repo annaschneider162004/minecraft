@@ -16,8 +16,16 @@ from fantasy_schematic_builder.creative_tools import (  # noqa: E402
     generate_youtube_title_package,
     idea_to_story_prompt,
 )
+from fantasy_schematic_builder.mineflayer_exporter import validate_team_bot_count  # noqa: E402
 from fantasy_schematic_builder.models import GenerationOptions  # noqa: E402
 from fantasy_schematic_builder.story_analyzer import BUILD_TYPES  # noqa: E402
+
+
+def parse_team_bot_count(value: str) -> int:
+    try:
+        return validate_team_bot_count(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from exc
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -35,7 +43,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--no-baritone", action="store_true", help="Skip generating Baritone step instructions")
     parser.add_argument("--no-youtube-notes", action="store_true", help="Skip generating YouTube/story notes")
     parser.add_argument("--mineflayer-plan", action="store_true", help="Generate a Mineflayer team build plan JSON")
-    parser.add_argument("--team-bots", type=int, choices=(3, 4, 6), default=6, help="Recommended bot count to encode into the Mineflayer plan")
+    parser.add_argument("--team-bots", type=parse_team_bot_count, default=6, help="Mineflayer bot count to encode into the plan/config (1-50)")
     parser.add_argument("--generate-idea", action="store_true", help="Generate an offline fantasy Minecraft build idea")
     parser.add_argument("--idea-theme", choices=IDEA_THEMES, default="fantasy", help="Theme to use for generated ideas")
     parser.add_argument("--idea-keyword", default="", help="Optional keyword to include in the generated idea")
@@ -105,7 +113,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Full schematic: {result['full_schematic']}")
     for stage_path in result.get("stage_paths", []):
         print(f"Stage schematic: {stage_path}")
-    for key in ("materials", "give_commands", "baritone_steps", "youtube_notes", "mineflayer_plan"):
+    for key in ("materials", "give_commands", "baritone_steps", "youtube_notes", "mineflayer_plan", "mineflayer_config"):
         if key in result:
             print(f"{key.replace('_', ' ').title()}: {result[key]}")
     return 0

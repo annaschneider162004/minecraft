@@ -5,7 +5,7 @@ import re
 
 from fantasy_schematic_builder.generators import GENERATOR_MAP
 from fantasy_schematic_builder.material_exporter import count_materials, write_baritone_steps_file, write_give_commands_file, write_materials_file
-from fantasy_schematic_builder.mineflayer_exporter import export_mineflayer_build_plan
+from fantasy_schematic_builder.mineflayer_exporter import export_mineflayer_build_plan, export_mineflayer_team_config, validate_team_bot_count
 from fantasy_schematic_builder.models import GenerationOptions
 from fantasy_schematic_builder.schem_writer import write_schematic
 from fantasy_schematic_builder.story_analyzer import analyze_story
@@ -106,8 +106,12 @@ def generate_project(
         written_files["youtube_notes"] = notes_path
 
     if options.generate_mineflayer_plan:
+        team_bot_count = validate_team_bot_count(options.team_bot_count)
         mineflayer_path = os.path.join(output_dir, f"{safe_output_name}_mineflayer_plan.json")
-        export_mineflayer_build_plan(build, mineflayer_path, team_bot_count=options.team_bot_count)
+        export_mineflayer_build_plan(build, mineflayer_path, team_bot_count=team_bot_count)
+        config_path = os.path.join(output_dir, f"{safe_output_name}_team_config.json")
+        export_mineflayer_team_config(mineflayer_path, config_path, team_bot_count=team_bot_count)
         written_files["mineflayer_plan"] = mineflayer_path
+        written_files["mineflayer_config"] = config_path
 
     return written_files

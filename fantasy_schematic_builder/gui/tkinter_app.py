@@ -29,6 +29,7 @@ from fantasy_schematic_builder.creative_tools import (
     idea_to_story_prompt,
 )
 from fantasy_schematic_builder.models import GenerationOptions
+from fantasy_schematic_builder.mineflayer_exporter import validate_team_bot_count
 
 
 def build_generation_options(
@@ -54,6 +55,8 @@ def build_generation_options(
 
 
 class BuilderGUI:
+    TEAM_BOT_PRESETS = ("3", "4", "6")
+    MASS_BOT_PRESETS = ("3", "4", "6", "10", "20", "30", "40", "50")
     COLORS = {
         "bg": "#0f172a",
         "panel": "#1e293b",
@@ -92,9 +95,11 @@ class BuilderGUI:
         self.generate_baritone = tk.BooleanVar(value=True)
         self.generate_notes = tk.BooleanVar(value=True)
         self.generate_mineflayer = tk.BooleanVar(value=False)
+        self.mass_bot_mode = tk.BooleanVar(value=False)
         self.team_bot_count = tk.StringVar(value="6")
 
         self.generate_button = None
+        self.team_bot_selector = None
         self.output_text = None
         self.is_generating = False
         self.is_closing = False
@@ -263,18 +268,31 @@ class BuilderGUI:
         ttk.Checkbutton(options_frame, text="Tạo kế hoạch Mineflayer team bot", variable=self.generate_mineflayer, style="Dashboard.TCheckbutton").grid(row=3, column=0, sticky="w", pady=(6, 0))
         bot_count_row = ttk.Frame(options_frame, style="Card.TFrame")
         bot_count_row.grid(row=3, column=1, sticky="w", pady=(6, 0))
-        ttk.Label(bot_count_row, text="Số bot", style="Panel.TLabel").grid(row=0, column=0, sticky="w", padx=(0, 8))
-        ttk.Combobox(
+        ttk.Label(bot_count_row, text="Số bot Mineflayer (1–50)", style="Panel.TLabel").grid(row=0, column=0, sticky="w", padx=(0, 8))
+        self.team_bot_selector = ttk.Combobox(
             bot_count_row,
             textvariable=self.team_bot_count,
-            values=("3", "4", "6"),
-            state="readonly",
+            values=self.TEAM_BOT_PRESETS,
+            state="normal",
             width=6,
             style="Dashboard.TCombobox",
-        ).grid(row=0, column=1, sticky="w")
+        )
+        self.team_bot_selector.grid(row=0, column=1, sticky="w")
+        ttk.Checkbutton(
+            options_frame,
+            text="Bật chế độ đội bot lớn (Mass Bot Mode)",
+            variable=self.mass_bot_mode,
+            command=self._toggle_mass_bot_mode,
+            style="Dashboard.TCheckbutton",
+        ).grid(row=4, column=0, columnspan=2, sticky="w", pady=(8, 0))
+        ttk.Label(
+            options_frame,
+            text="Dùng cho video YouTube kiểu nhiều AI builder cùng xây. Nên test tăng dần: 6 → 10 → 20 → 50.",
+            style="Panel.TLabel",
+        ).grid(row=5, column=0, columnspan=2, sticky="w", pady=(4, 0))
 
         creative_frame = ttk.LabelFrame(settings_panel, text="Tạo ý tưởng & tiêu đề YouTube", padding=10, style="Card.TLabelframe")
-        creative_frame.grid(row=5, column=0, columnspan=2, sticky="ew", pady=(14, 0))
+        creative_frame.grid(row=6, column=0, columnspan=2, sticky="ew", pady=(14, 0))
         creative_frame.columnconfigure(0, weight=1)
         creative_frame.columnconfigure(1, weight=1)
         ttk.Label(creative_frame, text="Chủ đề", style="Panel.TLabel").grid(row=0, column=0, sticky="w")
@@ -298,7 +316,7 @@ class BuilderGUI:
         ttk.Button(button_row, text="Tạo tiêu đề YouTube", command=self.generate_titles, style="Secondary.TButton").grid(row=0, column=2, sticky="ew", padx=(6, 0))
 
         self.generate_button = ttk.Button(settings_panel, text="Tạo schematic", command=self.generate, style="Dashboard.TButton")
-        self.generate_button.grid(row=6, column=1, sticky="e", pady=(14, 0))
+        self.generate_button.grid(row=7, column=1, sticky="e", pady=(14, 0))
 
         output_panel = ttk.LabelFrame(content, text="Kết quả / Trạng thái", padding=12, style="Card.TLabelframe")
         output_panel.grid(row=1, column=0, columnspan=2, sticky="nsew")
@@ -347,6 +365,20 @@ class BuilderGUI:
 
     def _set_build_type(self, build_type: str) -> None:
         self.build_type.set(get_display_build_type(build_type))
+
+    def _toggle_mass_bot_mode(self) -> None:
+        if self.team_bot_selector is None:
+            return
+        presets = self.MASS_BOT_PRESETS if self.mass_bot_mode.get() else self.TEAM_BOT_PRESETS
+        self.team_bot_selector.configure(values=presets)
+        try:
+            current_value = validate_team_bot_count(self.team_bot_count.get())
+        except ValueError:
+            current_value = 6
+        if self.mass_bot_mode.get() and current_value < 10:
+            self.team_bot_count.set("10")
+        elif not self.mass_bot_mode.get() and str(current_value) not in presets:
+            self.team_bot_count.set("6")
 
     def copy_output_text(self) -> None:
         content = self.output_text.get("1.0", "end").strip()
@@ -424,6 +456,11 @@ class BuilderGUI:
         build_name = self.build_name.get()
         output_name = self.output_name.get()
         output_dir = self.output_dir.get()
+        try:
+            team_bot_count = validate_team_bot_count(self.team_bot_count.get())
+        except ValueError as exc:
+            messagebox.showerror("Lỗi", str(exc))
+            return
         options = build_generation_options(
             generate_full=self.generate_full.get(),
             generate_staged=self.generate_staged.get(),
@@ -432,7 +469,7 @@ class BuilderGUI:
             generate_baritone=self.generate_baritone.get(),
             generate_notes=self.generate_notes.get(),
             generate_mineflayer=self.generate_mineflayer.get(),
-            team_bots=int(self.team_bot_count.get()),
+            team_bots=team_bot_count,
         )
         self.is_generating = True
         if self.generate_button is not None:
@@ -509,6 +546,7 @@ class BuilderGUI:
             ("baritone_steps", "Hướng dẫn Baritone"),
             ("youtube_notes", "Ghi chú YouTube"),
             ("mineflayer_plan", "Kế hoạch Mineflayer"),
+            ("mineflayer_config", "Config Mineflayer team bot"),
         ):
             if key in result:
                 generated_files.append(f"- {label}: {result[key]}")
