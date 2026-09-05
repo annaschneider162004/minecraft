@@ -93,6 +93,7 @@ BUILD_TYPES = [
 ]
 
 BUILD_PRIORITY = BUILD_TYPES[1:]
+BUILD_PRIORITY_ORDER = {candidate: index for index, candidate in enumerate(BUILD_PRIORITY)}
 
 
 def _normalize(text: str) -> str:
@@ -120,7 +121,7 @@ def analyze_story(story_text: str, build_type: str = "auto") -> BuildAnalysis:
         if not any(scores[candidate] for candidate in BUILD_PRIORITY):
             selected = "survival_cliffside_base"
         else:
-            selected = max(BUILD_PRIORITY, key=lambda candidate: (scores[candidate], -BUILD_PRIORITY.index(candidate)))
+            selected = max(BUILD_PRIORITY, key=lambda candidate: (scores[candidate], -BUILD_PRIORITY_ORDER[candidate]))
     else:
         selected = build_type
 

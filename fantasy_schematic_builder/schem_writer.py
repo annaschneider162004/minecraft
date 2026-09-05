@@ -15,6 +15,7 @@ TAG_COMPOUND = 10
 TAG_INT = 3
 TAG_SHORT = 2
 TAG_INT_ARRAY = 11
+MINECRAFT_1_20_1_DATA_VERSION = 3465
 
 
 class NBTWriter:
@@ -96,7 +97,7 @@ def serialize_schematic(model: SchematicModel, name: str, author: str, descripti
     writer.buf.extend(struct.pack(">B", TAG_COMPOUND))
     writer._write_name("Schematic")
     writer.write_int("Version", 2)
-    writer.write_int("DataVersion", 3465)
+    writer.write_int("DataVersion", MINECRAFT_1_20_1_DATA_VERSION)
     writer.write_short("Width", model.width)
     writer.write_short("Height", model.height)
     writer.write_short("Length", model.length)

@@ -2,7 +2,10 @@ import gzip
 import os
 import tempfile
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 
+from fantasy_schematic_builder.app import main
 from fantasy_schematic_builder.builder import generate_project
 from fantasy_schematic_builder.models import GenerationOptions
 
@@ -64,6 +67,45 @@ class GenerationTests(unittest.TestCase):
             self.assertNotIn("materials", result)
             self.assertNotIn("give_commands", result)
             self.assertNotIn("youtube_notes", result)
+
+    def test_cli_defaults_to_full_only_and_supports_staged_flag(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "--story",
+                        "A wizard tower with a secret room.",
+                        "--build-type",
+                        "auto",
+                        "--output-name",
+                        "cli_default",
+                        "--output-dir",
+                        tempdir,
+                    ]
+                )
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(os.path.exists(os.path.join(tempdir, "cli_default.schem")))
+            self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_default_01_foundation.schem")))
+
+        with tempfile.TemporaryDirectory() as tempdir:
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "--story",
+                        "A wizard tower with a secret room.",
+                        "--build-type",
+                        "auto",
+                        "--output-name",
+                        "cli_staged",
+                        "--output-dir",
+                        tempdir,
+                        "--staged",
+                    ]
+                )
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(os.path.exists(os.path.join(tempdir, "cli_staged_01_foundation.schem")))
 
 
 if __name__ == "__main__":
