@@ -98,8 +98,8 @@ def _plan_stage_roles() -> list[str]:
     return list(STANDARD_STAGE_ROLES)
 
 
-def _available_plan_roles(team_bot_count: int) -> list[str]:
-    return sorted({role_for_stage(stage_key, team_bot_count) for stage_key in STAGE_NAMES if stage_key != "07_full_build"})
+def _available_plan_roles(build: GeneratedBuild, team_bot_count: int) -> list[str]:
+    return sorted({role_for_stage(stage_key, team_bot_count) for stage_key in _iter_stage_keys(build) if stage_key != "07_full_build"})
 
 
 def _primary_role_for_group(stage_roles: list[str], team_bot_count: int) -> str:
@@ -176,7 +176,7 @@ def export_mineflayer_build_plan(build: GeneratedBuild, output_path: str, team_b
         "origin": {"x": 0, "y": 0, "z": 0},
         "recommendedBotCount": team_bot_count,
         "availableStageRoles": _plan_stage_roles(),
-        "availableRoles": _available_plan_roles(team_bot_count),
+        "availableRoles": _available_plan_roles(build, team_bot_count),
         "blocks": blocks,
     }
     with open(output_path, "w", encoding="utf-8") as handle:

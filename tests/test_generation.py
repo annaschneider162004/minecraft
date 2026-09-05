@@ -314,6 +314,7 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(config_payload["bots"][-1]["username"], "Builder_50")
             self.assertEqual(config_payload["joinBatchSize"], 5)
             self.assertEqual(config_payload["joinBatchDelayMs"], 3000)
+            self.assertEqual(config_payload["placementDelayMs"], 1000)
             self.assertGreaterEqual(
                 {bot["role"] for bot in config_payload["bots"]},
                 {"foundation", "walls", "towers", "roof", "secret_room", "decorations"},
@@ -335,6 +336,27 @@ class GenerationTests(unittest.TestCase):
                 )
             self.assertEqual(exc.exception.code, 2)
             self.assertIn("Số bot Mineflayer", stderr.getvalue())
+
+    def test_generation_uses_mid_size_mineflayer_delay_defaults(self):
+        story = "A sky fortress with towers, roof, and hidden chamber."
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = generate_project(
+                story_text=story,
+                build_type="floating_temple",
+                build_name="Twenty Bot Fortress",
+                output_name="twenty_bot_fortress",
+                output_dir=tempdir,
+                options=GenerationOptions(
+                    generate_staged_schematics=False,
+                    generate_material_commands=False,
+                    generate_mineflayer_plan=True,
+                    team_bot_count=20,
+                ),
+            )
+
+            with open(result["mineflayer_config"], "r", encoding="utf-8") as handle:
+                config_payload = json.load(handle)
+            self.assertEqual(config_payload["placementDelayMs"], 900)
 
     def test_creative_tools_generate_idea_and_titles(self):
         idea = generate_build_idea(theme="wizard", keyword="moon archive")
