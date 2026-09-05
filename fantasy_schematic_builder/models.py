@@ -100,3 +100,5 @@ class GenerationOptions:
     generate_material_commands: bool = True
     generate_baritone_steps: bool = True
     generate_youtube_notes: bool = True
+    generate_mineflayer_plan: bool = False
+    team_bot_count: int = 6

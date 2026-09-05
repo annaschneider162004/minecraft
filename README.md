@@ -18,12 +18,14 @@ A user-friendly Python tool for turning English or Vietnamese fantasy story prom
 - Sponge schematic v2-style `.schem` writer using gzip-compressed NBT, a block palette, and varint `BlockData`.
 - Cumulative staged schematic exports for easier Baritone building.
 - Material list, `/give` command export, Baritone build steps, and YouTube notes.
+- Optional Mineflayer team build plan JSON export plus a separate `mineflayer-team-builder/` Node.js bot prototype.
 - Example story files in `/examples`.
 
 ## Requirements
 
 - Python 3.10+
 - No extra dependency is required for the new builder path.
+- Mineflayer bot building is optional and lives in `mineflayer-team-builder/` with its own `npm install`.
 - The repository also contains an older experimental `minecraft-ai-builder-v2/` folder, but the main V2 fantasy schematic tool in this issue lives in `fantasy_schematic_builder/`.
 
 ## Run the GUI
@@ -57,6 +59,7 @@ python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt 
 python fantasy_schematic_builder/app.py --story examples/story_cliffside.txt --build-type auto --name "The Last Cliffside Sanctuary" --output-name cliffside_demo --staged
 python fantasy_schematic_builder/app.py --generate-idea --idea-theme dragon --idea-keyword relic
 python fantasy_schematic_builder/app.py --story examples/story_dragon_cave.txt --build-type auto --generate-titles
+python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt --build-type wizard_tower --output-name wizard_team --mineflayer-plan --team-bots 6
 ```
 
 ### Useful CLI options
@@ -73,6 +76,8 @@ python fantasy_schematic_builder/app.py --story examples/story_dragon_cave.txt -
 - `--no-give-commands` - skip `/give` command export
 - `--no-baritone` - skip Baritone step export
 - `--no-youtube-notes` - skip YouTube/story notes export
+- `--mineflayer-plan` - generate a JSON build plan for the optional Mineflayer multi-bot subsystem
+- `--team-bots 3|4|6` - choose the recommended bot-role split encoded into the Mineflayer plan
 - `--generate-idea` - print an offline build idea to the console
 - `--idea-theme fantasy|medieval|survival|dragon|wizard|ocean|sky|nether|ancient|village|castle|cave|temple`
 - `--idea-keyword "..."` - inject an extra keyword into the generated idea
@@ -104,10 +109,17 @@ Depending on the options you select, the tool writes:
 - `build_name_give_commands.txt`
 - `build_name_baritone_steps.txt`
 - `build_name_youtube_notes.md`
+- `build_name_mineflayer_plan.json`
 
 Staged schematics are **cumulative**. That means each later stage includes everything from the earlier stages so Baritone can continue more reliably.
 If staged exports are disabled but Baritone steps are enabled, the steps file falls back to the full schematic.
 When YouTube notes are enabled, the notes file also includes multiple title suggestions and thumbnail text ideas.
+
+## Optional Mineflayer team builder
+
+- The optional Node.js prototype lives in `mineflayer-team-builder/`.
+- It reads the exported `*_mineflayer_plan.json`, connects multiple Mineflayer bots to a **singleplayer LAN/local/private server**, and splits the structure into team roles for cinematic build videos.
+- See `mineflayer-team-builder/README.md` for setup, safety notes, and the YouTube workflow.
 
 ## Baritone and Minecraft 1.20.1 usage
 

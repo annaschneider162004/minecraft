@@ -38,6 +38,8 @@ def build_generation_options(
     generate_commands: bool,
     generate_baritone: bool,
     generate_notes: bool,
+    generate_mineflayer: bool,
+    team_bots: int,
 ) -> GenerationOptions:
     return GenerationOptions(
         generate_full_schematic=generate_full,
@@ -46,6 +48,8 @@ def build_generation_options(
         generate_material_commands=generate_commands,
         generate_baritone_steps=generate_baritone,
         generate_youtube_notes=generate_notes,
+        generate_mineflayer_plan=generate_mineflayer,
+        team_bot_count=team_bots,
     )
 
 
@@ -87,6 +91,8 @@ class BuilderGUI:
         self.generate_commands = tk.BooleanVar(value=True)
         self.generate_baritone = tk.BooleanVar(value=True)
         self.generate_notes = tk.BooleanVar(value=True)
+        self.generate_mineflayer = tk.BooleanVar(value=False)
+        self.team_bot_count = tk.StringVar(value="6")
 
         self.generate_button = None
         self.output_text = None
@@ -254,6 +260,18 @@ class BuilderGUI:
         ttk.Checkbutton(options_frame, text="Tạo lệnh /give vật liệu", variable=self.generate_commands, style="Dashboard.TCheckbutton").grid(row=1, column=1, sticky="w", pady=(6, 0))
         ttk.Checkbutton(options_frame, text="Tạo hướng dẫn Baritone", variable=self.generate_baritone, style="Dashboard.TCheckbutton").grid(row=2, column=0, sticky="w", pady=(6, 0))
         ttk.Checkbutton(options_frame, text="Tạo ghi chú YouTube", variable=self.generate_notes, style="Dashboard.TCheckbutton").grid(row=2, column=1, sticky="w", pady=(6, 0))
+        ttk.Checkbutton(options_frame, text="Tạo kế hoạch Mineflayer team bot", variable=self.generate_mineflayer, style="Dashboard.TCheckbutton").grid(row=3, column=0, sticky="w", pady=(6, 0))
+        bot_count_row = ttk.Frame(options_frame, style="Card.TFrame")
+        bot_count_row.grid(row=3, column=1, sticky="w", pady=(6, 0))
+        ttk.Label(bot_count_row, text="Số bot", style="Panel.TLabel").grid(row=0, column=0, sticky="w", padx=(0, 8))
+        ttk.Combobox(
+            bot_count_row,
+            textvariable=self.team_bot_count,
+            values=("3", "4", "6"),
+            state="readonly",
+            width=6,
+            style="Dashboard.TCombobox",
+        ).grid(row=0, column=1, sticky="w")
 
         creative_frame = ttk.LabelFrame(settings_panel, text="Tạo ý tưởng & tiêu đề YouTube", padding=10, style="Card.TLabelframe")
         creative_frame.grid(row=5, column=0, columnspan=2, sticky="ew", pady=(14, 0))
@@ -413,6 +431,8 @@ class BuilderGUI:
             generate_commands=self.generate_commands.get(),
             generate_baritone=self.generate_baritone.get(),
             generate_notes=self.generate_notes.get(),
+            generate_mineflayer=self.generate_mineflayer.get(),
+            team_bots=int(self.team_bot_count.get()),
         )
         self.is_generating = True
         if self.generate_button is not None:
@@ -488,6 +508,7 @@ class BuilderGUI:
             ("give_commands", "Lệnh /give vật liệu"),
             ("baritone_steps", "Hướng dẫn Baritone"),
             ("youtube_notes", "Ghi chú YouTube"),
+            ("mineflayer_plan", "Kế hoạch Mineflayer"),
         ):
             if key in result:
                 generated_files.append(f"- {label}: {result[key]}")
