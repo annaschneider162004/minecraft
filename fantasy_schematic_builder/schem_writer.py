@@ -101,7 +101,7 @@ def serialize_schematic(model: SchematicModel, name: str, author: str, descripti
 
     writer.buf.extend(struct.pack(">B", TAG_COMPOUND))
     writer._write_name("Schematic")
-    writer.write_int("Version", 2)
+    writer.write_short("Version", 2)
     writer.write_int("DataVersion", MINECRAFT_1_20_1_DATA_VERSION)
     writer.write_short("Width", model.width)
     writer.write_short("Height", model.height)

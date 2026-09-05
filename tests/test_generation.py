@@ -83,6 +83,25 @@ class GenerationTests(unittest.TestCase):
                 baritone_steps = handle.read()
             self.assertIn("#build sky_temple.schem", baritone_steps)
 
+    def test_generation_rejects_baritone_without_any_schematic_export(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            with self.assertRaisesRegex(ValueError, "Baritone steps require at least one generated schematic"):
+                generate_project(
+                    story_text="A library in ancient ruins.",
+                    build_type="ancient_library",
+                    build_name="Silent Stacks",
+                    output_name="silent_stacks",
+                    output_dir=tempdir,
+                    options=GenerationOptions(
+                        generate_full_schematic=False,
+                        generate_staged_schematics=False,
+                        generate_material_list=True,
+                        generate_material_commands=False,
+                        generate_baritone_steps=True,
+                        generate_youtube_notes=False,
+                    ),
+                )
+
     def test_cli_defaults_to_full_only_and_supports_staged_flag(self):
         with tempfile.TemporaryDirectory() as tempdir:
             stdout = StringIO()

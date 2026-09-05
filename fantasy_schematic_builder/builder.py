@@ -93,10 +93,11 @@ def generate_project(
         baritone_sources = stage_paths
         if not baritone_sources and "full_schematic" in written_files:
             baritone_sources = [written_files["full_schematic"]]
-        if baritone_sources:
-            steps_path = os.path.join(output_dir, f"{safe_output_name}_baritone_steps.txt")
-            write_baritone_steps_file(baritone_sources, steps_path)
-            written_files["baritone_steps"] = steps_path
+        if not baritone_sources:
+            raise ValueError("Baritone steps require at least one generated schematic. Enable the full schematic or staged schematics option.")
+        steps_path = os.path.join(output_dir, f"{safe_output_name}_baritone_steps.txt")
+        write_baritone_steps_file(baritone_sources, steps_path)
+        written_files["baritone_steps"] = steps_path
     if options.generate_youtube_notes:
         notes_path = os.path.join(output_dir, f"{safe_output_name}_youtube_notes.md")
         with open(notes_path, "w", encoding="utf-8") as handle:
