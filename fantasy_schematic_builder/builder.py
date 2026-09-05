@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 import re
-from dataclasses import asdict
 
 from fantasy_schematic_builder.generators import GENERATOR_MAP
 from fantasy_schematic_builder.material_exporter import count_materials, write_baritone_steps_file, write_give_commands_file, write_materials_file
@@ -77,21 +76,25 @@ def generate_project(
         written_files["stage_paths"] = stage_paths
 
     materials = count_materials(build.full_stage.model)
-    materials_path = os.path.join(output_dir, f"{safe_output_name}_materials.txt")
-    write_materials_file(materials, materials_path)
-    written_files["materials"] = materials_path
     written_files["material_counts"] = dict(materials)
+    if options.generate_material_list:
+        materials_path = os.path.join(output_dir, f"{safe_output_name}_materials.txt")
+        write_materials_file(materials, materials_path)
+        written_files["materials"] = materials_path
 
     if options.generate_material_commands:
         give_path = os.path.join(output_dir, f"{safe_output_name}_give_commands.txt")
         write_give_commands_file(materials, give_path)
         written_files["give_commands"] = give_path
 
-    if options.generate_baritone_steps and stage_paths:
-        steps_path = os.path.join(output_dir, f"{safe_output_name}_baritone_steps.txt")
-        write_baritone_steps_file(stage_paths, steps_path)
-        written_files["baritone_steps"] = steps_path
-
+    if options.generate_baritone_steps:
+        baritone_sources = stage_paths
+        if not baritone_sources and "full_schematic" in written_files:
+            baritone_sources = [written_files["full_schematic"]]
+        if baritone_sources:
+            steps_path = os.path.join(output_dir, f"{safe_output_name}_baritone_steps.txt")
+            write_baritone_steps_file(baritone_sources, steps_path)
+            written_files["baritone_steps"] = steps_path
     if options.generate_youtube_notes:
         notes_path = os.path.join(output_dir, f"{safe_output_name}_youtube_notes.md")
         with open(notes_path, "w", encoding="utf-8") as handle:

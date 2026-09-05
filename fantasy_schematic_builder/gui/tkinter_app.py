@@ -23,6 +23,7 @@ class BuilderGUI:
 
         self.generate_full = tk.BooleanVar(value=True)
         self.generate_staged = tk.BooleanVar(value=True)
+        self.generate_materials = tk.BooleanVar(value=True)
         self.generate_commands = tk.BooleanVar(value=True)
         self.generate_baritone = tk.BooleanVar(value=True)
         self.generate_notes = tk.BooleanVar(value=True)
@@ -64,9 +65,10 @@ class BuilderGUI:
         options_frame.pack(fill="x", pady=(12, 12))
         ttk.Checkbutton(options_frame, text="Generate full schematic", variable=self.generate_full).grid(row=0, column=0, sticky="w")
         ttk.Checkbutton(options_frame, text="Generate staged schematics", variable=self.generate_staged).grid(row=0, column=1, sticky="w")
-        ttk.Checkbutton(options_frame, text="Generate /give material command files", variable=self.generate_commands).grid(row=1, column=0, sticky="w")
-        ttk.Checkbutton(options_frame, text="Generate Baritone step instructions", variable=self.generate_baritone).grid(row=1, column=1, sticky="w")
-        ttk.Checkbutton(options_frame, text="Generate YouTube notes/story notes", variable=self.generate_notes).grid(row=2, column=0, sticky="w")
+        ttk.Checkbutton(options_frame, text="Generate material list/count file", variable=self.generate_materials).grid(row=1, column=0, sticky="w")
+        ttk.Checkbutton(options_frame, text="Generate /give material command files", variable=self.generate_commands).grid(row=1, column=1, sticky="w")
+        ttk.Checkbutton(options_frame, text="Generate Baritone step instructions", variable=self.generate_baritone).grid(row=2, column=0, sticky="w")
+        ttk.Checkbutton(options_frame, text="Generate YouTube notes/story notes", variable=self.generate_notes).grid(row=2, column=1, sticky="w")
 
         ttk.Button(frame, text="Generate", command=self.generate).pack(anchor="e")
         ttk.Label(frame, textvariable=self.status).pack(anchor="w", pady=(8, 0))
@@ -95,6 +97,7 @@ class BuilderGUI:
         options = GenerationOptions(
             generate_full_schematic=self.generate_full.get(),
             generate_staged_schematics=self.generate_staged.get(),
+            generate_material_list=self.generate_materials.get(),
             generate_material_commands=self.generate_commands.get(),
             generate_baritone_steps=self.generate_baritone.get(),
             generate_youtube_notes=self.generate_notes.get(),

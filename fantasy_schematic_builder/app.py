@@ -22,6 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-dir", default=default_output_directory(), help="Output directory for .schem and notes")
     parser.add_argument("--staged", action="store_true", help="Generate staged cumulative schematics")
     parser.add_argument("--no-full-schematic", action="store_true", help="Skip generating the main full schematic")
+    parser.add_argument("--no-materials-list", action="store_true", help="Skip generating the material count file")
     parser.add_argument("--no-give-commands", action="store_true", help="Skip generating /give command files")
     parser.add_argument("--no-baritone", action="store_true", help="Skip generating Baritone step instructions")
     parser.add_argument("--no-youtube-notes", action="store_true", help="Skip generating YouTube/story notes")
@@ -53,6 +54,7 @@ def main(argv: list[str] | None = None) -> int:
         options=GenerationOptions(
             generate_full_schematic=not args.no_full_schematic,
             generate_staged_schematics=args.staged,
+            generate_material_list=not args.no_materials_list,
             generate_material_commands=not args.no_give_commands,
             generate_baritone_steps=not args.no_baritone,
             generate_youtube_notes=not args.no_youtube_notes,

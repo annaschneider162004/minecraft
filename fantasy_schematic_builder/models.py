@@ -96,6 +96,7 @@ class GeneratedBuild:
 class GenerationOptions:
     generate_full_schematic: bool = True
     generate_staged_schematics: bool = True
+    generate_material_list: bool = True
     generate_material_commands: bool = True
     generate_baritone_steps: bool = True
     generate_youtube_notes: bool = True

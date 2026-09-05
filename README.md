@@ -36,7 +36,7 @@ The GUI lets you:
 - choose the build type or `auto`
 - set the build name and output base name
 - choose the output folder
-- enable or disable full schematic, staged schematics, `/give` commands, Baritone steps, and YouTube notes
+- enable or disable full schematic, staged schematics, material list export, `/give` commands, Baritone steps, and YouTube notes
 
 ## Run the CLI
 
@@ -55,6 +55,7 @@ python fantasy_schematic_builder/app.py --story examples/story_cliffside.txt --b
 - `--output-dir` - export folder
 - `--staged` - generate cumulative staged schematics
 - `--no-full-schematic` - skip the main full schematic
+- `--no-materials-list` - skip the material count file
 - `--no-give-commands` - skip `/give` command export
 - `--no-baritone` - skip Baritone step export
 - `--no-youtube-notes` - skip YouTube/story notes export
@@ -87,6 +88,7 @@ Depending on the options you select, the tool writes:
 - `build_name_youtube_notes.md`
 
 Staged schematics are **cumulative**. That means each later stage includes everything from the earlier stages so Baritone can continue more reliably.
+If staged exports are disabled but Baritone steps are enabled, the steps file falls back to the full schematic.
 
 ## Baritone and Minecraft 1.20.1 usage
 
