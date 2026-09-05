@@ -107,6 +107,30 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             self.assertTrue(os.path.exists(os.path.join(tempdir, "cli_staged_01_foundation.schem")))
 
+    def test_cli_no_flags_suppress_selected_outputs(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "--story",
+                        "A floating temple above the clouds.",
+                        "--build-type",
+                        "auto",
+                        "--output-name",
+                        "cli_flags",
+                        "--output-dir",
+                        tempdir,
+                        "--no-materials-list",
+                        "--no-give-commands",
+                        "--no-youtube-notes",
+                    ]
+                )
+            self.assertEqual(exit_code, 0)
+            self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_materials.txt")))
+            self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_give_commands.txt")))
+            self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_youtube_notes.md")))
+
 
 if __name__ == "__main__":
     unittest.main()

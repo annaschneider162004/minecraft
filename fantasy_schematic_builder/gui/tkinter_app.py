@@ -120,7 +120,7 @@ class BuilderGUI:
                     options=options,
                 )
             except Exception as exc:  # pragma: no cover - GUI error display path
-                self.root.after(0, lambda error=exc: self._on_generation_error(error))
+                self.root.after(0, lambda message=str(exc): self._on_generation_error(message))
                 return
             self.root.after(0, lambda generation_result=result: self._on_generation_success(generation_result))
 
@@ -135,10 +135,10 @@ class BuilderGUI:
         )
         self.status.set(f"Done. Generated files in {result['output_dir']}")
 
-    def _on_generation_error(self, exc):
+    def _on_generation_error(self, message):
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
-        messagebox.showerror("Generation failed", str(exc))
+        messagebox.showerror("Generation failed", message)
         self.status.set("Generation failed.")
 
 
