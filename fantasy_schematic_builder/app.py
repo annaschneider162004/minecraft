@@ -8,6 +8,14 @@ if __package__ in {None, ""}:
     sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from fantasy_schematic_builder.builder import default_output_directory, generate_project, read_story_input  # noqa: E402
+from fantasy_schematic_builder.creative_tools import (  # noqa: E402
+    IDEA_THEMES,
+    format_build_idea,
+    format_title_package,
+    generate_build_idea,
+    generate_youtube_title_package,
+    idea_to_story_prompt,
+)
 from fantasy_schematic_builder.models import GenerationOptions  # noqa: E402
 from fantasy_schematic_builder.story_analyzer import BUILD_TYPES  # noqa: E402
 
@@ -26,6 +34,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--no-give-commands", action="store_true", help="Skip generating /give command files")
     parser.add_argument("--no-baritone", action="store_true", help="Skip generating Baritone step instructions")
     parser.add_argument("--no-youtube-notes", action="store_true", help="Skip generating YouTube/story notes")
+    parser.add_argument("--generate-idea", action="store_true", help="Generate an offline fantasy Minecraft build idea")
+    parser.add_argument("--idea-theme", choices=IDEA_THEMES, default="fantasy", help="Theme to use for generated ideas")
+    parser.add_argument("--idea-keyword", default="", help="Optional keyword to include in the generated idea")
+    parser.add_argument("--generate-titles", action="store_true", help="Generate offline YouTube title suggestions")
     return parser
 
 
@@ -41,10 +53,32 @@ def main(argv: list[str] | None = None) -> int:
             parser.exit(1, f"{exc}\n")
         return 0
 
+    idea = None
+    if args.generate_idea:
+        idea = generate_build_idea(theme=args.idea_theme, keyword=args.idea_keyword)
+        print(format_build_idea(idea))
+        print()
+
+    story_text = None
+    if args.story:
+        story_text = read_story_input(args.story)
+
+    if args.generate_titles:
+        if not story_text and idea is None:
+            parser.error("--generate-titles requires --story or --generate-idea")
+        title_package = generate_youtube_title_package(
+            story_text=story_text or idea_to_story_prompt(idea),
+            build_type=args.build_type,
+            build_name=args.name,
+        )
+        print(format_title_package(title_package))
+        print()
+
     if not args.story:
+        if args.generate_idea or args.generate_titles:
+            return 0
         parser.error("--story is required unless --gui is used")
 
-    story_text = read_story_input(args.story)
     result = generate_project(
         story_text=story_text,
         build_type=args.build_type,

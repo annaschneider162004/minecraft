@@ -7,6 +7,12 @@ from io import StringIO
 
 from fantasy_schematic_builder.app import main
 from fantasy_schematic_builder.builder import generate_project
+from fantasy_schematic_builder.creative_tools import (
+    BUILD_TYPE_LABELS_VI,
+    generate_build_idea,
+    generate_youtube_title_package,
+    idea_to_story_prompt,
+)
 from fantasy_schematic_builder.models import GenerationOptions
 from fantasy_schematic_builder.schem_writer import build_block_data, build_palette, encode_varint
 from fantasy_schematic_builder.models import SchematicModel
@@ -102,6 +108,25 @@ class GenerationTests(unittest.TestCase):
                     ),
                 )
 
+    def test_generated_youtube_notes_include_multiple_titles(self):
+        story = "A dragon cave fortress with treasure, a secret room, and a timelapse reveal."
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = generate_project(
+                story_text=story,
+                build_type="auto",
+                build_name="Infernal Vault",
+                output_name="infernal_vault",
+                output_dir=tempdir,
+                options=GenerationOptions(generate_staged_schematics=False),
+            )
+
+            with open(result["youtube_notes"], "r", encoding="utf-8") as handle:
+                notes = handle.read()
+
+            self.assertIn("## More title ideas", notes)
+            self.assertIn("## Thumbnail text ideas", notes)
+            self.assertIn("AI Built This", notes)
+
     def test_cli_defaults_to_full_only_and_supports_staged_flag(self):
         with tempfile.TemporaryDirectory() as tempdir:
             stdout = StringIO()
@@ -164,6 +189,50 @@ class GenerationTests(unittest.TestCase):
             self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_materials.txt")))
             self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_give_commands.txt")))
             self.assertFalse(os.path.exists(os.path.join(tempdir, "cli_flags_youtube_notes.md")))
+
+    def test_creative_tools_generate_idea_and_titles(self):
+        idea = generate_build_idea(theme="wizard", keyword="moon archive")
+        self.assertEqual(idea.recommended_build_type, "wizard_tower")
+        self.assertIn(idea.recommended_build_type, BUILD_TYPE_LABELS_VI)
+        self.assertIn("moon archive", idea_to_story_prompt(idea).lower())
+
+        titles = generate_youtube_title_package(
+            story_text=idea_to_story_prompt(idea),
+            build_type=idea.recommended_build_type,
+            build_name=idea.concept,
+        )
+        self.assertGreaterEqual(len(titles.titles), 8)
+        self.assertGreaterEqual(len(titles.thumbnail_texts), 4)
+        self.assertTrue(any("Minecraft" in title for title in titles.titles))
+
+    def test_title_package_respects_requested_count(self):
+        titles = generate_youtube_title_package(
+            story_text="A floating temple above the clouds with secret rooms.",
+            build_type="floating_temple",
+            build_name="Sky Shrine",
+            count=3,
+        )
+        self.assertEqual(len(titles.titles), 3)
+
+    def test_cli_supports_generate_idea_and_titles_without_story_export(self):
+        stdout = StringIO()
+        with redirect_stdout(stdout):
+            exit_code = main(
+                [
+                    "--generate-idea",
+                    "--idea-theme",
+                    "dragon",
+                    "--idea-keyword",
+                    "lost relic",
+                    "--generate-titles",
+                    "--build-type",
+                    "dragon_cave",
+                ]
+            )
+        output = stdout.getvalue()
+        self.assertEqual(exit_code, 0)
+        self.assertIn("Ý tưởng công trình:", output)
+        self.assertIn("Gợi ý tiêu đề YouTube:", output)
 
     def test_varint_block_data_encoding_for_small_model(self):
         model = SchematicModel(width=2, height=1, length=1)

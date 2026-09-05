@@ -1,12 +1,18 @@
 from __future__ import annotations
 
+from fantasy_schematic_builder.creative_tools import generate_youtube_title_package
 from fantasy_schematic_builder.models import GeneratedBuild
 
 
-def generate_youtube_notes(build: GeneratedBuild, output_name: str) -> str:
+def generate_youtube_notes(build: GeneratedBuild, schematic_base_name: str, story_text: str = "") -> str:
     themes = ", ".join(build.analysis.detected_themes) or build.build_type.replace("_", " ")
     story = build.analysis.story_summary
-    suggested_title = f"I Let Baritone Build {build.display_name} From an AI Fantasy Story"
+    title_package = generate_youtube_title_package(
+        story_text=story_text or build.analysis.story_summary,
+        build_type=build.build_type,
+        build_name=build.display_name,
+    )
+    suggested_title = title_package.titles[0]
     stage_lines = "\n".join(
         f"- {stage.key}: Narrate the {stage.title.lower()} phase of {build.display_name}."
         for stage in build.stages
@@ -20,10 +26,19 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str) -> str:
             "- Replay Mod sunrise pull-back for the final completed build.",
         ]
     )
+    extra_title_list = title_package.titles[1:]
+    extra_titles_section = ""
+    if extra_title_list:
+        extra_titles = "\n".join(f"- {title}" for title in extra_title_list)
+        extra_titles_section = f"\n## More title ideas\n{extra_titles}\n"
+    thumbnail_texts = "\n".join(f"- {text}" for text in title_package.thumbnail_texts)
     return f"""# {build.display_name}
 
 ## Build title
 {build.display_name}
+
+## Output base name
+{schematic_base_name}
 
 ## Detected themes
 {themes}
@@ -33,11 +48,10 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str) -> str:
 
 ## Suggested YouTube title
 {suggested_title}
+{extra_titles_section}
 
 ## Thumbnail text ideas
-- AI BUILT THIS IN MINECRAFT
-- Fantasy Story -> Schematic -> Baritone
-- {build.display_name.upper()}
+{thumbnail_texts}
 
 ## Replay Mod cinematic shot list
 {shot_list}
@@ -48,7 +62,7 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str) -> str:
 ## Baritone reminder
 - Use in Singleplayer or your own server only.
 - Put generated `.schem` files in `.minecraft/schematics`.
-- Run `#build {output_name}.schem` for the full build or staged files one by one.
+- Run `#build {schematic_base_name}.schem` for the full build or staged files one by one.
 - If Baritone says materials are missing, use the generated `/give` command file and then run `#resume`.
 - These structures intentionally use mostly simple full blocks for more reliable Baritone building.
 """
