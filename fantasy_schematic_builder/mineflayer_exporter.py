@@ -95,7 +95,7 @@ def _stage_roles_for_count(team_bot_count: int) -> list[list[str]]:
 
 
 def _plan_stage_roles() -> list[str]:
-    return [STAGE_NAMES[key] for key in STAGE_NAMES if key != "07_full_build"]
+    return list(STANDARD_STAGE_ROLES)
 
 
 def _available_plan_roles(team_bot_count: int) -> list[str]:
