@@ -260,7 +260,7 @@ def generate_build_idea(theme: str = "fantasy", keyword: str = "") -> BuildIdea:
     rng.shuffle(detail_pool)
     palette = list(profile["palette"])
     if keyword_label:
-        palette = palette + [keyword_label.lower().replace(" ", "_")]
+        palette.insert(1, keyword_label.lower().replace(" ", "_"))
     staged_plan = [
         "Dọn mặt bằng và đặt phần nền chính.",
         "Dựng khung tường, cổng hoặc lõi trung tâm.",
@@ -322,7 +322,7 @@ def _pick_focus_phrase(story_text: str, build_type: str, build_name: str) -> str
                 return sample.title()
     effective_build_type = build_type if build_type in BUILD_TYPES else "auto"
     analysis = analyze_story(story_text or build_name or "fantasy build", build_type=effective_build_type)
-    return BUILD_TYPE_TITLE_HINTS[analysis.selected_build_type]
+    return BUILD_TYPE_TITLE_HINTS.get(analysis.selected_build_type, "Fantasy Build")
 
 
 def generate_youtube_title_package(

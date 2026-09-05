@@ -107,7 +107,7 @@ Depending on the options you select, the tool writes:
 
 Staged schematics are **cumulative**. That means each later stage includes everything from the earlier stages so Baritone can continue more reliably.
 If staged exports are disabled but Baritone steps are enabled, the steps file falls back to the full schematic.
-When YouTube notes are enabled, the notes file also includes multiple clickable title suggestions and thumbnail text ideas.
+When YouTube notes are enabled, the notes file also includes multiple title suggestions and thumbnail text ideas.
 
 ## Baritone and Minecraft 1.20.1 usage
 
