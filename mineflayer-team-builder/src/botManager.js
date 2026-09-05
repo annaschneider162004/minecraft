@@ -143,7 +143,7 @@ class BotManager {
     if (currentBlock && normalizeBlockName(currentBlock.name) === normalizeBlockName(block.block)) {
       return "skipped";
     }
-    if (currentBlock && normalizeBlockName(currentBlock.name) !== "air" && !this.config.replaceOccupiedBlocks) {
+    if (currentBlock && normalizeBlockName(currentBlock.name) !== "air") {
       return "skipped";
     }
 

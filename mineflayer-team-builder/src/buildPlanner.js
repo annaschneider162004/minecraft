@@ -51,10 +51,11 @@ function assignByRole(plan, bots, origin) {
   }
 
   if (unmatched.length > 0) {
-    const fallback = assignRoundRobin(unmatched, bots, origin);
-    fallback.forEach((entry, index) => {
-      assignments[index].blocks.push(...entry.blocks);
-    });
+    const sortedUnmatched = sortBlocks(unmatched, origin);
+    for (const block of sortedUnmatched) {
+      const target = assignments.reduce((best, current) => (current.blocks.length < best.blocks.length ? current : best));
+      target.blocks.push(block);
+    }
   }
 
   assignments.forEach((assignment) => {
