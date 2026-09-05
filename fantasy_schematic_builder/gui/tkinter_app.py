@@ -284,7 +284,13 @@ class BuilderGUI:
         output_panel.grid(row=1, column=0, columnspan=2, sticky="nsew")
         output_panel.columnconfigure(0, weight=1)
         output_panel.rowconfigure(1, weight=1)
-        ttk.Label(output_panel, textvariable=self.status, style="Section.TLabel").grid(row=0, column=0, sticky="w")
+        toolbar = ttk.Frame(output_panel, style="Card.TFrame")
+        toolbar.grid(row=0, column=0, sticky="ew")
+        toolbar.columnconfigure(0, weight=1)
+        ttk.Label(toolbar, textvariable=self.status, style="Section.TLabel").grid(row=0, column=0, sticky="w")
+        ttk.Button(toolbar, text="Sao chép kết quả", command=self.copy_output_text, style="Secondary.TButton").grid(row=0, column=1, sticky="e")
+        output_panel.rowconfigure(1, weight=1)
+        output_scrollbar = ttk.Scrollbar(output_panel, orient="vertical")
         self.output_text = tk.Text(
             output_panel,
             wrap="word",
@@ -296,8 +302,11 @@ class BuilderGUI:
             state="disabled",
             padx=10,
             pady=10,
+            yscrollcommand=output_scrollbar.set,
         )
         self.output_text.grid(row=1, column=0, sticky="nsew", pady=(8, 0))
+        output_scrollbar.configure(command=self.output_text.yview)
+        output_scrollbar.grid(row=1, column=1, sticky="ns", pady=(8, 0))
 
     def _set_output_text(self, content: str) -> None:
         self.output_text.configure(state="normal")
@@ -318,6 +327,15 @@ class BuilderGUI:
 
     def _set_build_type(self, build_type: str) -> None:
         self.build_type.set(get_display_build_type(build_type))
+
+    def copy_output_text(self) -> None:
+        content = self.output_text.get("1.0", "end").strip()
+        if not content:
+            self.status.set("Chưa có kết quả để sao chép.")
+            return
+        self.root.clipboard_clear()
+        self.root.clipboard_append(content)
+        self.status.set("Đã sao chép kết quả vào clipboard.")
 
     def load_story_file(self):
         path = filedialog.askopenfilename(filetypes=[("File văn bản", "*.txt"), ("Tất cả file", "*.*")])
@@ -466,7 +484,7 @@ class BuilderGUI:
             f"Các file đã tạo:\n" + "\n".join(generated_files)
         )
         self._set_output_text(summary)
-        messagebox.showinfo("Tạo file thành công", summary)
+        self.output_text.focus_set()
         self.status.set(f"Đã tạo file thành công tại: {result['output_dir']}")
 
     def _on_generation_error(self, message):
