@@ -101,7 +101,7 @@ def generate_project(
     if options.generate_youtube_notes:
         notes_path = os.path.join(output_dir, f"{safe_output_name}_youtube_notes.md")
         with open(notes_path, "w", encoding="utf-8") as handle:
-            handle.write(generate_youtube_notes(build, safe_output_name, story_text=story_text))
+            handle.write(generate_youtube_notes(build, schematic_base_name=safe_output_name, story_text=story_text))
         written_files["youtube_notes"] = notes_path
 
     return written_files

@@ -93,6 +93,7 @@ class BuilderGUI:
         self.is_generating = False
         self.is_closing = False
         self.poll_after_id = None
+        self.worker_thread = None
 
         self._configure_theme()
         self._build_layout()
@@ -434,7 +435,8 @@ class BuilderGUI:
                 return
             result_queue.put(("success", result))
 
-        threading.Thread(target=worker, daemon=True).start()
+        self.worker_thread = threading.Thread(target=worker, daemon=True)
+        self.worker_thread.start()
         self.poll_after_id = self.root.after(100, lambda: self._poll_generation_result(result_queue))
 
     def _poll_generation_result(self, result_queue: queue.Queue[tuple[str, object]]) -> None:
@@ -454,6 +456,9 @@ class BuilderGUI:
         self._on_generation_error(str(payload))
 
     def close(self) -> None:
+        if self.worker_thread is not None and self.worker_thread.is_alive():
+            messagebox.showinfo("Đang xử lý", "Hãy chờ quá trình tạo schematic hoàn tất rồi đóng cửa sổ.")
+            return
         self.is_closing = True
         if self.poll_after_id is not None:
             try:
@@ -466,8 +471,10 @@ class BuilderGUI:
     def _on_generation_success(self, result):
         if self.is_closing or not self.root.winfo_exists():
             self.is_generating = False
+            self.worker_thread = None
             return
         self.is_generating = False
+        self.worker_thread = None
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
         selected_label = get_display_build_type(result["selected_build_type"])
@@ -497,8 +504,10 @@ class BuilderGUI:
     def _on_generation_error(self, message):
         if self.is_closing or not self.root.winfo_exists():
             self.is_generating = False
+            self.worker_thread = None
             return
         self.is_generating = False
+        self.worker_thread = None
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
         messagebox.showerror("Lỗi", f"Không thể tạo file:\n{message}")

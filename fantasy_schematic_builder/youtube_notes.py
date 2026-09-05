@@ -4,7 +4,7 @@ from fantasy_schematic_builder.creative_tools import generate_youtube_title_pack
 from fantasy_schematic_builder.models import GeneratedBuild
 
 
-def generate_youtube_notes(build: GeneratedBuild, output_name: str, story_text: str = "") -> str:
+def generate_youtube_notes(build: GeneratedBuild, schematic_base_name: str, story_text: str = "") -> str:
     themes = ", ".join(build.analysis.detected_themes) or build.build_type.replace("_", " ")
     story = build.analysis.story_summary
     title_package = generate_youtube_title_package(
@@ -37,6 +37,9 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str, story_text: 
 ## Build title
 {build.display_name}
 
+## Output base name
+{schematic_base_name}
+
 ## Detected themes
 {themes}
 
@@ -59,7 +62,7 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str, story_text: 
 ## Baritone reminder
 - Use in Singleplayer or your own server only.
 - Put generated `.schem` files in `.minecraft/schematics`.
-- Run `#build {output_name}.schem` for the full build or staged files one by one.
+- Run `#build {schematic_base_name}.schem` for the full build or staged files one by one.
 - If Baritone says materials are missing, use the generated `/give` command file and then run `#resume`.
 - These structures intentionally use mostly simple full blocks for more reliable Baritone building.
 """

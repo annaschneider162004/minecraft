@@ -49,6 +49,11 @@ BUILD_TYPE_LABELS_VI = {
     "floating_temple": "Đền bay trên không",
 }
 
+MISSING_BUILD_TYPE_LABELS = [build_type for build_type in BUILD_TYPES if build_type not in BUILD_TYPE_LABELS_VI]
+if MISSING_BUILD_TYPE_LABELS:  # pragma: no cover - import-time configuration guard
+    missing = ", ".join(MISSING_BUILD_TYPE_LABELS)
+    raise RuntimeError(f"Missing Vietnamese display labels for build types: {missing}")
+
 BUILD_TYPE_TITLE_HINTS = {
     "survival_cliffside_base": "Fantasy Survival Base",
     "wizard_tower": "Wizard Tower",
