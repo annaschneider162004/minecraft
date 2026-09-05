@@ -1,12 +1,18 @@
 from __future__ import annotations
 
+from fantasy_schematic_builder.creative_tools import generate_youtube_title_package
 from fantasy_schematic_builder.models import GeneratedBuild
 
 
-def generate_youtube_notes(build: GeneratedBuild, output_name: str) -> str:
+def generate_youtube_notes(build: GeneratedBuild, output_name: str, story_text: str = "") -> str:
     themes = ", ".join(build.analysis.detected_themes) or build.build_type.replace("_", " ")
     story = build.analysis.story_summary
-    suggested_title = f"I Let Baritone Build {build.display_name} From an AI Fantasy Story"
+    title_package = generate_youtube_title_package(
+        story_text=story_text or build.analysis.story_summary,
+        build_type=build.build_type,
+        build_name=build.display_name,
+    )
+    suggested_title = title_package.titles[0]
     stage_lines = "\n".join(
         f"- {stage.key}: Narrate the {stage.title.lower()} phase of {build.display_name}."
         for stage in build.stages
@@ -20,6 +26,8 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str) -> str:
             "- Replay Mod sunrise pull-back for the final completed build.",
         ]
     )
+    extra_titles = "\n".join(f"- {title}" for title in title_package.titles)
+    thumbnail_texts = "\n".join(f"- {text}" for text in title_package.thumbnail_texts)
     return f"""# {build.display_name}
 
 ## Build title
@@ -34,10 +42,11 @@ def generate_youtube_notes(build: GeneratedBuild, output_name: str) -> str:
 ## Suggested YouTube title
 {suggested_title}
 
+## More title ideas
+{extra_titles}
+
 ## Thumbnail text ideas
-- AI BUILT THIS IN MINECRAFT
-- Fantasy Story -> Schematic -> Baritone
-- {build.display_name.upper()}
+{thumbnail_texts}
 
 ## Replay Mod cinematic shot list
 {shot_list}

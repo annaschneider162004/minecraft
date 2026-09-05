@@ -4,7 +4,7 @@ A user-friendly Python tool for turning English or Vietnamese fantasy story prom
 
 ## Features
 
-- Tkinter GUI: paste a story, load a `.txt` story, choose a build type, pick an output folder, and generate files.
+- Tkinter GUI tiếng Việt với giao diện tối kiểu dashboard: dán câu chuyện, tải file `.txt`, chọn loại công trình, chọn thư mục xuất, và tạo file.
 - CLI mode: run the generator without the GUI.
 - Auto theme detection for:
   - `survival_cliffside_base`
@@ -13,6 +13,8 @@ A user-friendly Python tool for turning English or Vietnamese fantasy story prom
   - `ancient_library`
   - `floating_temple`
   - `auto`
+- Offline build idea generator with curated fantasy/medieval/survival/dragon/wizard/ocean/sky/nether/ancient/village/castle/cave/temple templates.
+- Offline YouTube title + thumbnail text generator for Minecraft fantasy build videos.
 - Sponge schematic v2-style `.schem` writer using gzip-compressed NBT, a block palette, and varint `BlockData`.
 - Cumulative staged schematic exports for easier Baritone building.
 - Material list, `/give` command export, Baritone build steps, and YouTube notes.
@@ -31,18 +33,30 @@ python fantasy_schematic_builder/app.py --gui
 ```
 
 The GUI lets you:
-- paste or type a fantasy story
-- load a `.txt` story file
-- choose the build type or `auto`
-- set the build name and output base name
-- choose the output folder
-- enable or disable full schematic, staged schematics, material list export, `/give` commands, Baritone steps, and YouTube notes
+- nhập hoặc dán câu chuyện / prompt huyền huyễn bằng tiếng Việt hoặc tiếng Anh
+- tải file `.txt`
+- chọn loại công trình hoặc `Tự động nhận diện`
+- tạo ý tưởng Minecraft mới theo chủ đề và từ khóa
+- dùng ngay ý tưởng vừa tạo để đổ vào ô prompt
+- tạo nhiều tiêu đề YouTube và chữ thumbnail
+- bật/tắt tạo schematic đầy đủ, schematic theo giai đoạn, danh sách vật liệu, lệnh `/give`, hướng dẫn Baritone, và ghi chú YouTube
+
+### Quy trình GUI gợi ý
+
+1. Chạy `python fantasy_schematic_builder/app.py --gui`
+2. Bấm **`Tạo ý tưởng mới`**
+3. Bấm **`Dùng ý tưởng này`**
+4. Chọn **Loại công trình** hoặc để **`Tự động nhận diện`**
+5. Bấm **`Tạo schematic`**
+6. Trong Minecraft dùng các lệnh Baritone theo file xuất ra từng giai đoạn
 
 ## Run the CLI
 
 ```bash
 python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt --build-type wizard_tower --name "Tower of the Last Mage" --output-name wizard_tower_demo
 python fantasy_schematic_builder/app.py --story examples/story_cliffside.txt --build-type auto --name "The Last Cliffside Sanctuary" --output-name cliffside_demo --staged
+python fantasy_schematic_builder/app.py --generate-idea --idea-theme dragon --idea-keyword relic
+python fantasy_schematic_builder/app.py --story examples/story_dragon_cave.txt --build-type auto --generate-titles
 ```
 
 ### Useful CLI options
@@ -59,6 +73,10 @@ python fantasy_schematic_builder/app.py --story examples/story_cliffside.txt --b
 - `--no-give-commands` - skip `/give` command export
 - `--no-baritone` - skip Baritone step export
 - `--no-youtube-notes` - skip YouTube/story notes export
+- `--generate-idea` - print an offline build idea to the console
+- `--idea-theme fantasy|medieval|survival|dragon|wizard|ocean|sky|nether|ancient|village|castle|cave|temple`
+- `--idea-keyword "..."` - inject an extra keyword into the generated idea
+- `--generate-titles` - print offline YouTube title suggestions and thumbnail text
 
 ## Output location
 
@@ -89,6 +107,7 @@ Depending on the options you select, the tool writes:
 
 Staged schematics are **cumulative**. That means each later stage includes everything from the earlier stages so Baritone can continue more reliably.
 If staged exports are disabled but Baritone steps are enabled, the steps file falls back to the full schematic.
+When YouTube notes are enabled, the notes file also includes multiple clickable title suggestions and thumbnail text ideas.
 
 ## Baritone and Minecraft 1.20.1 usage
 
