@@ -253,7 +253,7 @@ class BuilderGUI:
         creative_frame.grid(row=5, column=0, columnspan=2, sticky="ew", pady=(14, 0))
         creative_frame.columnconfigure(0, weight=1)
         creative_frame.columnconfigure(1, weight=1)
-        ttk.Label(creative_frame, text="Chủ đề / category", style="Panel.TLabel").grid(row=0, column=0, sticky="w")
+        ttk.Label(creative_frame, text="Chủ đề", style="Panel.TLabel").grid(row=0, column=0, sticky="w")
         ttk.Label(creative_frame, text="Từ khóa bổ sung", style="Panel.TLabel").grid(row=0, column=1, sticky="w")
         ttk.Combobox(
             creative_frame,
@@ -438,7 +438,7 @@ class BuilderGUI:
     def _on_generation_error(self, message):
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
-        messagebox.showerror("Lỗi", message)
+        messagebox.showerror("Lỗi", f"Không thể tạo file:\n{message}")
         self.status.set("Tạo file thất bại.")
 
 

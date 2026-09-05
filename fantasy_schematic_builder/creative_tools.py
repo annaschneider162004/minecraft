@@ -303,9 +303,9 @@ def format_build_idea(idea: BuildIdea) -> str:
     palette = ", ".join(idea.block_palette)
     return (
         f"Ý tưởng công trình: {idea.concept}\n"
-        f"Story hook: {idea.story_hook}\n"
-        f"Build type đề xuất: {get_display_build_type(idea.recommended_build_type)} ({idea.recommended_build_type})\n"
-        f"Block palette: {palette}\n"
+        f"Móc chuyện fantasy: {idea.story_hook}\n"
+        f"Loại công trình đề xuất: {get_display_build_type(idea.recommended_build_type)} ({idea.recommended_build_type})\n"
+        f"Block palette gợi ý: {palette}\n"
         f"Chi tiết nổi bật:\n{details}\n"
         f"Kế hoạch build theo giai đoạn:\n{stages}"
     )
@@ -350,8 +350,7 @@ def generate_youtube_title_package(
         f"Tôi dùng AI xây {hint} trong Minecraft",
         f"Biến câu chuyện fantasy thành Minecraft build: {focus_phrase}",
     ]
-    rng.shuffle(titles)
-    ordered_titles = sorted(dict.fromkeys(titles), key=titles.index)[: max(8, min(count, 12))]
+    ordered_titles = list(dict.fromkeys(titles))[: max(8, min(count, 12))]
     thumbs = list(THUMBNAIL_TEXT_POOL)
     rng.shuffle(thumbs)
     return TitlePackage(titles=ordered_titles, thumbnail_texts=thumbs[:4])
