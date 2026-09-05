@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
@@ -27,6 +28,7 @@ class BuilderGUI:
         self.generate_commands = tk.BooleanVar(value=True)
         self.generate_baritone = tk.BooleanVar(value=True)
         self.generate_notes = tk.BooleanVar(value=True)
+        self.generate_button = None
 
         self._build_layout()
 
@@ -70,7 +72,8 @@ class BuilderGUI:
         ttk.Checkbutton(options_frame, text="Generate Baritone step instructions", variable=self.generate_baritone).grid(row=2, column=0, sticky="w")
         ttk.Checkbutton(options_frame, text="Generate YouTube notes/story notes", variable=self.generate_notes).grid(row=2, column=1, sticky="w")
 
-        ttk.Button(frame, text="Generate", command=self.generate).pack(anchor="e")
+        self.generate_button = ttk.Button(frame, text="Generate", command=self.generate)
+        self.generate_button.pack(anchor="e")
         ttk.Label(frame, textvariable=self.status).pack(anchor="w", pady=(8, 0))
 
     def load_story_file(self):
@@ -102,25 +105,41 @@ class BuilderGUI:
             generate_baritone_steps=self.generate_baritone.get(),
             generate_youtube_notes=self.generate_notes.get(),
         )
-        try:
-            result = generate_project(
-                story_text=story,
-                build_type=self.build_type.get(),
-                build_name=self.build_name.get(),
-                output_name=self.output_name.get(),
-                output_dir=self.output_dir.get(),
-                options=options,
-            )
-        except Exception as exc:  # pragma: no cover - GUI error display path
-            messagebox.showerror("Generation failed", str(exc))
-            self.status.set("Generation failed.")
-            return
+        if self.generate_button is not None:
+            self.generate_button.configure(state="disabled")
+        self.status.set("Generating files...")
 
+        def worker():
+            try:
+                result = generate_project(
+                    story_text=story,
+                    build_type=self.build_type.get(),
+                    build_name=self.build_name.get(),
+                    output_name=self.output_name.get(),
+                    output_dir=self.output_dir.get(),
+                    options=options,
+                )
+            except Exception as exc:  # pragma: no cover - GUI error display path
+                self.root.after(0, lambda error=exc: self._on_generation_error(error))
+                return
+            self.root.after(0, lambda generation_result=result: self._on_generation_success(generation_result))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _on_generation_success(self, result):
+        if self.generate_button is not None:
+            self.generate_button.configure(state="normal")
         messagebox.showinfo(
             "Generation complete",
             f"Generated build type: {result['selected_build_type']}\nOutput directory: {result['output_dir']}",
         )
         self.status.set(f"Done. Generated files in {result['output_dir']}")
+
+    def _on_generation_error(self, exc):
+        if self.generate_button is not None:
+            self.generate_button.configure(state="normal")
+        messagebox.showerror("Generation failed", str(exc))
+        self.status.set("Generation failed.")
 
 
 def run_gui():

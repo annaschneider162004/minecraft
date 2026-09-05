@@ -15,6 +15,7 @@ TAG_COMPOUND = 10
 TAG_INT = 3
 TAG_SHORT = 2
 TAG_INT_ARRAY = 11
+# Minecraft 1.20.1 schematic metadata version.
 MINECRAFT_1_20_1_DATA_VERSION = 3465
 
 
@@ -90,6 +91,10 @@ def build_block_data(model: SchematicModel, palette: dict[str, int]) -> bytes:
 
 
 def serialize_schematic(model: SchematicModel, name: str, author: str, description: str) -> bytes:
+    for dimension_name, value in (("width", model.width), ("height", model.height), ("length", model.length)):
+        if not 0 < value <= 32767:
+            raise ValueError(f"Schematic {dimension_name} must be between 1 and 32767 for Sponge .schem export, got {value}.")
+
     writer = NBTWriter()
     palette = build_palette(model)
     block_data = build_block_data(model, palette)

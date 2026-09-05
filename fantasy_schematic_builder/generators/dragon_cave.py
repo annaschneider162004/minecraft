@@ -26,7 +26,8 @@ def generate(display_name, analysis):
             (4, 11, 5, 20, 11, 17, "minecraft:blackstone"),
             (5, 12, 6, 19, 12, 16, "minecraft:polished_blackstone_bricks"),
             (7, 13, 8, 17, 13, 14, "minecraft:blackstone"),
-            (9, 14, 9, 15, 15, 13, "minecraft:obsidian"),
+            (9, 14, 9, 15, 14, 13, "minecraft:obsidian"),
+            (10, 15, 10, 14, 15, 12, "minecraft:obsidian"),
         ],
     )
 

@@ -24,8 +24,8 @@ def generate(display_name, analysis):
 
     builder.hollow_box(3, 0, 1, 0, 4, 10, 4, "minecraft:stone_bricks")
     builder.hollow_box(3, 20, 1, 0, 24, 10, 4, "minecraft:stone_bricks")
-    builder.fill(3, 0, 10, 0, 4, 10, 4, "minecraft:dark_oak_planks")
-    builder.fill(3, 20, 10, 0, 24, 10, 4, "minecraft:dark_oak_planks")
+    builder.fill(3, 0, 11, 0, 4, 11, 4, "minecraft:dark_oak_planks")
+    builder.fill(3, 20, 11, 0, 24, 11, 4, "minecraft:dark_oak_planks")
     builder.fill(3, 9, 6, 2, 15, 6, 3, "minecraft:dark_oak_planks")
     builder.fill(3, 9, 7, 2, 15, 7, 2, "minecraft:dark_oak_log[axis=y]")
     builder.fill(3, 6, 6, 5, 18, 6, 16, "minecraft:spruce_planks")

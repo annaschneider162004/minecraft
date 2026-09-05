@@ -22,14 +22,12 @@ def write_materials_file(materials: Counter, output_path: str) -> None:
 
 def write_give_commands_file(materials: Counter, output_path: str) -> None:
     with open(output_path, "w", encoding="utf-8") as handle:
-        handle.write("# Copy the commands below in Creative or on your own server only.\n")
         for block, total in sorted(materials.items()):
             remaining = total
             while remaining > 0:
                 chunk = min(64, remaining)
                 handle.write(f"/give @s {block} {chunk}\n")
                 remaining -= chunk
-        handle.write("\n# If Baritone pauses after you get blocks, run:\n#resume\n")
 
 
 def write_baritone_steps_file(stage_paths: list[str], output_path: str) -> None:

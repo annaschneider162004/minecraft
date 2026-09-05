@@ -100,6 +100,11 @@ def _normalize(text: str) -> str:
     return re.sub(r"\s+", " ", (text or "").strip().lower())
 
 
+def _contains_keyword(text: str, keyword: str) -> bool:
+    pattern = re.escape(keyword.strip()).replace(r"\ ", r"\s+")
+    return re.search(rf"(?<!\w){pattern}(?!\w)", text) is not None
+
+
 def summarize_story(story_text: str, limit: int = 220) -> str:
     cleaned = re.sub(r"\s+", " ", story_text.strip())
     if len(cleaned) <= limit:
@@ -114,7 +119,7 @@ def analyze_story(story_text: str, build_type: str = "auto") -> BuildAnalysis:
 
     for candidate, keywords in KEYWORDS.items():
         for keyword, weight in keywords.items():
-            if keyword in normalized:
+            if _contains_keyword(normalized, keyword):
                 scores[candidate] += weight
 
     if build_type == "auto":

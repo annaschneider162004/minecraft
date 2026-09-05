@@ -17,6 +17,10 @@ class StoryAnalyzerTests(unittest.TestCase):
         analysis = analyze_story("Build something beautiful for my next video.", build_type="auto")
         self.assertEqual(analysis.selected_build_type, "survival_cliffside_base")
 
+    def test_short_keyword_matching_does_not_false_positive_inside_other_words(self):
+        analysis = analyze_story("Maybe the build should feel quiet and lonely.", build_type="auto")
+        self.assertEqual(analysis.selected_build_type, "survival_cliffside_base")
+
 
 if __name__ == "__main__":
     unittest.main()
