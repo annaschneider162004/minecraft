@@ -53,6 +53,9 @@ function assignByRole(plan, bots, origin) {
   }
 
   function selectLeastLoaded(candidates) {
+    if (!Array.isArray(candidates) || candidates.length === 0) {
+      throw new Error("Cần ít nhất một bot để chia build plan.");
+    }
     return candidates.reduce((best, current) => (current.blocks.length < best.blocks.length ? current : best));
   }
 
