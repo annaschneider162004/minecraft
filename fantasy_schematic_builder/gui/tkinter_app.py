@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import os
 import queue
+import subprocess
+import sys
 import threading
 
 try:  # pragma: no cover - import availability depends on the host Python build
@@ -54,6 +56,44 @@ def build_generation_options(
     )
 
 
+def format_generation_summary(result) -> str:
+    selected_label = get_display_build_type(result["selected_build_type"])
+    generated_files = []
+    if "full_schematic" in result:
+        generated_files.append(f"- Schematic đầy đủ: {result['full_schematic']}")
+    for stage_path in result.get("stage_paths", []):
+        generated_files.append(f"- Giai đoạn build: {stage_path}")
+    for key, label in (
+        ("materials", "Danh sách vật liệu"),
+        ("give_commands", "Lệnh /give vật liệu"),
+        ("baritone_steps", "Hướng dẫn Baritone"),
+        ("youtube_notes", "Ghi chú YouTube"),
+        ("mineflayer_plan", "Kế hoạch Mineflayer"),
+        ("mineflayer_config", "Config Mineflayer team bot"),
+    ):
+        if key in result:
+            generated_files.append(f"- {label}: {result[key]}")
+    return (
+        f"Tạo file thành công\n"
+        f"Loại công trình: {selected_label} ({result['selected_build_type']})\n"
+        f"Thư mục xuất: {result['output_dir']}\n"
+        f"Bấm 'MỞ THƯ MỤC FILE ĐÃ TẠO' để mở nhanh thư mục output này.\n\n"
+        f"Các file đã tạo:\n" + "\n".join(generated_files)
+    )
+
+
+def resolve_output_directory_to_open(last_output_dir: str | None, selected_output_dir: str) -> str | None:
+    if last_output_dir:
+        latest_path = os.path.abspath(last_output_dir)
+        if os.path.isdir(latest_path):
+            return latest_path
+    if selected_output_dir:
+        selected_path = os.path.abspath(selected_output_dir)
+        if os.path.isdir(selected_path):
+            return selected_path
+    return None
+
+
 class BuilderGUI:
     TEAM_BOT_PRESETS = ("3", "4", "6")
     MASS_BOT_PRESETS = ("3", "4", "6", "10", "20", "30", "40", "50")
@@ -65,6 +105,7 @@ class BuilderGUI:
         "text_soft": "#94a3b8",
         "accent": "#38bdf8",
         "accent_alt": "#22d3ee",
+        "accent_bright": "#67e8f9",
         "success": "#22c55e",
         "warning": "#f59e0b",
         "error": "#ef4444",
@@ -99,8 +140,10 @@ class BuilderGUI:
         self.team_bot_count = tk.StringVar(value="6")
 
         self.generate_button = None
+        self.open_output_button = None
         self.team_bot_selector = None
         self.output_text = None
+        self.last_generated_output_dir = None
         self.is_generating = False
         self.is_closing = False
         self.poll_after_id = None
@@ -147,6 +190,21 @@ class BuilderGUI:
             foreground=[("disabled", self.COLORS["text_soft"])],
         )
         style.configure(
+            "ActionPrimary.TButton",
+            background=self.COLORS["accent_bright"],
+            foreground=self.COLORS["panel_alt"],
+            borderwidth=0,
+            focusthickness=0,
+            focuscolor=self.COLORS["accent_bright"],
+            font=("Segoe UI", 12, "bold"),
+            padding=(20, 14),
+        )
+        style.map(
+            "ActionPrimary.TButton",
+            background=[("active", self.COLORS["accent_alt"]), ("disabled", self.COLORS["border"])],
+            foreground=[("disabled", self.COLORS["text_soft"])],
+        )
+        style.configure(
             "Secondary.TButton",
             background=self.COLORS["panel_alt"],
             foreground=self.COLORS["text"],
@@ -154,6 +212,15 @@ class BuilderGUI:
             padding=(10, 7),
         )
         style.map("Secondary.TButton", background=[("active", self.COLORS["border"])])
+        style.configure(
+            "ActionSecondary.TButton",
+            background=self.COLORS["panel_alt"],
+            foreground=self.COLORS["text"],
+            bordercolor=self.COLORS["border"],
+            font=("Segoe UI", 10, "bold"),
+            padding=(16, 12),
+        )
+        style.map("ActionSecondary.TButton", background=[("active", self.COLORS["border"])])
         style.configure(
             "Dashboard.TCheckbutton",
             background=self.COLORS["panel"],
@@ -188,9 +255,11 @@ class BuilderGUI:
     def _build_layout(self):
         container = ttk.Frame(self.root, padding=14, style="App.TFrame")
         container.pack(fill="both", expand=True)
+        container.columnconfigure(0, weight=1)
+        container.rowconfigure(1, weight=1)
 
         header = ttk.Frame(container, padding=(18, 16), style="Card.TFrame")
-        header.pack(fill="x")
+        header.grid(row=0, column=0, sticky="ew")
         ttk.Label(header, text="Minecraft Fantasy Schematic Builder V2", style="HeaderTitle.TLabel").pack(anchor="w")
         ttk.Label(
             header,
@@ -199,7 +268,7 @@ class BuilderGUI:
         ).pack(anchor="w", pady=(4, 0))
 
         content = ttk.Frame(container, style="App.TFrame")
-        content.pack(fill="both", expand=True, pady=(12, 0))
+        content.grid(row=1, column=0, sticky="nsew", pady=(12, 0))
         content.columnconfigure(0, weight=3)
         content.columnconfigure(1, weight=2)
         content.rowconfigure(0, weight=3)
@@ -315,9 +384,6 @@ class BuilderGUI:
         ttk.Button(button_row, text="Dùng ý tưởng này", command=self.use_generated_idea, style="Secondary.TButton").grid(row=0, column=1, sticky="ew", padx=3)
         ttk.Button(button_row, text="Tạo tiêu đề YouTube", command=self.generate_titles, style="Secondary.TButton").grid(row=0, column=2, sticky="ew", padx=(6, 0))
 
-        self.generate_button = ttk.Button(settings_panel, text="Tạo schematic", command=self.generate, style="Dashboard.TButton")
-        self.generate_button.grid(row=7, column=1, sticky="e", pady=(14, 0))
-
         output_panel = ttk.LabelFrame(content, text="Kết quả / Trạng thái", padding=12, style="Card.TLabelframe")
         output_panel.grid(row=1, column=0, columnspan=2, sticky="nsew")
         output_panel.columnconfigure(0, weight=1)
@@ -345,6 +411,25 @@ class BuilderGUI:
         self.output_text.grid(row=1, column=0, sticky="nsew", pady=(8, 0))
         output_scrollbar.configure(command=self.output_text.yview)
         output_scrollbar.grid(row=1, column=1, sticky="ns", pady=(8, 0))
+
+        action_bar = ttk.Frame(container, padding=(18, 14), style="Card.TFrame")
+        action_bar.grid(row=2, column=0, sticky="ew", pady=(12, 0))
+        action_bar.columnconfigure(0, weight=2)
+        action_bar.columnconfigure(1, weight=1)
+        self.generate_button = ttk.Button(
+            action_bar,
+            text="TẠO FILE .SCHEM NGAY",
+            command=self.generate,
+            style="ActionPrimary.TButton",
+        )
+        self.generate_button.grid(row=0, column=0, sticky="ew", padx=(0, 10))
+        self.open_output_button = ttk.Button(
+            action_bar,
+            text="MỞ THƯ MỤC FILE ĐÃ TẠO",
+            command=self.open_output_directory,
+            style="ActionSecondary.TButton",
+        )
+        self.open_output_button.grid(row=0, column=1, sticky="ew")
 
     def _set_output_text(self, content: str) -> None:
         self.output_text.configure(state="normal")
@@ -404,6 +489,35 @@ class BuilderGUI:
         if path:
             self.output_dir.set(path)
             self.status.set(f"Đã chọn thư mục xuất: {path}")
+
+    def _open_directory_in_file_manager(self, path: str) -> None:
+        if os.name == "nt":
+            os.startfile(path)
+            return
+        if sys.platform == "darwin":
+            subprocess.run(["open", path], check=True)
+            return
+        subprocess.run(["xdg-open", path], check=True)
+
+    def open_output_directory(self) -> None:
+        target_directory = resolve_output_directory_to_open(self.last_generated_output_dir, self.output_dir.get().strip())
+        if target_directory is None:
+            messagebox.showwarning(
+                "Chưa có thư mục để mở",
+                "Chưa có file nào được tạo thành công. Hãy tạo schematic hoặc chọn một thư mục xuất đang tồn tại trước.",
+            )
+            self.status.set("Chưa thể mở thư mục output.")
+            return
+        try:
+            self._open_directory_in_file_manager(target_directory)
+        except Exception as exc:  # pragma: no cover - platform integration path
+            messagebox.showerror("Lỗi", f"Không thể mở thư mục:\n{exc}")
+            self.status.set("Mở thư mục output thất bại.")
+            return
+        if self.last_generated_output_dir and os.path.abspath(target_directory) == os.path.abspath(self.last_generated_output_dir):
+            self.status.set(f"Đã mở thư mục file vừa tạo: {target_directory}")
+            return
+        self.status.set(f"Đã mở thư mục xuất đang chọn: {target_directory}")
 
     def generate_idea(self):
         theme = idea_theme_from_display(self.idea_theme.get())
@@ -534,31 +648,10 @@ class BuilderGUI:
         self.worker_thread = None
         if self.generate_button is not None:
             self.generate_button.configure(state="normal")
-        selected_label = get_display_build_type(result["selected_build_type"])
-        generated_files = []
-        if "full_schematic" in result:
-            generated_files.append(f"- Schematic đầy đủ: {result['full_schematic']}")
-        for stage_path in result.get("stage_paths", []):
-            generated_files.append(f"- Giai đoạn build: {stage_path}")
-        for key, label in (
-            ("materials", "Danh sách vật liệu"),
-            ("give_commands", "Lệnh /give vật liệu"),
-            ("baritone_steps", "Hướng dẫn Baritone"),
-            ("youtube_notes", "Ghi chú YouTube"),
-            ("mineflayer_plan", "Kế hoạch Mineflayer"),
-            ("mineflayer_config", "Config Mineflayer team bot"),
-        ):
-            if key in result:
-                generated_files.append(f"- {label}: {result[key]}")
-        summary = (
-            f"Tạo file thành công\n"
-            f"Loại công trình: {selected_label} ({result['selected_build_type']})\n"
-            f"Thư mục xuất: {result['output_dir']}\n\n"
-            f"Các file đã tạo:\n" + "\n".join(generated_files)
-        )
-        self._set_output_text(summary)
+        self.last_generated_output_dir = os.path.abspath(result["output_dir"])
+        self._set_output_text(format_generation_summary(result))
         self.output_text.focus_set()
-        self.status.set(f"Đã tạo file thành công tại: {result['output_dir']}")
+        self.status.set(f"Đã tạo file thành công tại: {result['output_dir']} — bấm 'MỞ THƯ MỤC FILE ĐÃ TẠO' để mở ngay.")
 
     def _on_generation_error(self, message):
         if self.is_closing or not self.root.winfo_exists():
