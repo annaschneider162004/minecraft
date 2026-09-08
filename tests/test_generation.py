@@ -18,7 +18,11 @@ from fantasy_schematic_builder.creative_tools import (
 from fantasy_schematic_builder.models import GenerationOptions
 from fantasy_schematic_builder.schem_writer import build_block_data, build_palette, encode_varint
 from fantasy_schematic_builder.models import SchematicModel
-from fantasy_schematic_builder.gui.tkinter_app import build_generation_options
+from fantasy_schematic_builder.gui.tkinter_app import (
+    build_generation_options,
+    format_generation_summary,
+    resolve_output_directory_to_open,
+)
 
 
 class GenerationTests(unittest.TestCase):
@@ -32,6 +36,37 @@ class GenerationTests(unittest.TestCase):
         self.assertFalse(options.generate_youtube_notes)
         self.assertTrue(options.generate_mineflayer_plan)
         self.assertEqual(options.team_bot_count, 4)
+
+    def test_generation_summary_mentions_open_folder_button(self):
+        summary = format_generation_summary(
+            {
+                "selected_build_type": "wizard_tower",
+                "output_dir": "/tmp/output",
+                "full_schematic": "/tmp/output/wizard.schem",
+                "stage_paths": ["/tmp/output/wizard_01_foundation.schem"],
+                "materials": "/tmp/output/wizard_materials.txt",
+            }
+        )
+        self.assertIn("MỞ THƯ MỤC FILE ĐÃ TẠO", summary)
+        self.assertIn("Các file đã tạo:", summary)
+        self.assertIn("Schematic đầy đủ", summary)
+        self.assertIn("Giai đoạn build", summary)
+
+    def test_resolve_output_directory_prefers_latest_successful_folder(self):
+        with tempfile.TemporaryDirectory() as selected_dir, tempfile.TemporaryDirectory() as latest_dir:
+            self.assertEqual(
+                resolve_output_directory_to_open(latest_dir, selected_dir),
+                os.path.abspath(latest_dir),
+            )
+
+    def test_resolve_output_directory_falls_back_to_selected_existing_folder(self):
+        with tempfile.TemporaryDirectory() as selected_dir:
+            missing_dir = os.path.join(selected_dir, "does-not-exist")
+            self.assertEqual(
+                resolve_output_directory_to_open(missing_dir, selected_dir),
+                os.path.abspath(selected_dir),
+            )
+            self.assertIsNone(resolve_output_directory_to_open(missing_dir, missing_dir))
 
     def test_generation_writes_full_and_staged_schematics(self):
         story = "A wizard mage builds a magic tower with an observatory and hidden room."

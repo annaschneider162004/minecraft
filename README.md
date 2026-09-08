@@ -4,7 +4,7 @@ A user-friendly Python tool for turning English or Vietnamese fantasy story prom
 
 ## Features
 
-- Tkinter GUI tiếng Việt với giao diện tối kiểu dashboard: dán câu chuyện, tải file `.txt`, chọn loại công trình, chọn thư mục xuất, và tạo file.
+- Tkinter GUI tiếng Việt với giao diện tối kiểu dashboard: dán câu chuyện, tải file `.txt`, chọn loại công trình, chọn thư mục xuất, và dùng thanh hành động cố định phía dưới để tạo file hoặc mở thư mục output.
 - CLI mode: run the generator without the GUI.
 - Auto theme detection for:
   - `survival_cliffside_base`
@@ -43,6 +43,7 @@ The GUI lets you:
 - tạo nhiều tiêu đề YouTube và chữ thumbnail
 - bật/tắt tạo schematic đầy đủ, schematic theo giai đoạn, danh sách vật liệu, lệnh `/give`, hướng dẫn Baritone, và ghi chú YouTube
 - bật **Tạo kế hoạch Mineflayer team bot**, nhập `Số bot Mineflayer (1–50)`, và dùng **Mass Bot Mode** để chọn nhanh `10 / 20 / 30 / 40 / 50`
+- dùng nút cyan **`TẠO FILE .SCHEM NGAY`** luôn hiện ở cuối cửa sổ và nút **`MỞ THƯ MỤC FILE ĐÃ TẠO`** để mở nhanh thư mục output
 
 ### Quy trình GUI gợi ý
 
@@ -50,8 +51,9 @@ The GUI lets you:
 2. Bấm **`Tạo ý tưởng mới`**
 3. Bấm **`Dùng ý tưởng này`**
 4. Chọn **Loại công trình** hoặc để **`Tự động nhận diện`**
-5. Bấm **`Tạo schematic`**
-6. Trong Minecraft dùng các lệnh Baritone theo file xuất ra từng giai đoạn
+5. Bấm **`TẠO FILE .SCHEM NGAY`**
+6. Sau khi tạo xong, bấm **`MỞ THƯ MỤC FILE ĐÃ TẠO`** để mở nhanh thư mục output
+7. Trong Minecraft dùng các lệnh Baritone theo file xuất ra từng giai đoạn
 
 ## Run the CLI
 
