@@ -174,20 +174,28 @@ async function executeBuild(config, plan, options = {}) {
     const scoutManager = new BotManagerClass({ ...config, origin: previewOrigin, issueCreativeCommandsOnConnect: false }, []);
     scopedLogger.info(`Đang kết nối scout bot ${scoutBot.username} để tự tìm vị trí xây...`);
     const scoutEntry = await scoutManager.connectBot(scoutBot);
-    buildOrigin = await findBuildOriginFn(scoutEntry.bot, config, plan.size, scopedLogger);
-    scopedLogger.info(`Đã chọn build origin tự động: (${buildOrigin.x}, ${buildOrigin.y}, ${buildOrigin.z}).`);
-    assignments = buildAssignmentsFn(plan, config.bots, buildOrigin);
-    const manager = new BotManagerClass({ ...config, origin: buildOrigin, issueCreativeCommandsOnConnect: false }, assignments);
-    const remainingBots = config.bots.filter((bot) => bot.username !== scoutBot.username);
-    const remainingConnectedBots = await manager.connectBots(remainingBots);
-    const connectedBots = [scoutEntry, ...remainingConnectedBots];
-    scopedLogger.info(`Tổng kết đội hình: connected ${connectedBots.length}/${config.bots.length} bot.`);
-    const connectedScout = pickPreparationController(connectedBots, scoutBot.username, scopedLogger);
-    await runPreparationCommands(config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
-    scopedLogger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
-    await manager.runBuild(connectedBots);
-    scopedLogger.info("Đội bot đã hoàn tất build plan.");
-    return { buildOrigin, connectedBots };
+    let completed = false;
+    try {
+      buildOrigin = await findBuildOriginFn(scoutEntry.bot, config, plan.size, scopedLogger);
+      scopedLogger.info(`Đã chọn build origin tự động: (${buildOrigin.x}, ${buildOrigin.y}, ${buildOrigin.z}).`);
+      assignments = buildAssignmentsFn(plan, config.bots, buildOrigin);
+      const manager = new BotManagerClass({ ...config, origin: buildOrigin, issueCreativeCommandsOnConnect: false }, assignments);
+      const remainingBots = config.bots.filter((bot) => bot.username !== scoutBot.username);
+      const remainingConnectedBots = await manager.connectBots(remainingBots);
+      const connectedBots = [scoutEntry, ...remainingConnectedBots];
+      scopedLogger.info(`Tổng kết đội hình: connected ${connectedBots.length}/${config.bots.length} bot.`);
+      const connectedScout = pickPreparationController(connectedBots, scoutBot.username, scopedLogger);
+      await runPreparationCommands(config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
+      scopedLogger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
+      await manager.runBuild(connectedBots);
+      scopedLogger.info("Đội bot đã hoàn tất build plan.");
+      completed = true;
+      return { buildOrigin, connectedBots };
+    } finally {
+      if (!completed && typeof scoutEntry.bot?.quit === "function") {
+        scoutEntry.bot.quit("Auto-origin aborted before full team build.");
+      }
+    }
   }
 
   const manager = new BotManagerClass({ ...config, origin: buildOrigin, issueCreativeCommandsOnConnect: false }, assignments);

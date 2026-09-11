@@ -76,11 +76,16 @@ test("connectBot retries after an initial connection failure", async () => {
 
 test("server_full error explains how to fix server.properties", async () => {
   const originalCreateBot = mineflayer.createBot;
+  let attempts = 0;
   try {
-    mineflayer.createBot = () =>
+    mineflayer.createBot = () => {
+      attempts += 1;
+      return (
       createFakeConnectingBot((bot) => {
         bot.emit("kicked", { translate: "multiplayer.disconnect.server_full" });
-      });
+      })
+      );
+    };
 
     const manager = new BotManager({
       host: "localhost",
@@ -98,6 +103,7 @@ test("server_full error explains how to fix server.properties", async () => {
       () => manager.connectBot({ username: "Builder_08" }),
       /server\.properties|max-players=50|tổng số bot \+ số người chơi/
     );
+    assert.equal(attempts, 1);
   } finally {
     mineflayer.createBot = originalCreateBot;
   }

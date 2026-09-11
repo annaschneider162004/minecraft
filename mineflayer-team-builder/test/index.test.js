@@ -164,3 +164,72 @@ test("buildPlatformCommands uses padded bounds above and below origin", () => {
     },
   ]);
 });
+
+test("executeBuild disconnects scout if auto-origin run aborts before build starts", async () => {
+  let quitCalled = false;
+
+  class MockManager {
+    constructor(config, assignments) {
+      this.config = config;
+      this.assignments = assignments;
+    }
+
+    async connectBot(botConfig) {
+      return {
+        ...botConfig,
+        bot: {
+          username: botConfig.username,
+          chat() {},
+          quit() {
+            quitCalled = true;
+          },
+        },
+      };
+    }
+
+    async connectBots() {
+      throw new Error("remaining bots failed");
+    }
+  }
+
+  const config = {
+    host: "localhost",
+    port: 25565,
+    auth: "offline",
+    version: false,
+    autoFindOriginConfigured: true,
+    autoFindOrigin: true,
+    origin: "auto",
+    bots: [
+      { username: "Builder_01", role: "foundation" },
+      { username: "Builder_02", role: "walls" },
+    ],
+    scoutBot: "Builder_01",
+    planFile: "/tmp/example_plan.json",
+    creativeMode: false,
+    issueCreativeCommands: false,
+    issueWorldCommands: false,
+    setWorldConditions: false,
+    teleportBotsToOrigin: false,
+    clearBuildArea: false,
+    prepareBuildPlatform: false,
+  };
+  const plan = {
+    name: "Auto origin abort test",
+    size: { width: 2, height: 3, length: 2 },
+    origin: { x: 0, y: 0, z: 0 },
+    blocks: [],
+  };
+
+  await assert.rejects(
+    () =>
+      executeBuild(config, plan, {
+        logger: { info() {}, warn() {} },
+        BotManagerClass: MockManager,
+        buildAssignments: (_plan, bots) => bots.map((bot) => ({ bot, blocks: [] })),
+        findBuildOrigin: async () => ({ x: 10, y: 70, z: -5 }),
+      }),
+    /remaining bots failed/
+  );
+  assert.equal(quitCalled, true);
+});

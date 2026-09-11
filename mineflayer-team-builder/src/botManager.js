@@ -131,6 +131,9 @@ class BotManager {
         return await this.connectBotOnce(botConfig, logger);
       } catch (error) {
         lastError = error;
+        if (isServerFullReason(error?.cause || error?.message || error)) {
+          throw new Error(formatServerFullMessage(botConfig.username));
+        }
         if (attempt >= maxAttempts) {
           break;
         }
