@@ -70,9 +70,13 @@ function pickPreparationController(connectedBots, scoutBotName, scopedLogger) {
 function buildPlatformCommands(config, plan, buildOrigin) {
   const commands = [];
   const oldClearPadding = Math.max(0, Number(config.buildPadding) || 0);
+  const platformPadding = Math.max(
+    0,
+    Math.max(Number(config.platformPadding) || 0, config.clearBuildArea ? oldClearPadding : 0)
+  );
   if (config.clearBuildArea) {
     const clearBounds = areaBounds(buildOrigin, plan.size, oldClearPadding);
-    const clearTopY = buildOrigin.y + plan.size.height - 1;
+    const clearTopY = buildOrigin.y + plan.size.height + 1;
     commands.push({
       description: "dọn khu build cũ",
       command: `fill ${clearBounds.minX} ${buildOrigin.y} ${clearBounds.minZ} ${clearBounds.maxX} ${clearTopY} ${clearBounds.maxZ} air`,
@@ -83,7 +87,6 @@ function buildPlatformCommands(config, plan, buildOrigin) {
     return commands;
   }
 
-  const platformPadding = Math.max(0, Number(config.platformPadding) || 0);
   const platformBounds = areaBounds(buildOrigin, plan.size, platformPadding);
   if (config.clearAbovePlatform) {
     const clearTopY = buildOrigin.y + plan.size.height + 1;

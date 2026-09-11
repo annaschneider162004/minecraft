@@ -165,6 +165,32 @@ test("buildPlatformCommands uses padded bounds above and below origin", () => {
   ]);
 });
 
+test("buildPlatformCommands restores the full cleared footprint when old clear mode is also enabled", () => {
+  const commands = buildPlatformCommands(
+    {
+      prepareBuildPlatform: true,
+      clearAbovePlatform: true,
+      platformPadding: 4,
+      platformBlock: "minecraft:grass_block",
+      issueCreativeCommands: true,
+      issueWorldCommands: false,
+      clearBuildArea: true,
+      buildPadding: 8,
+    },
+    { size: { width: 4, height: 6, length: 3 } },
+    { x: 10, y: 64, z: -2 }
+  );
+
+  assert.deepEqual(commands[0], {
+    description: "dọn khu build cũ",
+    command: "fill 2 64 -10 21 71 8 air",
+  });
+  assert.deepEqual(commands[2], {
+    description: "tạo nền build",
+    command: "fill 2 63 -10 21 63 8 minecraft:grass_block",
+  });
+});
+
 test("executeBuild disconnects scout if auto-origin run aborts before build starts", async () => {
   let quitCalled = false;
 
