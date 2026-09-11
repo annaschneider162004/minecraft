@@ -86,12 +86,19 @@ Với `Mass Bot Mode`, tool sẽ tiếp tục sinh `Builder_07` tới `Builder_5
 Các trường quan trọng:
 
 - `host`, `port`: địa chỉ server local/private
-- `origin`: gốc đặt công trình trong world
+- `origin`: gốc đặt công trình trong world (`"auto"` hoặc `{x,y,z}`)
+- `autoFindOrigin`: bật scout bot tự tìm khu vực build phù hợp
+- `searchCenter`, `searchRadius`, `maxSearchRadius`: tâm và bán kính dò tìm
+- `requiredFlatness`, `clearanceHeight`, `buildPadding`: độ phẳng và khoảng trống yêu cầu
+- `scoutBot`: bot leader dùng để dò vị trí build
 - `bots`: tên bot và vai trò
 - `planFile`: đường dẫn tới file JSON plan
 - `creativeMode`: bật/tắt logic ưu tiên creative
 - `issueCreativeCommands`: nếu `true`, bot sẽ thử chat lệnh `/gamemode creative <bot>`
 - `joinBatchSize`, `joinBatchDelayMs`: số bot vào mỗi đợt và thời gian chờ giữa các batch
+- `teleportBotsToOrigin`: thử `/tp` cả đội tới origin sau khi dò xong
+- `setWorldConditions`: thử set time/weather/gamerule để build ổn định hơn
+- `clearBuildArea`: mặc định `false`, nếu bật sẽ dùng `/fill ... air` để dọn khu build
 - `assignedStages`: metadata để bot ít vai trò hơn vẫn nhận đúng stage như `roof / secret_room / decorations`
 
 ## Chạy bot
@@ -112,11 +119,17 @@ npm start -- --config ../output/<name>_team_config.json
 
 Luồng cơ bản:
 
-1. load config
-2. load build plan JSON
+1. load config + build plan JSON
+2. nếu bật `autoFindOrigin` hoặc `origin: "auto"`, kết nối scout bot trước để dò khu đất phẳng/thoáng rồi chốt origin
 3. chia block theo role, nếu role gộp thì dùng thêm `assignedStages`, nếu vẫn thiếu thì chia đều fallback
-4. kết nối bot theo batch
-5. bot xây từ thấp lên cao, có delay để timelapse nhìn rõ hơn
+4. kết nối các bot còn lại theo batch
+5. (tuỳ chọn) thử lệnh chuẩn bị `/tp`, `/time`, `/weather`, `/gamerule`, `/fill` theo config
+6. bot xây từ thấp lên cao, có delay để timelapse nhìn rõ hơn
+
+### Auto-origin và dry-run
+
+- `--dry-run` vẫn chạy được khi `origin: "auto"` mà không cần kết nối Minecraft world.
+- Dry-run sẽ log thông số dò vị trí; để thật sự tìm tọa độ, bạn cần chạy live (không dùng `--dry-run`).
 
 ## Ghi hình YouTube
 

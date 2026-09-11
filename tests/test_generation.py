@@ -27,7 +27,7 @@ from fantasy_schematic_builder.gui.tkinter_app import (
 
 class GenerationTests(unittest.TestCase):
     def test_gui_option_mapping_helper(self):
-        options = build_generation_options(True, False, True, False, True, False, True, 4)
+        options = build_generation_options(True, False, True, False, True, False, True, 4, True)
         self.assertTrue(options.generate_full_schematic)
         self.assertFalse(options.generate_staged_schematics)
         self.assertTrue(options.generate_material_list)
@@ -36,6 +36,7 @@ class GenerationTests(unittest.TestCase):
         self.assertFalse(options.generate_youtube_notes)
         self.assertTrue(options.generate_mineflayer_plan)
         self.assertEqual(options.team_bot_count, 4)
+        self.assertTrue(options.auto_find_origin)
 
     def test_generation_summary_mentions_open_folder_button(self):
         summary = format_generation_summary(
@@ -291,6 +292,9 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(config_payload["bots"][0]["username"], "Builder_01")
             self.assertEqual(config_payload["bots"][1]["assignedStages"], ["walls", "towers"])
             self.assertEqual(config_payload["planFile"], "cli_mineflayer_mineflayer_plan.json")
+            self.assertTrue(config_payload["autoFindOrigin"])
+            self.assertEqual(config_payload["origin"], "auto")
+            self.assertEqual(config_payload["searchCenter"], "spawn")
 
     def test_generation_can_export_four_bot_role_mapping(self):
         story = "A fantasy library with towers, roof, and secret room."
@@ -350,6 +354,11 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(config_payload["joinBatchSize"], 5)
             self.assertEqual(config_payload["joinBatchDelayMs"], 3000)
             self.assertEqual(config_payload["placementDelayMs"], 1000)
+            self.assertTrue(config_payload["autoFindOrigin"])
+            self.assertEqual(config_payload["origin"], "auto")
+            self.assertTrue(config_payload["teleportBotsToOrigin"])
+            self.assertTrue(config_payload["setWorldConditions"])
+            self.assertFalse(config_payload["clearBuildArea"])
             self.assertGreaterEqual(
                 {bot["role"] for bot in config_payload["bots"]},
                 {"foundation", "walls", "towers", "roof", "secret_room", "decorations"},
@@ -392,6 +401,31 @@ class GenerationTests(unittest.TestCase):
             with open(result["mineflayer_config"], "r", encoding="utf-8") as handle:
                 config_payload = json.load(handle)
             self.assertEqual(config_payload["placementDelayMs"], 900)
+
+    def test_generation_can_disable_auto_origin_in_team_config(self):
+        story = "Một pháo đài nổi với mái cao và sân trang trí."
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = generate_project(
+                story_text=story,
+                build_type="floating_temple",
+                build_name="Manual Origin Fortress",
+                output_name="manual_origin_fortress",
+                output_dir=tempdir,
+                options=GenerationOptions(
+                    generate_staged_schematics=False,
+                    generate_material_list=False,
+                    generate_material_commands=False,
+                    generate_baritone_steps=False,
+                    generate_youtube_notes=False,
+                    generate_mineflayer_plan=True,
+                    team_bot_count=6,
+                    auto_find_origin=False,
+                ),
+            )
+            with open(result["mineflayer_config"], "r", encoding="utf-8") as handle:
+                config_payload = json.load(handle)
+            self.assertFalse(config_payload["autoFindOrigin"])
+            self.assertEqual(config_payload["origin"], {"x": 0, "y": 64, "z": 0})
 
     def test_creative_tools_generate_idea_and_titles(self):
         idea = generate_build_idea(theme="wizard", keyword="moon archive")

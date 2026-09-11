@@ -43,6 +43,7 @@ The GUI lets you:
 - tạo nhiều tiêu đề YouTube và chữ thumbnail
 - bật/tắt tạo schematic đầy đủ, schematic theo giai đoạn, danh sách vật liệu, lệnh `/give`, hướng dẫn Baritone, và ghi chú YouTube
 - bật **Tạo kế hoạch Mineflayer team bot**, nhập `Số bot Mineflayer (1–50)`, và dùng **Mass Bot Mode** để chọn nhanh `10 / 20 / 30 / 40 / 50`
+- bật **Tự tìm vị trí xây phù hợp** để bot đầu tiên tự dò khu đất gần spawn/chỗ đang đứng (không cần tự sửa XYZ thủ công)
 - dùng nút cyan **`TẠO FILE .SCHEM NGAY`** luôn hiện ở cuối cửa sổ và nút **`MỞ THƯ MỤC FILE ĐÃ TẠO`** để mở nhanh thư mục output
 
 ### Quy trình GUI gợi ý
@@ -130,15 +131,20 @@ When YouTube notes are enabled, the notes file also includes multiple title sugg
 
 1. Chạy GUI: `python fantasy_schematic_builder/app.py --gui`
 2. Bật **Tạo kế hoạch Mineflayer team bot**
-3. Bật **Bật chế độ đội bot lớn (Mass Bot Mode)**
-4. Chọn nhanh `10`, `20`, `30`, `40`, hoặc `50`, hoặc nhập tay bất kỳ số nào từ `1–50`
-5. Xuất file rồi chạy:
+3. Bật **Tự tìm vị trí xây phù hợp** (khuyến nghị)
+4. (Tuỳ chọn) Bật **Bật chế độ đội bot lớn (Mass Bot Mode)**
+5. Chọn nhanh `10`, `20`, `30`, `40`, hoặc `50`, hoặc nhập tay bất kỳ số nào từ `1–50`
+6. Trong Minecraft: tạo world Creative Superflat hoặc server private/local, bật Open to LAN + Cheats ON
+7. Kiểm tra `port` đúng với cổng LAN/server trong file `*_team_config.json` (thường là `25565`, nhưng LAN có thể khác)
+8. Chạy:
 
 ```bash
 cd mineflayer-team-builder
 npm start -- --config ../output/<name>_team_config.json --dry-run
 npm start -- --config ../output/<name>_team_config.json
 ```
+
+Khi auto-origin bật, bot scout sẽ tự log tọa độ build đã chọn, nên bạn hầu như không cần tự nhập/chỉnh `origin.x/y/z`.
 
 Khuyến nghị test tăng dần: `6 → 10 → 20 → 30 → 50`.
 
@@ -149,6 +155,7 @@ Khuyến nghị test tăng dần: `6 → 10 → 20 → 30 → 50`.
 - 16GB RAM là mức tối thiểu; 32GB RAM phù hợp hơn cho 50 bot.
 - Giảm `view-distance` và `simulation-distance` trên server để ổn định hơn.
 - Với đội lớn, config sinh sẵn mặc định kết nối theo batch để bot không join cùng lúc.
+- `clearBuildArea` có thể xoá block bằng lệnh `/fill`; chỉ bật trong test world riêng.
 
 ### Gợi ý title YouTube
 

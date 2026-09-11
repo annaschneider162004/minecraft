@@ -13,6 +13,39 @@ function readNumberEnv(name) {
   return Number.isNaN(value) ? undefined : value;
 }
 
+function isCoordinateObject(value) {
+  return Boolean(
+    value &&
+      typeof value === "object" &&
+      typeof value.x === "number" &&
+      typeof value.y === "number" &&
+      typeof value.z === "number"
+  );
+}
+
+function parseOrigin(origin) {
+  if (origin === "auto") {
+    return "auto";
+  }
+  if (origin === undefined) {
+    return { x: 0, y: 64, z: 0 };
+  }
+  if (!isCoordinateObject(origin)) {
+    throw new Error("origin phải là {x, y, z} hoặc \"auto\".");
+  }
+  return origin;
+}
+
+function parseSearchCenter(value) {
+  if (value === undefined || value === "spawn") {
+    return "spawn";
+  }
+  if (!isCoordinateObject(value)) {
+    throw new Error("searchCenter phải là \"spawn\" hoặc {x, y, z}.");
+  }
+  return value;
+}
+
 function loadConfig(configArg) {
   const configPath = configArg || process.env.TEAM_BUILDER_CONFIG;
   if (!configPath) {
@@ -40,7 +73,16 @@ function loadConfig(configArg) {
     port: withDefault(parsed.port, 25565),
     version: Object.prototype.hasOwnProperty.call(parsed, "version") ? parsed.version : false,
     auth: withDefault(parsed.auth, "offline"),
-    origin: withDefault(parsed.origin, { x: 0, y: 64, z: 0 }),
+    origin: parseOrigin(parsed.origin),
+    autoFindOrigin: parsed.autoFindOrigin === true,
+    searchCenter: parseSearchCenter(parsed.searchCenter),
+    searchRadius: withDefault(parsed.searchRadius, 80),
+    maxSearchRadius: withDefault(parsed.maxSearchRadius, 160),
+    requiredFlatness: withDefault(parsed.requiredFlatness, 3),
+    clearanceHeight: withDefault(parsed.clearanceHeight, 20),
+    preferCurrentPlayerArea: parsed.preferCurrentPlayerArea !== false,
+    buildPadding: withDefault(parsed.buildPadding, 6),
+    scoutBot: typeof parsed.scoutBot === "string" ? parsed.scoutBot : null,
     bots: parsed.bots,
     planFile,
     creativeMode: parsed.creativeMode !== false,
@@ -53,6 +95,9 @@ function loadConfig(configArg) {
     joinBatchSize: withDefault(parsed.joinBatchSize, 5),
     joinBatchDelayMs: withDefault(parsed.joinBatchDelayMs, 3000),
     replaceOccupiedBlocks: parsed.replaceOccupiedBlocks === true,
+    teleportBotsToOrigin: parsed.teleportBotsToOrigin === true,
+    setWorldConditions: parsed.setWorldConditions === true,
+    clearBuildArea: parsed.clearBuildArea === true,
   };
 }
 
