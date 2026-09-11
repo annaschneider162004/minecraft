@@ -315,3 +315,71 @@ test("runPreparationCommands logs exact Vietnamese /fill commands", async () => 
   assert.match(logs[2], /^Đã gửi: \/fill .* minecraft:grass_block$/);
   assert.equal(commands.length, 2);
 });
+
+test("executeBuild keeps role assignments anchored to build origin when platformOrigin differs", async () => {
+  const origins = [];
+
+  class MockManager {
+    constructor(config, assignments) {
+      this.config = config;
+      this.assignments = assignments;
+    }
+
+    async connectAll() {
+      return this.assignments.map((assignment) => ({
+        ...assignment.bot,
+        bot: { username: assignment.bot.username, chat() {} },
+        logger: { info() {}, warn() {} },
+        mcData: {},
+      }));
+    }
+
+    setCommandController() {}
+
+    async issueWorldCommand() {}
+
+    async runBuild() {}
+  }
+
+  await executeBuild(
+    {
+      host: "localhost",
+      port: 25565,
+      auth: "offline",
+      version: false,
+      autoFindOriginConfigured: true,
+      autoFindOrigin: false,
+      origin: { x: 10, y: 70, z: -5 },
+      platformOrigin: { x: 0, y: 100, z: 0 },
+      bots: [{ username: "Builder_01", role: "foundation" }],
+      scoutBot: "Builder_01",
+      planFile: "/tmp/example_plan.json",
+      creativeMode: false,
+      issueCreativeCommands: false,
+      issueWorldCommands: true,
+      setWorldConditions: false,
+      teleportBotsToOrigin: false,
+      clearBuildArea: false,
+      prepareBuildPlatform: true,
+      platformPadding: 20,
+      platformExtraHeight: 20,
+      platformBlock: "minecraft:grass_block",
+    },
+    {
+      name: "Fixed origin test",
+      size: { width: 2, height: 3, length: 2 },
+      origin: { x: 0, y: 0, z: 0 },
+      blocks: [],
+    },
+    {
+      logger: { info() {}, warn() {} },
+      BotManagerClass: MockManager,
+      buildAssignments: (_plan, bots, origin) => {
+        origins.push(origin);
+        return bots.map((bot) => ({ bot, blocks: [] }));
+      },
+    }
+  );
+
+  assert.deepEqual(origins, [{ x: 10, y: 70, z: -5 }]);
+});

@@ -109,6 +109,7 @@ async function runPreparationCommands(manager, config, scoutEntry, connectedBots
   }
   const creativeCommandDelayMs = Math.max(0, Number(config.creativeCommandDelayMs) || 750);
   const commandDelayMs = Math.max(0, Number(config.commandDelayMs) || Number(config.placementDelayMs) || 0);
+  const platformOrigin = resolvePlatformOrigin(config, buildOrigin, scoutEntry.bot);
 
   if (config.setWorldConditions) {
     const worldCommands = ["time set day", "weather clear", "gamerule doDaylightCycle false"];
@@ -120,7 +121,7 @@ async function runPreparationCommands(manager, config, scoutEntry, connectedBots
     }
   }
 
-  const fillCommands = buildPlatformCommands(config, plan, buildOrigin);
+  const fillCommands = buildPlatformCommands(config, plan, platformOrigin);
   if (fillCommands.length > 0) {
     scopedLogger.info("Đang tạo nền phẳng tự động bằng /fill...");
   }
@@ -174,8 +175,7 @@ async function executeBuild(config, plan, options = {}) {
   const findBuildOriginFn = options.findBuildOrigin || findBuildOrigin;
   const autoOriginEnabled = isAutoOriginEnabled(config);
   const planOrigin = plan.origin || { x: 0, y: 0, z: 0 };
-  const configuredOrigin = resolvePlatformOrigin(config, planOrigin, { entity: { position: config.platformOrigin || config.origin || planOrigin } });
-  const previewOrigin = autoOriginEnabled ? planOrigin : configuredOrigin;
+  const previewOrigin = autoOriginEnabled ? planOrigin : config.origin || planOrigin;
   let assignments = buildAssignmentsFn(plan, config.bots, previewOrigin);
 
   logPlanSummary(plan, assignments, config, scopedLogger);
@@ -243,8 +243,7 @@ async function main(argv = process.argv.slice(2)) {
   const plan = loadBuildPlan(config.planFile);
   const planOrigin = plan.origin || { x: 0, y: 0, z: 0 };
   const autoOriginEnabled = isAutoOriginEnabled(config);
-  const configuredOrigin = resolvePlatformOrigin(config, planOrigin, { entity: { position: config.platformOrigin || config.origin || planOrigin } });
-  const previewOrigin = autoOriginEnabled ? planOrigin : configuredOrigin;
+  const previewOrigin = autoOriginEnabled ? planOrigin : config.origin || planOrigin;
   const assignments = buildAssignments(plan, config.bots, previewOrigin);
 
   if (args.dryRun) {
