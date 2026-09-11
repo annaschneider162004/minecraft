@@ -104,14 +104,23 @@ class BotManager {
       bot.once("kicked", onKicked);
     });
 
-    if (this.config.creativeMode && this.config.issueCreativeCommands) {
-      bot.chat(`${this.config.commandPrefix}gamemode creative ${botConfig.username}`);
-      await sleep(250);
-    } else if (this.config.creativeMode) {
-      logger.info("Creative mode đang bật trong config. Nếu bot chưa ở creative, hãy cấp quyền/gamemode thủ công.");
-    }
+    await this.handleCreativeModeOnConnect(bot, botConfig, logger);
 
     return { ...botConfig, bot, logger, mcData: minecraftData(bot.version) };
+  }
+
+  async handleCreativeModeOnConnect(bot, botConfig, logger) {
+    if (this.config.creativeMode && this.config.issueCreativeCommands && this.config.issueCreativeCommandsOnConnect !== false) {
+      bot.chat(`${this.config.commandPrefix}gamemode creative ${botConfig.username}`);
+      logger.info(`Đã gửi lệnh chuyển ${botConfig.username} sang Creative.`);
+      await sleep(Math.max(0, Number(this.config.creativeCommandDelayMs) || 750));
+      return;
+    }
+    if (this.config.creativeMode) {
+      logger.info(
+        "Lưu ý: creativeMode chỉ giúp bot ưu tiên inventory creative. Nếu bot không đặt block được, trong Minecraft chạy: /gamemode creative @a"
+      );
+    }
   }
 
   async runBuild(connectedBots) {
