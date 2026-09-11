@@ -30,7 +30,67 @@ test("loadConfig applies large-team batching defaults", () => {
     assert.equal(loaded.autoFindOrigin, false);
     assert.deepEqual(loaded.origin, { x: 0, y: 64, z: 0 });
     assert.equal(loaded.planFile, planPath);
+    assert.equal(loaded.issueCreativeCommands, false);
+    assert.equal(loaded.creativeCommandDelayMs, 750);
   } finally {
+    fs.rmSync(tempdir, { recursive: true, force: true });
+  }
+});
+
+test("loadConfig reads creative command automation settings", () => {
+  const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
+  try {
+    const configPath = path.join(tempdir, "team-config.json");
+    const planPath = path.join(tempdir, "team-plan.json");
+    fs.writeFileSync(planPath, JSON.stringify({ blocks: [] }), "utf8");
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify({
+        host: "localhost",
+        bots: [{ username: "Builder_01", role: "foundation" }],
+        planFile: "./team-plan.json",
+        creativeMode: true,
+        issueCreativeCommands: true,
+        creativeCommandDelayMs: 900,
+      }),
+      "utf8"
+    );
+
+    const loaded = loadConfig(configPath);
+    assert.equal(loaded.creativeMode, true);
+    assert.equal(loaded.issueCreativeCommands, true);
+    assert.equal(loaded.creativeCommandDelayMs, 900);
+  } finally {
+    fs.rmSync(tempdir, { recursive: true, force: true });
+  }
+});
+
+test("loadConfig supports env override for creative command delay", () => {
+  const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
+  const previous = process.env.TEAM_BUILDER_CREATIVE_COMMAND_DELAY_MS;
+  process.env.TEAM_BUILDER_CREATIVE_COMMAND_DELAY_MS = "880";
+  try {
+    const configPath = path.join(tempdir, "team-config.json");
+    const planPath = path.join(tempdir, "team-plan.json");
+    fs.writeFileSync(planPath, JSON.stringify({ blocks: [] }), "utf8");
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify({
+        host: "localhost",
+        bots: [{ username: "Builder_01", role: "foundation" }],
+        planFile: "./team-plan.json",
+      }),
+      "utf8"
+    );
+
+    const loaded = loadConfig(configPath);
+    assert.equal(loaded.creativeCommandDelayMs, 880);
+  } finally {
+    if (previous === undefined) {
+      delete process.env.TEAM_BUILDER_CREATIVE_COMMAND_DELAY_MS;
+    } else {
+      process.env.TEAM_BUILDER_CREATIVE_COMMAND_DELAY_MS = previous;
+    }
     fs.rmSync(tempdir, { recursive: true, force: true });
   }
 });

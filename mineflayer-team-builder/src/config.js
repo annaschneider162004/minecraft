@@ -13,6 +13,11 @@ function readNumberEnv(name) {
   return Number.isNaN(value) ? undefined : value;
 }
 
+function readNumberValue(value, fallback) {
+  const numeric = Number(value);
+  return Number.isNaN(numeric) ? fallback : numeric;
+}
+
 function isCoordinateObject(value) {
   return Boolean(
     value &&
@@ -89,6 +94,10 @@ function loadConfig(configArg) {
     creativeMode: parsed.creativeMode !== false,
     commandPrefix: withDefault(parsed.commandPrefix, "/"),
     issueCreativeCommands: parsed.issueCreativeCommands === true,
+    creativeCommandDelayMs: readNumberValue(
+      withDefault(parsed.creativeCommandDelayMs, withDefault(readNumberEnv("TEAM_BUILDER_CREATIVE_COMMAND_DELAY_MS"), 750)),
+      750
+    ),
     placementDelayMs: withDefault(parsed.placementDelayMs, withDefault(readNumberEnv("TEAM_BUILDER_PLACEMENT_DELAY_MS"), 700)),
     movementTimeoutMs: withDefault(parsed.movementTimeoutMs, 15000),
     connectTimeoutMs: withDefault(parsed.connectTimeoutMs, withDefault(readNumberEnv("TEAM_BUILDER_CONNECT_TIMEOUT_MS"), 30000)),

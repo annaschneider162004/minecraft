@@ -295,6 +295,9 @@ class GenerationTests(unittest.TestCase):
             self.assertTrue(config_payload["autoFindOrigin"])
             self.assertEqual(config_payload["origin"], "auto")
             self.assertEqual(config_payload["searchCenter"], "spawn")
+            self.assertTrue(config_payload["issueCreativeCommands"])
+            self.assertEqual(config_payload["creativeCommandDelayMs"], 750)
+            self.assertEqual(config_payload["commandPrefix"], "/")
 
     def test_generation_can_export_four_bot_role_mapping(self):
         story = "A fantasy library with towers, roof, and secret room."
@@ -359,6 +362,9 @@ class GenerationTests(unittest.TestCase):
             self.assertTrue(config_payload["teleportBotsToOrigin"])
             self.assertTrue(config_payload["setWorldConditions"])
             self.assertFalse(config_payload["clearBuildArea"])
+            self.assertTrue(config_payload["issueCreativeCommands"])
+            self.assertEqual(config_payload["creativeCommandDelayMs"], 750)
+            self.assertEqual(config_payload["commandPrefix"], "/")
             self.assertGreaterEqual(
                 {bot["role"] for bot in config_payload["bots"]},
                 {"foundation", "walls", "towers", "roof", "secret_room", "decorations"},

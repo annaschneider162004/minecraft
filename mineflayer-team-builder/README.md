@@ -93,8 +93,10 @@ Các trường quan trọng:
 - `scoutBot`: bot leader dùng để dò vị trí build
 - `bots`: tên bot và vai trò
 - `planFile`: đường dẫn tới file JSON plan
-- `creativeMode`: bật/tắt logic ưu tiên creative
-- `issueCreativeCommands`: nếu `true`, bot sẽ thử chat lệnh `/gamemode creative <bot>`
+- `creativeMode`: bật/tắt logic ưu tiên inventory creative của bot
+- `issueCreativeCommands`: nếu `true` (mặc định file config mới), tool sẽ tự gửi lệnh `/gamemode creative <bot>`
+- `creativeCommandDelayMs`: thời gian chờ giữa các lệnh creative để tránh spam quá nhanh
+- `commandPrefix`: tiền tố lệnh chat, mặc định `/`
 - `joinBatchSize`, `joinBatchDelayMs`: số bot vào mỗi đợt và thời gian chờ giữa các batch
 - `teleportBotsToOrigin`: thử `/tp` cả đội tới origin sau khi dò xong
 - `setWorldConditions`: thử set time/weather/gamerule để build ổn định hơn
@@ -156,8 +158,24 @@ Thumbnail text:
 ## Lưu ý creative / vật liệu
 
 - Ở chế độ creative, bot sẽ cố dùng creative inventory API nếu server hỗ trợ.
+- `creativeMode` trong config **không tự đổi gamemode Minecraft** nếu server chặn lệnh chat hoặc bot không có quyền.
+- File `*_team_config.json` mới sinh ra sẽ mặc định thử gửi lệnh chuyển creative tự động cho từng bot.
 - Nếu server không cho bot tự set creative inventory, hãy cấp materials thủ công hoặc bật quyền operator trên server riêng của bạn.
 - Một số block có state như `minecraft:dark_oak_log[axis=y]` sẽ tự được normalize về item `dark_oak_log`.
+
+## Troubleshooting: bot chưa vào Creative
+
+Nếu bot không đặt block được hoặc không ở creative:
+
+1. Đảm bảo bạn đang chạy LAN/private/local server có quyền lệnh.
+2. Nếu là singleplayer LAN, bật **Open to LAN** với **Allow Cheats: ON**.
+3. Trong Minecraft, chạy lệnh:
+
+```text
+/gamemode creative @a
+```
+
+Khi `issueCreativeCommands: false`, tool sẽ chỉ hiện lưu ý này thay vì tự gửi lệnh.
 
 ## Block name normalization đã hỗ trợ
 
