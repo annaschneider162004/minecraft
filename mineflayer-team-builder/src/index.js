@@ -147,7 +147,7 @@ async function runPreparationCommands(config, scoutEntry, connectedBots, plan, b
 }
 
 function logPlanSummary(plan, assignments, config, scopedLogger) {
-  scopedLogger.info(`Đã tải config: ${path.relative(process.cwd(), config.planFile)}`);
+  scopedLogger.info(`Đã tải build plan: ${path.relative(process.cwd(), config.planFile)}`);
   scopedLogger.info(`Build plan "${plan.name}" có ${plan.blocks.length} block cho ${assignments.length} bot.`);
   assignments.forEach((assignment) => {
     scopedLogger.info(`- ${assignment.bot.username} (${assignment.bot.role || "general"}): ${assignment.blocks.length} block`);

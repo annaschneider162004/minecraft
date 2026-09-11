@@ -185,8 +185,10 @@ function buildFailureMessage(config) {
     "tăng maxSearchRadius",
     "dùng world phẳng/superflat",
   ];
-  if (!config.prepareBuildPlatform || !canUseWorldCommands(config)) {
+  if (!config.prepareBuildPlatform) {
     suggestions.push("bật prepareBuildPlatform");
+  } else if (!canUseWorldCommands(config)) {
+    suggestions.push("bật issueCreativeCommands hoặc issueWorldCommands");
   }
   return `Không tìm thấy khu vực phù hợp để đặt công trình tự động. Hãy ${suggestions.join(", ")}.`;
 }
