@@ -138,7 +138,7 @@ class BuilderGUI:
         self.generate_baritone = tk.BooleanVar(value=True)
         self.generate_notes = tk.BooleanVar(value=True)
         self.generate_mineflayer = tk.BooleanVar(value=False)
-        self.auto_find_origin = tk.BooleanVar(value=True)
+        self.auto_find_origin = tk.BooleanVar(value=False)
         self.mass_bot_mode = tk.BooleanVar(value=False)
         self.team_bot_count = tk.StringVar(value="6")
 

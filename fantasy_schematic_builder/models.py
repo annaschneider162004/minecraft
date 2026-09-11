@@ -102,4 +102,4 @@ class GenerationOptions:
     generate_youtube_notes: bool = True
     generate_mineflayer_plan: bool = False
     team_bot_count: int = 6
-    auto_find_origin: bool = True
+    auto_find_origin: bool = False

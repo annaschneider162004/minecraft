@@ -187,10 +187,10 @@ def export_mineflayer_team_config(
     plan_path: str,
     output_path: str,
     team_bot_count: int = 6,
-    auto_find_origin: bool = True,
+    auto_find_origin: bool = False,
 ) -> None:
     team_bot_count = validate_team_bot_count(team_bot_count)
-    default_origin = "auto" if auto_find_origin else {"x": 0, "y": 64, "z": 0}
+    default_origin = "auto" if auto_find_origin else {"x": 0, "y": 100, "z": 0}
     payload = {
         "host": "localhost",
         "port": 25565,
@@ -198,6 +198,7 @@ def export_mineflayer_team_config(
         "auth": "offline",
         "autoFindOrigin": auto_find_origin,
         "origin": default_origin,
+        "platformOrigin": {"x": 0, "y": 100, "z": 0},
         "searchCenter": "spawn",
         "searchRadius": 80,
         "maxSearchRadius": 160,
@@ -210,11 +211,12 @@ def export_mineflayer_team_config(
         "planFile": os.path.basename(plan_path),
         "creativeMode": True,
         "issueCreativeCommands": True,
+        "issueWorldCommands": True,
         "creativeCommandDelayMs": 750,
         "commandPrefix": "/",
         "placementDelayMs": _recommended_placement_delay(team_bot_count),
-        "commandDelayMs": _recommended_placement_delay(team_bot_count),
-        "placementMode": "command-fallback",
+        "commandDelayMs": 50,
+        "placementMode": "commands",
         "commandBuildFallback": True,
         "movementTimeoutMs": 15000,
         "connectTimeoutMs": 120000,
@@ -224,13 +226,14 @@ def export_mineflayer_team_config(
         "joinBatchSize": 1,
         "joinBatchDelayMs": 5000,
         "allowPartialTeam": False,
-        "teleportBotsToOrigin": True,
-        "setWorldConditions": True,
+        "teleportBotsToOrigin": False,
+        "setWorldConditions": False,
         "clearBuildArea": False,
         "prepareBuildPlatform": True,
         "platformBlock": "minecraft:grass_block",
         "clearAbovePlatform": True,
-        "platformPadding": 8,
+        "platformPadding": 20,
+        "platformExtraHeight": 20,
     }
     with open(output_path, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=2)

@@ -131,7 +131,7 @@ When YouTube notes are enabled, the notes file also includes multiple title sugg
 
 1. Chạy GUI: `python fantasy_schematic_builder/app.py --gui`
 2. Bật **Tạo kế hoạch Mineflayer team bot**
-3. Bật **Tự tìm vị trí xây phù hợp** (khuyến nghị)
+3. Nếu muốn tool tự scout địa hình thì bật **Tự tìm vị trí xây phù hợp**; còn workflow dễ nhất cho dedicated server local là để tắt và dùng nền phẳng tự động
 4. (Tuỳ chọn) Bật **Bật chế độ đội bot lớn (Mass Bot Mode)**
 5. Chọn nhanh `10`, `20`, `30`, `40`, hoặc `50`, hoặc nhập tay bất kỳ số nào từ `1–50`
 6. Trong Minecraft: ưu tiên dedicated server private/local Creative; nếu dùng Open to LAN thì số bot ổn định thường thấp hơn
@@ -144,7 +144,7 @@ npm start -- --config ../output/<name>_team_config.json --dry-run
 npm start -- --config ../output/<name>_team_config.json
 ```
 
-Khi auto-origin bật, `Builder_01` sẽ ở lại sau khi scout, các bot còn lại join tiếp theo batch nhỏ, và config mới mặc định có command fallback + tự chuẩn bị nền build cho local server creative.
+Với config mới cho local dedicated server, tool mặc định dùng `origin = {x:0,y:100,z:0}`, tự chuẩn bị nền phẳng bằng `/fill`, rồi build bằng `/setblock`, nên không cần tự đi tìm chỗ đẹp và lỗi pathfinding sẽ giảm mạnh. Nếu bật auto-origin thì `Builder_01` sẽ ở lại sau khi scout và các bot còn lại mới join tiếp theo batch nhỏ.
 
 Khuyến nghị test tăng dần: `6 → 10 → 20 → 30 → 50`.
 

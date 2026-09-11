@@ -9,7 +9,7 @@ const { buildAssignments } = require("./buildPlanner");
 const { loadConfig } = require("./config");
 const { createLogger } = require("./logger");
 const { loadBuildPlan } = require("./schematicReader");
-const { areaBounds, canUseWorldCommands, findBuildOrigin, isAutoOriginEnabled } = require("./siteFinder");
+const { areaBounds, canUseWorldCommands, findBuildOrigin, isAutoOriginEnabled, resolvePlatformOrigin } = require("./siteFinder");
 
 const logger = createLogger("cli");
 
@@ -74,9 +74,10 @@ function buildPlatformCommands(config, plan, buildOrigin) {
     0,
     Math.max(Number(config.platformPadding) || 0, config.clearBuildArea ? oldClearPadding : 0)
   );
+  const platformExtraHeight = Math.max(0, Number(config.platformExtraHeight) || 0);
   if (config.clearBuildArea) {
     const clearBounds = areaBounds(buildOrigin, plan.size, oldClearPadding);
-    const clearTopY = buildOrigin.y + plan.size.height + 1;
+    const clearTopY = buildOrigin.y + plan.size.height + platformExtraHeight;
     commands.push({
       description: "dọn khu build cũ",
       command: `fill ${clearBounds.minX} ${buildOrigin.y} ${clearBounds.minZ} ${clearBounds.maxX} ${clearTopY} ${clearBounds.maxZ} air`,
@@ -89,7 +90,7 @@ function buildPlatformCommands(config, plan, buildOrigin) {
 
   const platformBounds = areaBounds(buildOrigin, plan.size, platformPadding);
   if (config.clearAbovePlatform) {
-    const clearTopY = buildOrigin.y + plan.size.height + 1;
+    const clearTopY = buildOrigin.y + plan.size.height + platformExtraHeight;
     commands.push({
       description: "dọn thể tích phía trên nền build",
       command: `fill ${platformBounds.minX} ${buildOrigin.y} ${platformBounds.minZ} ${platformBounds.maxX} ${clearTopY} ${platformBounds.maxZ} air`,
@@ -102,28 +103,32 @@ function buildPlatformCommands(config, plan, buildOrigin) {
   return commands;
 }
 
-async function runPreparationCommands(config, scoutEntry, connectedBots, plan, buildOrigin, scopedLogger) {
+async function runPreparationCommands(manager, config, scoutEntry, connectedBots, plan, buildOrigin, scopedLogger) {
   if (!scoutEntry || !scoutEntry.bot) {
     return;
   }
-  const scout = scoutEntry.bot;
   const creativeCommandDelayMs = Math.max(0, Number(config.creativeCommandDelayMs) || 750);
   const commandDelayMs = Math.max(0, Number(config.commandDelayMs) || Number(config.placementDelayMs) || 0);
 
   if (config.setWorldConditions) {
     const worldCommands = ["time set day", "weather clear", "gamerule doDaylightCycle false"];
     for (const command of worldCommands) {
-      scout.chat(formatCommand(config.commandPrefix, command));
-      scopedLogger.info(`Đã gửi lệnh chuẩn bị world: ${formatCommand(config.commandPrefix, command)}`);
-      await sleep(commandDelayMs);
+      await manager.issueWorldCommand(command, scopedLogger, {
+        delayMs: commandDelayMs,
+        logCommand: config.verbose === true,
+      });
     }
   }
 
   const fillCommands = buildPlatformCommands(config, plan, buildOrigin);
+  if (fillCommands.length > 0) {
+    scopedLogger.info("Đang tạo nền phẳng tự động bằng /fill...");
+  }
   for (const entry of fillCommands) {
-    scout.chat(formatCommand(config.commandPrefix, entry.command));
-    scopedLogger.info(`Đã gửi lệnh ${entry.description}: ${formatCommand(config.commandPrefix, entry.command)}`);
-    await sleep(commandDelayMs);
+    await manager.issueWorldCommand(entry.command, scopedLogger, {
+      delayMs: commandDelayMs,
+      logCommand: true,
+    });
   }
   if (config.prepareBuildPlatform && canUseWorldCommands(config)) {
     scopedLogger.info("Chuẩn bị nền build chỉ dọn phần thể tích phía trên nền và không đào xuống dưới mặt đất.");
@@ -132,16 +137,20 @@ async function runPreparationCommands(config, scoutEntry, connectedBots, plan, b
   if (config.teleportBotsToOrigin) {
     for (const [index, entry] of connectedBots.entries()) {
       const target = teleportTargetForIndex(buildOrigin, index);
-      scout.chat(formatCommand(config.commandPrefix, `tp ${entry.username} ${target.x} ${target.y} ${target.z}`));
-      await sleep(100);
+      await manager.issueWorldCommand(`tp ${entry.username} ${target.x} ${target.y} ${target.z}`, scopedLogger, {
+        delayMs: 100,
+        logCommand: config.verbose === true,
+      });
     }
   }
 
   if (config.creativeMode && config.issueCreativeCommands) {
     for (const entry of connectedBots) {
-      scout.chat(formatCommand(config.commandPrefix, `gamemode creative ${entry.username}`));
+      await manager.issueWorldCommand(`gamemode creative ${entry.username}`, scopedLogger, {
+        delayMs: creativeCommandDelayMs,
+        logCommand: config.verbose === true,
+      });
       scopedLogger.info(`Đã gửi lệnh chuyển ${entry.username} sang Creative.`);
-      await sleep(creativeCommandDelayMs);
     }
   } else if (config.creativeMode) {
     scopedLogger.info(
@@ -165,7 +174,8 @@ async function executeBuild(config, plan, options = {}) {
   const findBuildOriginFn = options.findBuildOrigin || findBuildOrigin;
   const autoOriginEnabled = isAutoOriginEnabled(config);
   const planOrigin = plan.origin || { x: 0, y: 0, z: 0 };
-  const previewOrigin = autoOriginEnabled ? planOrigin : config.origin || planOrigin;
+  const configuredOrigin = resolvePlatformOrigin(config, planOrigin, { entity: { position: config.platformOrigin || config.origin || planOrigin } });
+  const previewOrigin = autoOriginEnabled ? planOrigin : configuredOrigin;
   let assignments = buildAssignmentsFn(plan, config.bots, previewOrigin);
 
   logPlanSummary(plan, assignments, config, scopedLogger);
@@ -192,7 +202,7 @@ async function executeBuild(config, plan, options = {}) {
       const connectedBots = [scoutEntry, ...remainingConnectedBots];
       scopedLogger.info(`Tổng kết đội hình: connected ${connectedBots.length}/${config.bots.length} bot.`);
       const connectedScout = pickPreparationController(connectedBots, scoutBot.username, scopedLogger);
-      await runPreparationCommands(config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
+      await runPreparationCommands(manager, config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
       scopedLogger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
       await manager.runBuild(connectedBots);
       scopedLogger.info("Đội bot đã hoàn tất build plan.");
@@ -209,7 +219,10 @@ async function executeBuild(config, plan, options = {}) {
   const connectedBots = await manager.connectAll();
   scopedLogger.info(`Tổng kết đội hình: connected ${connectedBots.length}/${config.bots.length} bot.`);
   const connectedScout = pickPreparationController(connectedBots, scoutBot.username, scopedLogger);
-  await runPreparationCommands(config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
+  if (typeof manager.setCommandController === "function") {
+    manager.setCommandController(connectedScout);
+  }
+  await runPreparationCommands(manager, config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
   scopedLogger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
   await manager.runBuild(connectedBots);
   scopedLogger.info("Đội bot đã hoàn tất build plan.");
@@ -227,7 +240,8 @@ async function main(argv = process.argv.slice(2)) {
   const plan = loadBuildPlan(config.planFile);
   const planOrigin = plan.origin || { x: 0, y: 0, z: 0 };
   const autoOriginEnabled = isAutoOriginEnabled(config);
-  const previewOrigin = autoOriginEnabled ? planOrigin : config.origin || planOrigin;
+  const configuredOrigin = resolvePlatformOrigin(config, planOrigin, { entity: { position: config.platformOrigin || config.origin || planOrigin } });
+  const previewOrigin = autoOriginEnabled ? planOrigin : configuredOrigin;
   const assignments = buildAssignments(plan, config.bots, previewOrigin);
 
   if (args.dryRun) {

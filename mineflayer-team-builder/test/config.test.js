@@ -26,8 +26,8 @@ test("loadConfig applies beginner-friendly local server defaults", () => {
     assert.equal(loaded.joinBatchSize, 1);
     assert.equal(loaded.joinBatchDelayMs, 5000);
     assert.equal(loaded.placementDelayMs, 700);
-    assert.equal(loaded.commandDelayMs, 700);
-    assert.equal(loaded.placementMode, "command-fallback");
+    assert.equal(loaded.commandDelayMs, 50);
+    assert.equal(loaded.placementMode, "commands");
     assert.equal(loaded.commandBuildFallback, true);
     assert.equal(loaded.connectTimeoutMs, 120000);
     assert.equal(loaded.connectRetries, 3);
@@ -36,14 +36,17 @@ test("loadConfig applies beginner-friendly local server defaults", () => {
     assert.equal(loaded.prepareBuildPlatform, true);
     assert.equal(loaded.clearAbovePlatform, true);
     assert.equal(loaded.platformBlock, "minecraft:grass_block");
-    assert.equal(loaded.platformPadding, 8);
+    assert.equal(loaded.platformPadding, 20);
+    assert.equal(loaded.platformExtraHeight, 20);
     assert.equal(loaded.autoFindOriginConfigured, false);
     assert.equal(loaded.autoFindOrigin, false);
-    assert.deepEqual(loaded.origin, { x: 0, y: 64, z: 0 });
+    assert.deepEqual(loaded.origin, { x: 0, y: 100, z: 0 });
+    assert.deepEqual(loaded.platformOrigin, { x: 0, y: 100, z: 0 });
     assert.equal(loaded.planFile, planPath);
     assert.equal(loaded.issueCreativeCommands, false);
-    assert.equal(loaded.issueWorldCommands, false);
+    assert.equal(loaded.issueWorldCommands, true);
     assert.equal(loaded.creativeCommandDelayMs, 750);
+    assert.equal(loaded.verbose, false);
   } finally {
     fs.rmSync(tempdir, { recursive: true, force: true });
   }
@@ -144,6 +147,7 @@ test("loadConfig accepts origin auto mode and auto-origin defaults", () => {
     assert.equal(loaded.teleportBotsToOrigin, false);
     assert.equal(loaded.setWorldConditions, false);
     assert.equal(loaded.clearBuildArea, false);
+    assert.deepEqual(loaded.platformOrigin, { x: 0, y: 100, z: 0 });
   } finally {
     fs.rmSync(tempdir, { recursive: true, force: true });
   }
@@ -191,7 +195,34 @@ test("loadConfig keeps explicit numeric origin unchanged", () => {
     const loaded = loadConfig(configPath);
     assert.equal(loaded.autoFindOriginConfigured, false);
     assert.deepEqual(loaded.origin, { x: 123, y: 70, z: -45 });
+    assert.deepEqual(loaded.platformOrigin, { x: 123, y: 70, z: -45 });
     assert.equal(loaded.autoFindOrigin, false);
+  } finally {
+    fs.rmSync(tempdir, { recursive: true, force: true });
+  }
+});
+
+test("loadConfig keeps explicit platform origin unchanged", () => {
+  const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
+  try {
+    const configPath = path.join(tempdir, "team-config.json");
+    const planPath = path.join(tempdir, "team-plan.json");
+    fs.writeFileSync(planPath, JSON.stringify({ blocks: [] }), "utf8");
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify({
+        host: "localhost",
+        bots: [{ username: "Builder_01", role: "foundation" }],
+        planFile: "./team-plan.json",
+        origin: { x: 10, y: 90, z: 10 },
+        platformOrigin: { x: 20, y: 100, z: -5 },
+      }),
+      "utf8"
+    );
+
+    const loaded = loadConfig(configPath);
+    assert.deepEqual(loaded.origin, { x: 10, y: 90, z: 10 });
+    assert.deepEqual(loaded.platformOrigin, { x: 20, y: 100, z: -5 });
   } finally {
     fs.rmSync(tempdir, { recursive: true, force: true });
   }

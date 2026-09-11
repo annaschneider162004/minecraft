@@ -90,6 +90,14 @@ test("executeBuild keeps scout connected and only connects remaining bots after 
     async runBuild(connectedBots) {
       calls.push(["runBuild", connectedBots.map((entry) => entry.username)]);
     }
+
+    async issueWorldCommand(command) {
+      calls.push(["issueWorldCommand", command]);
+    }
+
+    setCommandController(entry) {
+      this.commandController = entry;
+    }
   }
 
   const config = {
@@ -114,6 +122,7 @@ test("executeBuild keeps scout connected and only connects remaining bots after 
     teleportBotsToOrigin: false,
     clearBuildArea: false,
     prepareBuildPlatform: false,
+    platformOrigin: { x: 0, y: 100, z: 0 },
   };
   const plan = {
     name: "Auto origin test",
@@ -142,7 +151,8 @@ test("buildPlatformCommands uses padded bounds above and below origin", () => {
     {
       prepareBuildPlatform: true,
       clearAbovePlatform: true,
-      platformPadding: 8,
+      platformPadding: 20,
+      platformExtraHeight: 20,
       platformBlock: "minecraft:grass_block",
       issueCreativeCommands: true,
       issueWorldCommands: false,
@@ -156,11 +166,11 @@ test("buildPlatformCommands uses padded bounds above and below origin", () => {
   assert.deepEqual(commands, [
     {
       description: "dọn thể tích phía trên nền build",
-      command: "fill 2 64 -10 21 71 8 air",
+      command: "fill -10 64 -22 33 90 20 air",
     },
     {
       description: "tạo nền build",
-      command: "fill 2 63 -10 21 63 8 minecraft:grass_block",
+      command: "fill -10 63 -22 33 63 20 minecraft:grass_block",
     },
   ]);
 });
@@ -171,6 +181,7 @@ test("buildPlatformCommands restores the full cleared footprint when old clear m
       prepareBuildPlatform: true,
       clearAbovePlatform: true,
       platformPadding: 4,
+      platformExtraHeight: 20,
       platformBlock: "minecraft:grass_block",
       issueCreativeCommands: true,
       issueWorldCommands: false,
@@ -183,7 +194,7 @@ test("buildPlatformCommands restores the full cleared footprint when old clear m
 
   assert.deepEqual(commands[0], {
     description: "dọn khu build cũ",
-    command: "fill 2 64 -10 21 71 8 air",
+    command: "fill 2 64 -10 21 90 8 air",
   });
   assert.deepEqual(commands[2], {
     description: "tạo nền build",
@@ -216,6 +227,8 @@ test("executeBuild disconnects scout if auto-origin run aborts before build star
     async connectBots() {
       throw new Error("remaining bots failed");
     }
+
+    async issueWorldCommand() {}
   }
 
   const config = {
@@ -258,4 +271,47 @@ test("executeBuild disconnects scout if auto-origin run aborts before build star
     /remaining bots failed/
   );
   assert.equal(quitCalled, true);
+});
+
+test("runPreparationCommands logs exact Vietnamese /fill commands", async () => {
+  const logs = [];
+  const commands = [];
+  const manager = {
+    async issueWorldCommand(command, logger, options) {
+      commands.push({ command, options });
+      if (options.logCommand) {
+        logger.info(`Đã gửi: /${command}`);
+      }
+    },
+  };
+
+  await require("../src/index").runPreparationCommands(
+    manager,
+    {
+      commandPrefix: "/",
+      commandDelayMs: 50,
+      placementDelayMs: 700,
+      prepareBuildPlatform: true,
+      clearAbovePlatform: true,
+      platformPadding: 20,
+      platformExtraHeight: 20,
+      platformBlock: "minecraft:grass_block",
+      issueCreativeCommands: false,
+      issueWorldCommands: true,
+      creativeMode: false,
+      setWorldConditions: false,
+      teleportBotsToOrigin: false,
+      verbose: false,
+    },
+    { bot: {} },
+    [{ username: "Builder_01" }],
+    { size: { width: 4, height: 6, length: 3 } },
+    { x: 0, y: 100, z: 0 },
+    { info(message) { logs.push(message); } }
+  );
+
+  assert.equal(logs[0], "Đang tạo nền phẳng tự động bằng /fill...");
+  assert.match(logs[1], /^Đã gửi: \/fill .* air$/);
+  assert.match(logs[2], /^Đã gửi: \/fill .* minecraft:grass_block$/);
+  assert.equal(commands.length, 2);
 });

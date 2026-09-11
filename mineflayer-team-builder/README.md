@@ -13,7 +13,7 @@ Công cụ này là một hệ phụ **Node.js + Mineflayer** tách riêng khỏ
 - chia việc theo `role` như nền móng / tường / tháp / mái / trang trí
 - kết nối nhiều bot Mineflayer vào server Minecraft local/private
 - kết nối bot theo từng batch nhỏ để local dedicated server vào đủ đội ổn định hơn
-- cho bot di chuyển gần block cần đặt, đặt block từ thấp lên cao, log tiến độ rõ ràng
+- cho bot build theo chế độ Mineflayer cũ hoặc chế độ command dùng `/setblock` ổn định hơn trên server local/private
 - tự chuẩn bị nền build bằng `/fill` và fallback sang `/setblock` trên server creative riêng khi bật command mode
 - bỏ qua block đã có sẵn để bot không kẹt mãi
 
@@ -87,8 +87,9 @@ Với `Mass Bot Mode`, tool sẽ tiếp tục sinh `Builder_07` tới `Builder_5
 Các trường quan trọng:
 
 - `host`, `port`: địa chỉ server local/private
-- `origin`: gốc đặt công trình trong world (`"auto"` hoặc `{x,y,z}`)
-- `autoFindOrigin`: bật scout bot tự tìm khu vực build phù hợp
+- `origin`: gốc đặt công trình trong world (`"auto"` hoặc `{x,y,z}`); default local-friendly là `{ "x": 0, "y": 100, "z": 0 }`
+- `platformOrigin`: mốc riêng để dựng nền phẳng bằng `/fill` khi không muốn scout địa hình tự nhiên
+- `autoFindOrigin`: bật scout bot tự tìm khu vực build phù hợp; config mới mặc định `false`
 - `searchCenter`, `searchRadius`, `maxSearchRadius`: tâm và bán kính dò tìm
 - `requiredFlatness`, `clearanceHeight`, `buildPadding`: độ phẳng và khoảng trống yêu cầu
 - `scoutBot`: bot leader dùng để dò vị trí build
@@ -99,16 +100,16 @@ Các trường quan trọng:
 - `issueWorldCommands`: nếu `true`, cho phép dùng thêm lệnh world như `/fill` hoặc `/setblock` ngay cả khi bạn không muốn auto `/gamemode`
 - `creativeCommandDelayMs`: thời gian chờ giữa các lệnh creative để tránh spam quá nhanh
 - `commandPrefix`: tiền tố lệnh chat, mặc định `/`
-- `placementMode`: `mineflayer`, `commands`, hoặc `command-fallback`
+- `placementMode`: `mineflayer`, `commands`, hoặc `command-fallback`; config mới mặc định `commands`
 - `commandBuildFallback`: khi `true`, lỗi pathfinding/support sẽ fallback sang `/setblock` nếu server cho phép lệnh
-- `commandDelayMs`: delay giữa các lệnh `/setblock` hoặc `/fill`
+- `commandDelayMs`: delay giữa các lệnh `/setblock` hoặc `/fill`; config local mặc định `50`
 - `joinBatchSize`, `joinBatchDelayMs`: số bot vào mỗi đợt và thời gian chờ giữa các batch
 - `connectRetries`, `connectRetryDelayMs`: số lần thử vào lại khi bot bị lỗi kết nối
 - `allowPartialTeam`: mặc định `false`, tool sẽ báo rõ nếu chưa vào đủ bot
 - `teleportBotsToOrigin`: thử `/tp` cả đội tới origin sau khi dò xong
 - `setWorldConditions`: thử set time/weather/gamerule để build ổn định hơn
 - `clearBuildArea`: mặc định `false`, nếu bật sẽ dùng `/fill ... air` để dọn khu build
-- `prepareBuildPlatform`, `platformBlock`, `clearAbovePlatform`, `platformPadding`: tự dọn thể tích phía trên và tạo nền phẳng quanh công trình bằng `/fill`
+- `prepareBuildPlatform`, `platformBlock`, `clearAbovePlatform`, `platformPadding`, `platformExtraHeight`: tự dọn thể tích phía trên và tạo nền phẳng quanh công trình bằng `/fill`
 - `assignedStages`: metadata để bot ít vai trò hơn vẫn nhận đúng stage như `roof / secret_room / decorations`
 
 ## Chạy bot
@@ -150,25 +151,25 @@ npm start -- --config ../output/<name>_team_config.json
 
 Với default mới:
 
-- `Builder_01` vào trước để scout nhưng **không tự leave rồi reconnect nữa**
-- các bot còn lại vào sau khi đã chốt `origin`
-- nếu bật `prepareBuildPlatform`, tool sẽ tự log và gửi lệnh `/fill` để dọn phần thể tích build phía trên + tạo nền phẳng
-- `placementMode: "command-fallback"` sẽ giảm mạnh lỗi kiểu `Không tìm thấy block để đặt bám vào.` hoặc `Took too long to decide path to goal!`
+- tool mặc định dùng `origin/platformOrigin = {x:0,y:100,z:0}` nên **không cần tự đi tìm chỗ đẹp**
+- nếu bật `prepareBuildPlatform`, tool sẽ tự log `Đang tạo nền phẳng tự động bằng /fill...` rồi gửi `/fill ... grass_block` và `/fill ... air`
+- `placementMode: "commands"` sẽ build bằng `/setblock`, nên bot không cần pathfinding tới từng block
+- vì không cần pathfinding/inventory placement trong mode này, lỗi `No path to the goal`, `Took too long to decide path to goal!`, hoặc `Setting slot 36 cancelled...` sẽ biến mất
 
 Luồng cơ bản:
 
 1. load config + build plan JSON
-2. nếu bật `autoFindOrigin` hoặc `origin: "auto"`, kết nối scout bot trước để dò khu đất phẳng/thoáng rồi chốt origin
+2. mặc định dùng `origin/platformOrigin` để dựng nền phẳng, chỉ scout địa hình khi bạn bật `autoFindOrigin: true`
 3. chia block theo role, nếu role gộp thì dùng thêm `assignedStages`, nếu vẫn thiếu thì chia đều fallback
-4. giữ scout online, rồi kết nối **các bot còn lại** theo batch/retry
-5. (tuỳ chọn) thử lệnh chuẩn bị `/tp`, `/time`, `/weather`, `/gamerule`, `/fill` theo config
-6. bot xây từ thấp lên cao; nếu bật command fallback thì lỗi path/support có thể chuyển sang `/setblock`
+4. giữ scout/controller online, rồi kết nối **các bot còn lại** theo batch/retry
+5. gửi `/fill` để tạo nền phẳng và dọn không khí phía trên
+6. build bằng `/setblock` trong `placementMode: "commands"` hoặc fallback sang `/setblock` trong `command-fallback`
 
 ### Auto-origin và dry-run
 
 - `--dry-run` vẫn chạy được khi `origin: "auto"` mà không cần kết nối Minecraft world.
 - Dry-run sẽ log thông số dò vị trí; để thật sự tìm tọa độ, bạn cần chạy live (không dùng `--dry-run`).
-- Khi chạy thật, scout sẽ log tiến độ kiểu `Builder_01 đang quét địa hình bán kính 80...` và **không tự quit sau khi quét xong**.
+- Khi chạy thật và bạn bật `autoFindOrigin`, scout sẽ log tiến độ kiểu `Builder_01 đang quét địa hình bán kính 80...` và **không tự quit sau khi quét xong**.
 
 ## Ghi hình YouTube
 
@@ -213,6 +214,27 @@ Nếu bot không đặt block được hoặc không ở creative:
 ```
 
 Khi `issueCreativeCommands: false`, tool sẽ chỉ hiện lưu ý này thay vì tự gửi lệnh.
+
+## Troubleshooting: command mode không chạy được `/fill` hoặc `/setblock`
+
+Nếu log báo bot không có quyền dùng world command:
+
+1. Vào **server console** rồi chạy:
+
+```text
+op Builder_01
+```
+
+2. Kiểm tra lại `server.properties`:
+
+```properties
+gamemode=creative
+force-gamemode=true
+online-mode=false
+max-players=50
+```
+
+3. Chạy lại tool. Ở `placementMode: "commands"`, bot không cần đi tới từng block nên lỗi pathfinding sẽ không còn là nguyên nhân chính nữa.
 
 ## Troubleshooting: bot không vào đủ đội hoặc Builder_01 cứ scout
 
