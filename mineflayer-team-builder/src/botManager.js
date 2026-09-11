@@ -138,11 +138,12 @@ class BotManager {
         if (attempt >= maxAttempts) {
           break;
         }
+        const currentDelayMs = retryDelayMs * attempt;
         logger.warn(
-          `Kết nối ${botConfig.username} thất bại ở lần ${attempt}/${maxAttempts}: ${error.message}. Thử lại sau ${retryDelayMs}ms.`
+          `Kết nối ${botConfig.username} thất bại ở lần ${attempt}/${maxAttempts}: ${error.message}. Thử lại sau ${currentDelayMs}ms.`
         );
-        if (retryDelayMs > 0) {
-          await sleep(retryDelayMs);
+        if (currentDelayMs > 0) {
+          await sleep(currentDelayMs);
         }
       }
     }

@@ -156,7 +156,7 @@ test("buildPlatformCommands uses padded bounds above and below origin", () => {
   assert.deepEqual(commands, [
     {
       description: "dọn thể tích phía trên nền build",
-      command: "fill 2 64 -10 21 69 8 air",
+      command: "fill 2 64 -10 21 71 8 air",
     },
     {
       description: "tạo nền build",

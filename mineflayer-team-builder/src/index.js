@@ -86,9 +86,10 @@ function buildPlatformCommands(config, plan, buildOrigin) {
   const platformPadding = Math.max(0, Number(config.platformPadding) || 0);
   const platformBounds = areaBounds(buildOrigin, plan.size, platformPadding);
   if (config.clearAbovePlatform) {
+    const clearTopY = buildOrigin.y + plan.size.height + 1;
     commands.push({
       description: "dọn thể tích phía trên nền build",
-      command: `fill ${platformBounds.minX} ${buildOrigin.y} ${platformBounds.minZ} ${platformBounds.maxX} ${buildOrigin.y + plan.size.height - 1} ${platformBounds.maxZ} air`,
+      command: `fill ${platformBounds.minX} ${buildOrigin.y} ${platformBounds.minZ} ${platformBounds.maxX} ${clearTopY} ${platformBounds.maxZ} air`,
     });
   }
   commands.push({
