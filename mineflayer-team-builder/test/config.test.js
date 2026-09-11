@@ -26,7 +26,7 @@ test("loadConfig applies beginner-friendly local server defaults", () => {
     assert.equal(loaded.joinBatchSize, 1);
     assert.equal(loaded.joinBatchDelayMs, 5000);
     assert.equal(loaded.placementDelayMs, 700);
-    assert.equal(loaded.commandDelayMs, 50);
+    assert.equal(loaded.commandDelayMs, 700);
     assert.equal(loaded.placementMode, "commands");
     assert.equal(loaded.commandBuildFallback, true);
     assert.equal(loaded.connectTimeoutMs, 120000);

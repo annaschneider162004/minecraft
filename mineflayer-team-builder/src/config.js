@@ -127,7 +127,7 @@ function loadConfig(configArg) {
     placementDelayMs: withDefault(parsed.placementDelayMs, withDefault(readNumberEnv("TEAM_BUILDER_PLACEMENT_DELAY_MS"), 700)),
     commandDelayMs: readNumberValue(
       parsed.commandDelayMs,
-      withDefault(readNumberEnv("TEAM_BUILDER_COMMAND_DELAY_MS"), 50)
+      withDefault(readNumberEnv("TEAM_BUILDER_COMMAND_DELAY_MS"), withDefault(parsed.placementDelayMs, 700))
     ),
     placementMode: parsePlacementMode(parsed.placementMode),
     commandBuildFallback: parsed.commandBuildFallback !== false,
