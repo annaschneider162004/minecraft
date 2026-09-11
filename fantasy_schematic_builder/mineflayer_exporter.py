@@ -183,14 +183,29 @@ def export_mineflayer_build_plan(build: GeneratedBuild, output_path: str, team_b
         json.dump(payload, handle, ensure_ascii=False, indent=2)
 
 
-def export_mineflayer_team_config(plan_path: str, output_path: str, team_bot_count: int = 6) -> None:
+def export_mineflayer_team_config(
+    plan_path: str,
+    output_path: str,
+    team_bot_count: int = 6,
+    auto_find_origin: bool = True,
+) -> None:
     team_bot_count = validate_team_bot_count(team_bot_count)
+    default_origin = "auto" if auto_find_origin else {"x": 0, "y": 64, "z": 0}
     payload = {
         "host": "localhost",
         "port": 25565,
         "version": False,
         "auth": "offline",
-        "origin": {"x": 0, "y": 64, "z": 0},
+        "autoFindOrigin": auto_find_origin,
+        "origin": default_origin,
+        "searchCenter": "spawn",
+        "searchRadius": 80,
+        "maxSearchRadius": 160,
+        "requiredFlatness": 3,
+        "clearanceHeight": 20,
+        "preferCurrentPlayerArea": True,
+        "buildPadding": 6,
+        "scoutBot": "Builder_01",
         "bots": build_team_bot_definitions(team_bot_count),
         "planFile": os.path.basename(plan_path),
         "creativeMode": True,
@@ -201,6 +216,9 @@ def export_mineflayer_team_config(plan_path: str, output_path: str, team_bot_cou
         "maxPlacementRetries": 2,
         "joinBatchSize": 5,
         "joinBatchDelayMs": 3000,
+        "teleportBotsToOrigin": True,
+        "setWorldConditions": True,
+        "clearBuildArea": False,
     }
     with open(output_path, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=2)

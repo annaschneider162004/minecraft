@@ -110,7 +110,12 @@ def generate_project(
         mineflayer_path = os.path.join(output_dir, f"{safe_output_name}_mineflayer_plan.json")
         export_mineflayer_build_plan(build, mineflayer_path, team_bot_count=team_bot_count)
         config_path = os.path.join(output_dir, f"{safe_output_name}_team_config.json")
-        export_mineflayer_team_config(mineflayer_path, config_path, team_bot_count=team_bot_count)
+        export_mineflayer_team_config(
+            mineflayer_path,
+            config_path,
+            team_bot_count=team_bot_count,
+            auto_find_origin=options.auto_find_origin,
+        )
         written_files["mineflayer_plan"] = mineflayer_path
         written_files["mineflayer_config"] = config_path
 

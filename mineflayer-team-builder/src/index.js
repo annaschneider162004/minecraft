@@ -9,6 +9,7 @@ const { buildAssignments } = require("./buildPlanner");
 const { loadConfig } = require("./config");
 const { createLogger } = require("./logger");
 const { loadBuildPlan } = require("./schematicReader");
+const { areaBounds, findBuildOrigin, isAutoOriginEnabled } = require("./siteFinder");
 
 const logger = createLogger("cli");
 
@@ -32,6 +33,53 @@ function printHelp() {
   console.log("Cách dùng: npm start -- --config examples/team-build-config.json [--dry-run]");
 }
 
+function formatCommand(prefix, command) {
+  return `${prefix || "/"}${command}`;
+}
+
+function teleportTargetForIndex(origin, index) {
+  const spacing = 2;
+  const columns = 5;
+  const row = Math.floor(index / columns);
+  const column = index % columns;
+  return {
+    x: origin.x + (column - Math.floor(columns / 2)) * spacing,
+    y: origin.y,
+    z: origin.z + row * spacing,
+  };
+}
+
+async function runPreparationCommands(config, scoutEntry, connectedBots, plan, buildOrigin) {
+  if (!scoutEntry || !scoutEntry.bot) {
+    return;
+  }
+  const scout = scoutEntry.bot;
+
+  if (config.setWorldConditions) {
+    scout.chat(formatCommand(config.commandPrefix, "time set day"));
+    scout.chat(formatCommand(config.commandPrefix, "weather clear"));
+    scout.chat(formatCommand(config.commandPrefix, "gamerule doDaylightCycle false"));
+  }
+
+  if (config.clearBuildArea) {
+    const bounds = areaBounds(buildOrigin, plan.size, Math.max(0, Number(config.buildPadding) || 0));
+    const topY = buildOrigin.y + plan.size.height + 1;
+    scout.chat(
+      formatCommand(
+        config.commandPrefix,
+        `fill ${bounds.minX} ${buildOrigin.y} ${bounds.minZ} ${bounds.maxX} ${topY} ${bounds.maxZ} air`
+      )
+    );
+  }
+
+  if (config.teleportBotsToOrigin) {
+    connectedBots.forEach((entry, index) => {
+      const target = teleportTargetForIndex(buildOrigin, index);
+      scout.chat(formatCommand(config.commandPrefix, `tp ${entry.username} ${target.x} ${target.y} ${target.z}`));
+    });
+  }
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
@@ -42,8 +90,9 @@ async function main() {
   const config = loadConfig(args.config);
   const plan = loadBuildPlan(config.planFile);
   const planOrigin = plan.origin || { x: 0, y: 0, z: 0 };
-  const buildOrigin = config.origin || planOrigin;
-  const assignments = buildAssignments(plan, config.bots, buildOrigin);
+  const autoOriginEnabled = isAutoOriginEnabled(config);
+  const previewOrigin = autoOriginEnabled ? planOrigin : config.origin || planOrigin;
+  let assignments = buildAssignments(plan, config.bots, previewOrigin);
 
   logger.info(`Đã tải config: ${path.relative(process.cwd(), config.planFile)}`);
   logger.info(`Build plan "${plan.name}" có ${plan.blocks.length} block cho ${assignments.length} bot.`);
@@ -52,12 +101,43 @@ async function main() {
   });
 
   if (args.dryRun) {
+    if (autoOriginEnabled) {
+      logger.info("Auto-origin đang bật. Chế độ này cần chạy thật để bot scout quét địa hình và chọn tọa độ.");
+      logger.info(
+        `Thông tin tìm vị trí: searchRadius=${config.searchRadius}, maxSearchRadius=${config.maxSearchRadius}, requiredFlatness=${config.requiredFlatness}, buildPadding=${config.buildPadding}.`
+      );
+    }
     logger.info("Dry run hoàn tất. Không kết nối server.");
     return;
   }
 
+  let buildOrigin = previewOrigin;
+  let connectedBots = [];
+  const scoutBotName = config.scoutBot || config.bots[0].username;
+  const scoutBot = config.bots.find((bot) => bot.username === scoutBotName) || config.bots[0];
+
+  if (autoOriginEnabled) {
+    const scoutManager = new BotManager({ ...config, origin: previewOrigin }, []);
+    logger.info(`Đang kết nối scout bot ${scoutBot.username} để tự tìm vị trí xây...`);
+    const scoutEntry = await scoutManager.connectBot(scoutBot);
+    buildOrigin = await findBuildOrigin(scoutEntry.bot, config, plan.size, logger);
+    logger.info(`Đã chọn build origin tự động: (${buildOrigin.x}, ${buildOrigin.y}, ${buildOrigin.z}).`);
+    if (typeof scoutEntry.bot.quit === "function") {
+      scoutEntry.bot.quit("Scout phase complete, reconnecting for team build.");
+    }
+    assignments = buildAssignments(plan, config.bots, buildOrigin);
+    const manager = new BotManager({ ...config, origin: buildOrigin }, assignments);
+    connectedBots = await manager.connectAll();
+    const connectedScout = connectedBots.find((entry) => entry.username === scoutBot.username) || connectedBots[0];
+    await runPreparationCommands(config, connectedScout, connectedBots, plan, buildOrigin);
+    logger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
+    await manager.runBuild(connectedBots);
+    logger.info("Đội bot đã hoàn tất build plan.");
+    return;
+  }
+
   const manager = new BotManager({ ...config, origin: buildOrigin }, assignments);
-  const connectedBots = await manager.connectAll();
+  connectedBots = await manager.connectAll();
   logger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
   await manager.runBuild(connectedBots);
   logger.info("Đội bot đã hoàn tất build plan.");

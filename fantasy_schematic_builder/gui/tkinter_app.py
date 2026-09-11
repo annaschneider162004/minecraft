@@ -43,6 +43,7 @@ def build_generation_options(
     generate_notes: bool,
     generate_mineflayer: bool,
     team_bots: int,
+    auto_find_origin: bool,
 ) -> GenerationOptions:
     return GenerationOptions(
         generate_full_schematic=generate_full,
@@ -53,6 +54,7 @@ def build_generation_options(
         generate_youtube_notes=generate_notes,
         generate_mineflayer_plan=generate_mineflayer,
         team_bot_count=team_bots,
+        auto_find_origin=auto_find_origin,
     )
 
 
@@ -136,6 +138,7 @@ class BuilderGUI:
         self.generate_baritone = tk.BooleanVar(value=True)
         self.generate_notes = tk.BooleanVar(value=True)
         self.generate_mineflayer = tk.BooleanVar(value=False)
+        self.auto_find_origin = tk.BooleanVar(value=True)
         self.mass_bot_mode = tk.BooleanVar(value=False)
         self.team_bot_count = tk.StringVar(value="6")
 
@@ -335,6 +338,17 @@ class BuilderGUI:
         ttk.Checkbutton(options_frame, text="Tạo hướng dẫn Baritone", variable=self.generate_baritone, style="Dashboard.TCheckbutton").grid(row=2, column=0, sticky="w", pady=(6, 0))
         ttk.Checkbutton(options_frame, text="Tạo ghi chú YouTube", variable=self.generate_notes, style="Dashboard.TCheckbutton").grid(row=2, column=1, sticky="w", pady=(6, 0))
         ttk.Checkbutton(options_frame, text="Tạo kế hoạch Mineflayer team bot", variable=self.generate_mineflayer, style="Dashboard.TCheckbutton").grid(row=3, column=0, sticky="w", pady=(6, 0))
+        ttk.Checkbutton(
+            options_frame,
+            text="Tự tìm vị trí xây phù hợp",
+            variable=self.auto_find_origin,
+            style="Dashboard.TCheckbutton",
+        ).grid(row=4, column=0, columnspan=2, sticky="w", pady=(6, 0))
+        ttk.Label(
+            options_frame,
+            text="Bot đầu tiên sẽ dò khu đất phẳng gần nơi spawn/đang đứng rồi đặt công trình tại đó.",
+            style="Panel.TLabel",
+        ).grid(row=5, column=0, columnspan=2, sticky="w", pady=(2, 0))
         bot_count_row = ttk.Frame(options_frame, style="Card.TFrame")
         bot_count_row.grid(row=3, column=1, sticky="w", pady=(6, 0))
         ttk.Label(bot_count_row, text="Số bot Mineflayer (1–50)", style="Panel.TLabel").grid(row=0, column=0, sticky="w", padx=(0, 8))
@@ -353,12 +367,12 @@ class BuilderGUI:
             variable=self.mass_bot_mode,
             command=self._toggle_mass_bot_mode,
             style="Dashboard.TCheckbutton",
-        ).grid(row=4, column=0, columnspan=2, sticky="w", pady=(8, 0))
+        ).grid(row=6, column=0, columnspan=2, sticky="w", pady=(8, 0))
         ttk.Label(
             options_frame,
             text="Dùng cho video YouTube kiểu nhiều AI builder cùng xây. Nên test tăng dần: 6 → 10 → 20 → 50.",
             style="Panel.TLabel",
-        ).grid(row=5, column=0, columnspan=2, sticky="w", pady=(4, 0))
+        ).grid(row=7, column=0, columnspan=2, sticky="w", pady=(4, 0))
 
         creative_frame = ttk.LabelFrame(settings_panel, text="Tạo ý tưởng & tiêu đề YouTube", padding=10, style="Card.TLabelframe")
         creative_frame.grid(row=6, column=0, columnspan=2, sticky="ew", pady=(14, 0))
@@ -584,6 +598,7 @@ class BuilderGUI:
             generate_notes=self.generate_notes.get(),
             generate_mineflayer=self.generate_mineflayer.get(),
             team_bots=team_bot_count,
+            auto_find_origin=self.auto_find_origin.get(),
         )
         self.is_generating = True
         if self.generate_button is not None:

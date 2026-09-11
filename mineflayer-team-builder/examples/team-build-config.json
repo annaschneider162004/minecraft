@@ -3,7 +3,16 @@
   "port": 25565,
   "version": false,
   "auth": "offline",
-  "origin": { "x": 0, "y": 64, "z": 0 },
+  "autoFindOrigin": true,
+  "origin": "auto",
+  "searchCenter": "spawn",
+  "searchRadius": 80,
+  "maxSearchRadius": 160,
+  "requiredFlatness": 3,
+  "clearanceHeight": 20,
+  "preferCurrentPlayerArea": true,
+  "buildPadding": 6,
+  "scoutBot": "Builder_01",
   "bots": [
     { "username": "Builder_01", "role": "foundation", "assignedStages": ["foundation"], "teamIndex": 1 },
     { "username": "Builder_02", "role": "walls", "assignedStages": ["walls"], "teamIndex": 2 },
@@ -21,5 +30,8 @@
   "connectTimeoutMs": 30000,
   "maxPlacementRetries": 2,
   "joinBatchSize": 5,
-  "joinBatchDelayMs": 3000
+  "joinBatchDelayMs": 3000,
+  "teleportBotsToOrigin": true,
+  "setWorldConditions": true,
+  "clearBuildArea": false
 }
