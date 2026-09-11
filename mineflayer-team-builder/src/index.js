@@ -202,6 +202,9 @@ async function executeBuild(config, plan, options = {}) {
       const connectedBots = [scoutEntry, ...remainingConnectedBots];
       scopedLogger.info(`Tổng kết đội hình: connected ${connectedBots.length}/${config.bots.length} bot.`);
       const connectedScout = pickPreparationController(connectedBots, scoutBot.username, scopedLogger);
+      if (typeof manager.setCommandController === "function") {
+        manager.setCommandController(connectedScout);
+      }
       await runPreparationCommands(manager, config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
       scopedLogger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
       await manager.runBuild(connectedBots);
