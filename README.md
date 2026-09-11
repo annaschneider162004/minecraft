@@ -134,7 +134,7 @@ When YouTube notes are enabled, the notes file also includes multiple title sugg
 3. Bật **Tự tìm vị trí xây phù hợp** (khuyến nghị)
 4. (Tuỳ chọn) Bật **Bật chế độ đội bot lớn (Mass Bot Mode)**
 5. Chọn nhanh `10`, `20`, `30`, `40`, hoặc `50`, hoặc nhập tay bất kỳ số nào từ `1–50`
-6. Trong Minecraft: tạo world Creative Superflat hoặc server private/local, bật Open to LAN + Cheats ON
+6. Trong Minecraft: ưu tiên dedicated server private/local Creative; nếu dùng Open to LAN thì số bot ổn định thường thấp hơn
 7. Kiểm tra `port` đúng với cổng LAN/server trong file `*_team_config.json` (thường là `25565`, nhưng LAN có thể khác)
 8. Chạy:
 
@@ -144,7 +144,7 @@ npm start -- --config ../output/<name>_team_config.json --dry-run
 npm start -- --config ../output/<name>_team_config.json
 ```
 
-Khi auto-origin bật, bot scout sẽ tự log tọa độ build đã chọn, nên bạn hầu như không cần tự nhập/chỉnh `origin.x/y/z`.
+Khi auto-origin bật, `Builder_01` sẽ ở lại sau khi scout, các bot còn lại join tiếp theo batch nhỏ, và config mới mặc định có command fallback + tự chuẩn bị nền build cho local server creative.
 
 Khuyến nghị test tăng dần: `6 → 10 → 20 → 30 → 50`.
 
