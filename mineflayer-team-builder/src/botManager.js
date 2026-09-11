@@ -327,7 +327,7 @@ class BotManager {
     const shouldLogCommand = options.logCommand === true || this.config.verbose === true;
     const feedbackTimeoutMs = Math.max(0, Number(options.feedbackTimeoutMs) || 1200);
 
-    this.commandQueue = this.commandQueue.then(
+    const queuedCommand = this.commandQueue.catch(() => undefined).then(
       () =>
         new Promise((resolve, reject) => {
           let settled = false;
@@ -367,7 +367,8 @@ class BotManager {
         })
     );
 
-    await this.commandQueue;
+    this.commandQueue = queuedCommand.catch(() => undefined);
+    await queuedCommand;
   }
 
   async runAssignment(connected, blocks) {

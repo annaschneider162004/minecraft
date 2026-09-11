@@ -224,6 +224,42 @@ test("commands mode surfaces a clear Vietnamese permission error", async () => {
   );
 });
 
+test("command queue recovers after a rejected command", async () => {
+  const manager = new BotManager({
+    origin: { x: 0, y: 100, z: 0 },
+    placementMode: "commands",
+    issueWorldCommands: true,
+    issueCreativeCommands: false,
+    commandPrefix: "/",
+    commandDelayMs: 0,
+  }, []);
+  const chats = [];
+  const bot = Object.assign(new EventEmitter(), {
+    chat(message) {
+      chats.push(message);
+      if (message.includes("minecraft:stone")) {
+        setImmediate(() => this.emit("messagestr", "You do not have permission to perform this command"));
+      }
+    },
+  });
+  manager.commandController = {
+    username: "Builder_01",
+    bot,
+  };
+
+  await assert.rejects(
+    () => manager.placeBlockByCommand({ x: 0, y: 0, z: 0, block: "minecraft:stone" }, { info() {} }),
+    /op Builder_01/
+  );
+
+  await manager.placeBlockByCommand({ x: 1, y: 0, z: 0, block: "minecraft:glass" }, { info() {} });
+
+  assert.deepEqual(chats, [
+    "/setblock 0 100 0 minecraft:stone",
+    "/setblock 1 100 0 minecraft:glass",
+  ]);
+});
+
 test("formatServerFullMessage includes dedicated server guidance", () => {
   const message = formatServerFullMessage("Builder_08");
   assert.match(message, /server\.properties/);
