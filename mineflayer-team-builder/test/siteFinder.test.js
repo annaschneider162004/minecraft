@@ -36,14 +36,23 @@ function createMockBot({ groundY = 64, blockedPositions = new Set(), waterPositi
 }
 
 test("isAutoOriginEnabled supports both toggles", () => {
-  assert.equal(isAutoOriginEnabled({ autoFindOrigin: true, origin: { x: 0, y: 64, z: 0 } }), true);
-  assert.equal(isAutoOriginEnabled({ autoFindOrigin: false, origin: "auto" }), true);
+  assert.equal(isAutoOriginEnabled({ autoFindOriginConfigured: true, autoFindOrigin: true, origin: { x: 0, y: 64, z: 0 } }), true);
+  assert.equal(isAutoOriginEnabled({ autoFindOriginConfigured: false, autoFindOrigin: false, origin: "auto" }), true);
+  assert.equal(isAutoOriginEnabled({ autoFindOriginConfigured: true, autoFindOrigin: false, origin: "auto" }), false);
   assert.equal(isAutoOriginEnabled({ autoFindOrigin: false, origin: { x: 0, y: 64, z: 0 } }), false);
 });
 
-test("resolveSearchCenter prefers current bot area by default", () => {
+test("resolveSearchCenter honors explicit configured coordinates", () => {
   const bot = createMockBot();
-  const center = resolveSearchCenter(bot, { searchCenter: { x: 0, y: 70, z: 0 } });
+  const center = resolveSearchCenter(bot, { searchCenter: { x: 0, y: 70, z: 0 }, preferCurrentPlayerArea: true });
+  assert.equal(center.x, 0);
+  assert.equal(center.y, 70);
+  assert.equal(center.z, 0);
+});
+
+test("resolveSearchCenter falls back to current bot area by default", () => {
+  const bot = createMockBot();
+  const center = resolveSearchCenter(bot, { searchCenter: "spawn", preferCurrentPlayerArea: true });
   assert.equal(center.x, 10);
   assert.equal(center.y, 64);
   assert.equal(center.z, -3);

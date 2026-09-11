@@ -66,11 +66,11 @@ function isPassable(block, replaceOccupiedBlocks) {
 }
 
 function resolveSearchCenter(bot, config) {
-  if (config.preferCurrentPlayerArea !== false && bot.entity?.position) {
-    return toVec3(bot.entity.position);
-  }
   if (config.searchCenter && typeof config.searchCenter === "object") {
     return toVec3(config.searchCenter);
+  }
+  if (config.preferCurrentPlayerArea !== false && bot.entity?.position) {
+    return toVec3(bot.entity.position);
   }
   if (bot.entity?.position) {
     return toVec3(bot.entity.position);
@@ -133,7 +133,8 @@ function evaluateCandidate(bot, candidateXZ, planSize, config) {
       if (AVOID_SURFACE_BLOCKS.has(normalizeName(surface?.name))) {
         hazardBlocks += 1;
       }
-      for (let y = origin.y; y <= origin.y + Math.min(planSize.height, clearanceHeight); y += 1) {
+      const maxBuildY = origin.y + Math.min(planSize.height, clearanceHeight) - 1;
+      for (let y = origin.y; y <= maxBuildY; y += 1) {
         const block = bot.blockAt(new Vec3(x, y, z));
         if (!isPassable(block, config.replaceOccupiedBlocks)) {
           blockedColumns += 1;
@@ -147,7 +148,7 @@ function evaluateCandidate(bot, candidateXZ, planSize, config) {
     return null;
   }
 
-  const shiftedOrigin = { x: origin.x, y: maxGround + 1, z: origin.z };
+  const shiftedOrigin = { x: origin.x, y: minGround + 1, z: origin.z };
   const flatnessScore = maxGround - minGround;
   const obstructionScore = blockedColumns + hazardBlocks * 3;
 
@@ -176,6 +177,9 @@ function generateCandidates(center, radius) {
 }
 
 function isAutoOriginEnabled(config) {
+  if (config.autoFindOriginConfigured) {
+    return config.autoFindOrigin === true;
+  }
   return config.autoFindOrigin === true || config.origin === "auto";
 }
 

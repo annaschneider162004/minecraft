@@ -37,6 +37,18 @@ function formatCommand(prefix, command) {
   return `${prefix || "/"}${command}`;
 }
 
+function teleportTargetForIndex(origin, index) {
+  const spacing = 2;
+  const columns = 5;
+  const row = Math.floor(index / columns);
+  const column = index % columns;
+  return {
+    x: origin.x + (column - Math.floor(columns / 2)) * spacing,
+    y: origin.y,
+    z: origin.z + row * spacing,
+  };
+}
+
 async function runPreparationCommands(config, scoutEntry, connectedBots, plan, buildOrigin) {
   if (!scoutEntry || !scoutEntry.bot) {
     return;
@@ -61,9 +73,10 @@ async function runPreparationCommands(config, scoutEntry, connectedBots, plan, b
   }
 
   if (config.teleportBotsToOrigin) {
-    for (const entry of connectedBots) {
-      scout.chat(formatCommand(config.commandPrefix, `tp ${entry.username} ${buildOrigin.x} ${buildOrigin.y} ${buildOrigin.z}`));
-    }
+    connectedBots.forEach((entry, index) => {
+      const target = teleportTargetForIndex(buildOrigin, index);
+      scout.chat(formatCommand(config.commandPrefix, `tp ${entry.username} ${target.x} ${target.y} ${target.z}`));
+    });
   }
 }
 
@@ -100,29 +113,31 @@ async function main() {
 
   let buildOrigin = previewOrigin;
   let connectedBots = [];
-  let scoutEntry = null;
+  const scoutBotName = config.scoutBot || config.bots[0].username;
+  const scoutBot = config.bots.find((bot) => bot.username === scoutBotName) || config.bots[0];
 
   if (autoOriginEnabled) {
-    const scoutBotName = config.scoutBot || config.bots[0].username;
-    const scoutBot = config.bots.find((bot) => bot.username === scoutBotName) || config.bots[0];
     const scoutManager = new BotManager({ ...config, origin: previewOrigin }, []);
     logger.info(`Đang kết nối scout bot ${scoutBot.username} để tự tìm vị trí xây...`);
-    scoutEntry = await scoutManager.connectBot(scoutBot);
+    const scoutEntry = await scoutManager.connectBot(scoutBot);
     buildOrigin = await findBuildOrigin(scoutEntry.bot, config, plan.size, logger);
     logger.info(`Đã chọn build origin tự động: (${buildOrigin.x}, ${buildOrigin.y}, ${buildOrigin.z}).`);
+    if (typeof scoutEntry.bot.quit === "function") {
+      scoutEntry.bot.quit("Scout phase complete, reconnecting for team build.");
+    }
     assignments = buildAssignments(plan, config.bots, buildOrigin);
-
-    const remainingAssignments = assignments.filter((assignment) => assignment.bot.username !== scoutEntry.username);
-    const remainingManager = new BotManager({ ...config, origin: buildOrigin }, remainingAssignments);
-    const remainingBots = await remainingManager.connectAll();
-    connectedBots = [scoutEntry, ...remainingBots];
-    await runPreparationCommands(config, scoutEntry, connectedBots, plan, buildOrigin);
-  } else {
     const manager = new BotManager({ ...config, origin: buildOrigin }, assignments);
     connectedBots = await manager.connectAll();
+    const connectedScout = connectedBots.find((entry) => entry.username === scoutBot.username) || connectedBots[0];
+    await runPreparationCommands(config, connectedScout, connectedBots, plan, buildOrigin);
+    logger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
+    await manager.runBuild(connectedBots);
+    logger.info("Đội bot đã hoàn tất build plan.");
+    return;
   }
 
   const manager = new BotManager({ ...config, origin: buildOrigin }, assignments);
+  connectedBots = await manager.connectAll();
   logger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
   await manager.runBuild(connectedBots);
   logger.info("Đội bot đã hoàn tất build plan.");

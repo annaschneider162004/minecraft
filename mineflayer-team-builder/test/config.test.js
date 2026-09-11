@@ -26,6 +26,7 @@ test("loadConfig applies large-team batching defaults", () => {
     assert.equal(loaded.joinBatchSize, 5);
     assert.equal(loaded.joinBatchDelayMs, 3000);
     assert.equal(loaded.placementDelayMs, 700);
+    assert.equal(loaded.autoFindOriginConfigured, false);
     assert.equal(loaded.autoFindOrigin, false);
     assert.deepEqual(loaded.origin, { x: 0, y: 64, z: 0 });
     assert.equal(loaded.planFile, planPath);
@@ -53,6 +54,7 @@ test("loadConfig accepts origin auto mode and auto-origin defaults", () => {
     );
 
     const loaded = loadConfig(configPath);
+    assert.equal(loaded.autoFindOriginConfigured, true);
     assert.equal(loaded.origin, "auto");
     assert.equal(loaded.autoFindOrigin, true);
     assert.equal(loaded.searchCenter, "spawn");
@@ -109,6 +111,7 @@ test("loadConfig keeps explicit numeric origin unchanged", () => {
     );
 
     const loaded = loadConfig(configPath);
+    assert.equal(loaded.autoFindOriginConfigured, false);
     assert.deepEqual(loaded.origin, { x: 123, y: 70, z: -45 });
     assert.equal(loaded.autoFindOrigin, false);
   } finally {

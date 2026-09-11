@@ -74,6 +74,7 @@ function loadConfig(configArg) {
     version: Object.prototype.hasOwnProperty.call(parsed, "version") ? parsed.version : false,
     auth: withDefault(parsed.auth, "offline"),
     origin: parseOrigin(parsed.origin),
+    autoFindOriginConfigured: Object.prototype.hasOwnProperty.call(parsed, "autoFindOrigin"),
     autoFindOrigin: parsed.autoFindOrigin === true,
     searchCenter: parseSearchCenter(parsed.searchCenter),
     searchRadius: withDefault(parsed.searchRadius, 80),
