@@ -1,7 +1,20 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const { EventEmitter } = require("node:events");
 
-const { BotManager } = require("../src/botManager");
+const mineflayer = require("mineflayer");
+const { BotManager, formatServerFullMessage, worldPositionFromOrigin } = require("../src/botManager");
+
+function createFakeConnectingBot(onCreate) {
+  const bot = new EventEmitter();
+  bot.version = "1.20.1";
+  bot.pathfinder = { setMovements() {} };
+  bot.loadPlugin = () => {};
+  bot.chat = () => {};
+  bot.quit = () => {};
+  setImmediate(() => onCreate(bot));
+  return bot;
+}
 
 test("connectAll connects bots in configured batches", async () => {
   const assignments = Array.from({ length: 7 }, (_, index) => ({
@@ -9,7 +22,7 @@ test("connectAll connects bots in configured batches", async () => {
     blocks: [],
   }));
   const manager = new BotManager({ joinBatchSize: 3, joinBatchDelayMs: 10 }, assignments);
-  manager.logger = { info() {} };
+  manager.logger = { info() {}, warn() {} };
 
   let active = 0;
   let maxActive = 0;
@@ -24,6 +37,76 @@ test("connectAll connects bots in configured batches", async () => {
   const connected = await manager.connectAll();
   assert.equal(connected.length, 7);
   assert.equal(maxActive, 3);
+});
+
+test("connectBot retries after an initial connection failure", async () => {
+  const originalCreateBot = mineflayer.createBot;
+  let attempts = 0;
+  try {
+    mineflayer.createBot = () => {
+      attempts += 1;
+      return createFakeConnectingBot((bot) => {
+        if (attempts === 1) {
+          bot.emit("error", new Error("ECONNRESET"));
+          return;
+        }
+        bot.emit("spawn");
+      });
+    };
+
+    const manager = new BotManager({
+      host: "localhost",
+      port: 25565,
+      auth: "offline",
+      version: false,
+      connectTimeoutMs: 100,
+      connectRetries: 2,
+      connectRetryDelayMs: 0,
+      creativeMode: false,
+    }, []);
+    manager.handleCreativeModeOnConnect = async () => {};
+
+    const connected = await manager.connectBot({ username: "Builder_01" });
+    assert.equal(connected.username, "Builder_01");
+    assert.equal(attempts, 2);
+  } finally {
+    mineflayer.createBot = originalCreateBot;
+  }
+});
+
+test("server_full error explains how to fix server.properties", async () => {
+  const originalCreateBot = mineflayer.createBot;
+  let attempts = 0;
+  try {
+    mineflayer.createBot = () => {
+      attempts += 1;
+      return (
+      createFakeConnectingBot((bot) => {
+        bot.emit("kicked", { translate: "multiplayer.disconnect.server_full" });
+      })
+      );
+    };
+
+    const manager = new BotManager({
+      host: "localhost",
+      port: 25565,
+      auth: "offline",
+      version: false,
+      connectTimeoutMs: 100,
+      connectRetries: 0,
+      connectRetryDelayMs: 0,
+      creativeMode: false,
+    }, []);
+    manager.handleCreativeModeOnConnect = async () => {};
+
+    await assert.rejects(
+      () => manager.connectBot({ username: "Builder_08" }),
+      /server\.properties|max-players=50|tổng số bot \+ số người chơi/
+    );
+    assert.equal(attempts, 1);
+  } finally {
+    mineflayer.createBot = originalCreateBot;
+  }
 });
 
 test("handleCreativeModeOnConnect sends gamemode command when enabled", async () => {
@@ -76,4 +159,16 @@ test("handleCreativeModeOnConnect logs clear manual command note when disabled",
 
   assert.deepEqual(chats, []);
   assert.match(logs[0], /\/gamemode creative @a/);
+});
+
+test("worldPositionFromOrigin adds origin offsets for command placement", () => {
+  const position = worldPositionFromOrigin({ x: 696, y: 81, z: -163 }, { x: 2, y: 5, z: -4 });
+  assert.deepEqual({ x: position.x, y: position.y, z: position.z }, { x: 698, y: 86, z: -167 });
+});
+
+test("formatServerFullMessage includes dedicated server guidance", () => {
+  const message = formatServerFullMessage("Builder_08");
+  assert.match(message, /server\.properties/);
+  assert.match(message, /max-players=50/);
+  assert.match(message, /Builder_08/);
 });

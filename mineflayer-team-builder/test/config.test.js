@@ -6,7 +6,7 @@ const path = require("path");
 
 const { loadConfig } = require("../src/config");
 
-test("loadConfig applies large-team batching defaults", () => {
+test("loadConfig applies beginner-friendly local server defaults", () => {
   const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
   try {
     const configPath = path.join(tempdir, "team-config.json");
@@ -23,21 +23,33 @@ test("loadConfig applies large-team batching defaults", () => {
     );
 
     const loaded = loadConfig(configPath);
-    assert.equal(loaded.joinBatchSize, 5);
-    assert.equal(loaded.joinBatchDelayMs, 3000);
+    assert.equal(loaded.joinBatchSize, 1);
+    assert.equal(loaded.joinBatchDelayMs, 5000);
     assert.equal(loaded.placementDelayMs, 700);
+    assert.equal(loaded.commandDelayMs, 700);
+    assert.equal(loaded.placementMode, "command-fallback");
+    assert.equal(loaded.commandBuildFallback, true);
+    assert.equal(loaded.connectTimeoutMs, 120000);
+    assert.equal(loaded.connectRetries, 3);
+    assert.equal(loaded.connectRetryDelayMs, 5000);
+    assert.equal(loaded.allowPartialTeam, false);
+    assert.equal(loaded.prepareBuildPlatform, true);
+    assert.equal(loaded.clearAbovePlatform, true);
+    assert.equal(loaded.platformBlock, "minecraft:grass_block");
+    assert.equal(loaded.platformPadding, 8);
     assert.equal(loaded.autoFindOriginConfigured, false);
     assert.equal(loaded.autoFindOrigin, false);
     assert.deepEqual(loaded.origin, { x: 0, y: 64, z: 0 });
     assert.equal(loaded.planFile, planPath);
     assert.equal(loaded.issueCreativeCommands, false);
+    assert.equal(loaded.issueWorldCommands, false);
     assert.equal(loaded.creativeCommandDelayMs, 750);
   } finally {
     fs.rmSync(tempdir, { recursive: true, force: true });
   }
 });
 
-test("loadConfig reads creative command automation settings", () => {
+test("loadConfig reads creative and command fallback settings", () => {
   const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
   try {
     const configPath = path.join(tempdir, "team-config.json");
@@ -51,7 +63,10 @@ test("loadConfig reads creative command automation settings", () => {
         planFile: "./team-plan.json",
         creativeMode: true,
         issueCreativeCommands: true,
+        issueWorldCommands: true,
         creativeCommandDelayMs: 900,
+        commandDelayMs: 450,
+        placementMode: "commands",
       }),
       "utf8"
     );
@@ -59,7 +74,10 @@ test("loadConfig reads creative command automation settings", () => {
     const loaded = loadConfig(configPath);
     assert.equal(loaded.creativeMode, true);
     assert.equal(loaded.issueCreativeCommands, true);
+    assert.equal(loaded.issueWorldCommands, true);
     assert.equal(loaded.creativeCommandDelayMs, 900);
+    assert.equal(loaded.commandDelayMs, 450);
+    assert.equal(loaded.placementMode, "commands");
   } finally {
     fs.rmSync(tempdir, { recursive: true, force: true });
   }

@@ -15,8 +15,47 @@ const SUPPORT_FACES = [
   new Vec3(0, 0, -1),
   new Vec3(0, 1, 0),
 ];
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function stringifyReason(reason) {
+  if (typeof reason === "string") {
+    return reason;
+  }
+  try {
+    return JSON.stringify(reason);
+  } catch (error) {
+    return String(reason);
+  }
+}
+
+function isServerFullReason(reason) {
+  return stringifyReason(reason).includes("multiplayer.disconnect.server_full");
+}
+
+function formatServerFullMessage(username) {
+  return [
+    `Bot ${username} bị kick vì server đã đầy slot (multiplayer.disconnect.server_full).`,
+    "Server dedicated cần max-players lớn hơn tổng số bot + số người chơi thật.",
+    "Hãy mở file server.properties của server local/private rồi tăng giới hạn, ví dụ: max-players=50.",
+    "Nên kiểm tra các dòng: max-players=50, online-mode=false, gamemode=creative, force-gamemode=true, allow-flight=true, spawn-protection=0.",
+  ].join(" ");
+}
+
+function worldPositionFromOrigin(origin, block) {
+  return new Vec3(origin.x + block.x, origin.y + block.y, origin.z + block.z);
+}
+
+function shouldUseCommandFallback(error) {
+  const message = String(error?.message || error || "");
+  return (
+    /Không tìm thấy block để đặt bám vào/i.test(message) ||
+    /Took too long to decide path to goal/i.test(message) ||
+    /No path to the goal/i.test(message) ||
+    /Goal.*path/i.test(message)
+  );
 }
 
 class BotManager {
@@ -24,6 +63,8 @@ class BotManager {
     this.config = config;
     this.assignments = assignments;
     this.logger = createLogger("manager");
+    this.commandQueue = Promise.resolve();
+    this.commandController = null;
   }
 
   async connectAll() {
@@ -38,25 +79,82 @@ class BotManager {
     const batchDelayMs = Math.max(0, Number(this.config.joinBatchDelayMs) || 0);
     const connected = [];
     const totalBatches = Math.ceil(botConfigs.length / batchSize);
+    const failures = [];
 
     for (let start = 0; start < botConfigs.length; start += batchSize) {
       const batchIndex = Math.floor(start / batchSize);
       const batch = botConfigs.slice(start, start + batchSize);
       this.logger.info(`Đang kết nối batch ${batchIndex + 1}/${totalBatches}...`);
-      const batchConnected = await Promise.all(batch.map((botConfig) => this.connectBot(botConfig)));
-      connected.push(...batchConnected);
+      const batchResults = await Promise.all(
+        batch.map(async (botConfig) => {
+          try {
+            return { ok: true, value: await this.connectBot(botConfig) };
+          } catch (error) {
+            return { ok: false, botConfig, error };
+          }
+        })
+      );
+      for (const result of batchResults) {
+        if (result.ok) {
+          connected.push(result.value);
+        } else {
+          failures.push(result);
+          this.logger.warn(result.error.message);
+        }
+      }
       if (batchIndex < totalBatches - 1 && batchDelayMs > 0) {
         await sleep(batchDelayMs);
       }
     }
 
+    const summary = `Tóm tắt kết nối: connected ${connected.length}/${botConfigs.length} bot.`;
+    if (failures.length > 0) {
+      if (!this.config.allowPartialTeam) {
+        throw new Error(`${summary} Hãy sửa lỗi kết nối rồi chạy lại, hoặc bật allowPartialTeam=true nếu muốn tiếp tục với đội chưa đủ bot.`);
+      }
+      this.logger.warn(`${summary} Tiếp tục vì allowPartialTeam=true.`);
+      return connected;
+    }
+
+    this.logger.info(summary);
     return connected;
   }
 
   async connectBot(botConfig) {
     const logger = createLogger(botConfig.username);
-    logger.info(`Đang kết nối tới ${this.config.host}:${this.config.port}...`);
+    const maxAttempts = Math.max(1, (Number(this.config.connectRetries) || 0) + 1);
+    const retryDelayMs = Math.max(0, Number(this.config.connectRetryDelayMs) || 0);
+    let lastError = null;
 
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      logger.info(`Đang kết nối tới ${this.config.host}:${this.config.port} (lần ${attempt}/${maxAttempts})...`);
+      try {
+        return await this.connectBotOnce(botConfig, logger);
+      } catch (error) {
+        lastError = error;
+        if (isServerFullReason(error?.cause || error?.message || error)) {
+          throw new Error(formatServerFullMessage(botConfig.username));
+        }
+        if (attempt >= maxAttempts) {
+          break;
+        }
+        const currentDelayMs = retryDelayMs * attempt;
+        logger.warn(
+          `Kết nối ${botConfig.username} thất bại ở lần ${attempt}/${maxAttempts}: ${error.message}. Thử lại sau ${currentDelayMs}ms.`
+        );
+        if (currentDelayMs > 0) {
+          await sleep(currentDelayMs);
+        }
+      }
+    }
+
+    if (isServerFullReason(lastError?.cause || lastError?.message || lastError)) {
+      throw new Error(formatServerFullMessage(botConfig.username));
+    }
+    throw new Error(`Bot ${botConfig.username} kết nối thất bại sau ${maxAttempts} lần: ${lastError?.message || lastError}`);
+  }
+
+  async connectBotOnce(botConfig, logger) {
     const bot = mineflayer.createBot({
       host: this.config.host,
       port: this.config.port,
@@ -66,47 +164,66 @@ class BotManager {
     });
     bot.loadPlugin(pathfinder);
 
-    await new Promise((resolve, reject) => {
-      let settled = false;
-      const settle = (callback, value) => {
-        if (settled) {
-          return;
-        }
-        settled = true;
-        clearTimeout(timer);
-        bot.removeListener("spawn", onSpawn);
-        bot.removeListener("error", onError);
-        bot.removeListener("kicked", onKicked);
-        callback(value);
-      };
-      const timer = setTimeout(() => settle(reject, new Error(`Bot ${botConfig.username} kết nối quá lâu.`)), this.config.connectTimeoutMs);
+    try {
+      await new Promise((resolve, reject) => {
+        let settled = false;
+        const settle = (callback, value) => {
+          if (settled) {
+            return;
+          }
+          settled = true;
+          clearTimeout(timer);
+          bot.removeListener("spawn", onSpawn);
+          bot.removeListener("error", onError);
+          bot.removeListener("kicked", onKicked);
+          callback(value);
+        };
+        const timer = setTimeout(
+          () => settle(reject, new Error(`Bot ${botConfig.username} kết nối quá lâu.`)),
+          this.config.connectTimeoutMs
+        );
 
-      const onSpawn = () => {
+        const onSpawn = () => {
+          try {
+            bot.pathfinder.setMovements(createMovements(bot));
+          } catch (error) {
+            logger.warn(`Không thể khởi tạo pathfinder: ${error.message}`);
+          }
+          logger.info("Đã spawn vào server.");
+          settle(resolve);
+        };
+
+        const onError = (error) => {
+          settle(reject, error);
+        };
+
+        const onKicked = (reason) => {
+          const message = isServerFullReason(reason)
+            ? formatServerFullMessage(botConfig.username)
+            : `Bot bị kick: ${stringifyReason(reason)}`;
+          const kickedError = new Error(message);
+          kickedError.cause = stringifyReason(reason);
+          settle(reject, kickedError);
+        };
+
+        bot.once("spawn", onSpawn);
+        bot.once("error", onError);
+        bot.once("kicked", onKicked);
+      });
+
+      await this.handleCreativeModeOnConnect(bot, botConfig, logger);
+
+      return { ...botConfig, bot, logger, mcData: minecraftData(bot.version) };
+    } catch (error) {
+      if (typeof bot.quit === "function") {
         try {
-          bot.pathfinder.setMovements(createMovements(bot));
-        } catch (error) {
-          logger.warn(`Không thể khởi tạo pathfinder: ${error.message}`);
+          bot.quit("Kết nối thất bại, đóng bot để thử lại.");
+        } catch (quitError) {
+          logger.warn(`Không thể đóng bot sau lỗi kết nối: ${quitError.message}`);
         }
-        logger.info("Đã spawn vào server.");
-        settle(resolve);
-      };
-
-      const onError = (error) => {
-        settle(reject, error);
-      };
-
-      const onKicked = (reason) => {
-        settle(reject, new Error(`Bot bị kick: ${reason}`));
-      };
-
-      bot.once("spawn", onSpawn);
-      bot.once("error", onError);
-      bot.once("kicked", onKicked);
-    });
-
-    await this.handleCreativeModeOnConnect(bot, botConfig, logger);
-
-    return { ...botConfig, bot, logger, mcData: minecraftData(bot.version) };
+      }
+      throw error;
+    }
   }
 
   async handleCreativeModeOnConnect(bot, botConfig, logger) {
@@ -124,15 +241,40 @@ class BotManager {
   }
 
   async runBuild(connectedBots) {
-    await Promise.all(
-      this.assignments.map((assignment) => {
+    this.commandController =
+      this.commandController ||
+      connectedBots.find((entry) => entry.username === this.config.scoutBot) ||
+      connectedBots[0] ||
+      null;
+    const activeAssignments = this.assignments.filter((assignment) => {
         const connected = connectedBots.find((entry) => entry.username === assignment.bot.username);
         if (!connected) {
-          throw new Error(`Thiếu bot đã kết nối cho ${assignment.bot.username}`);
+          if (!this.config.allowPartialTeam) {
+            throw new Error(`Thiếu bot đã kết nối cho ${assignment.bot.username}`);
+          }
+          this.logger.warn(`Bỏ qua phần việc của ${assignment.bot.username} vì bot này chưa kết nối được.`);
+          return false;
         }
+        return true;
+      });
+    await Promise.all(
+      activeAssignments.map((assignment) => {
+        const connected = connectedBots.find((entry) => entry.username === assignment.bot.username);
         return this.runAssignment(connected, assignment.blocks);
       })
     );
+  }
+
+  canUseWorldCommands() {
+    return this.config.issueCreativeCommands === true || this.config.issueWorldCommands === true;
+  }
+
+  setCommandController(entry) {
+    this.commandController = entry || null;
+  }
+
+  getWorldPosition(block) {
+    return worldPositionFromOrigin(this.config.origin, block);
   }
 
   async runAssignment(connected, blocks) {
@@ -144,7 +286,7 @@ class BotManager {
 
     for (const block of blocks) {
       try {
-        const result = await this.placeBlock(bot, mcData, block);
+        const result = await this.placeBlock(bot, mcData, block, logger);
         if (result === "placed") {
           placed += 1;
         } else {
@@ -176,13 +318,44 @@ class BotManager {
     return null;
   }
 
-  async placeBlock(bot, mcData, block) {
-    const worldPosition = new Vec3(
-      this.config.origin.x + block.x,
-      this.config.origin.y + block.y,
-      this.config.origin.z + block.z
-    );
+  async placeBlockByCommand(block, logger) {
+    if (!this.canUseWorldCommands()) {
+      throw new Error('placementMode dạng command yêu cầu bật issueCreativeCommands hoặc issueWorldCommands.');
+    }
+    if (!this.commandController?.bot) {
+      throw new Error("Không có controller bot đang online để gửi /setblock.");
+    }
+    const worldPosition = this.getWorldPosition(block);
+    const command = `${this.config.commandPrefix || "/"}setblock ${worldPosition.x} ${worldPosition.y} ${worldPosition.z} ${block.block}`;
+    this.commandQueue = this.commandQueue.then(async () => {
+      this.commandController.bot.chat(command);
+      if (logger) {
+        logger.info(`Dùng lệnh build fallback: ${command}`);
+      }
+      await sleep(Math.max(0, Number(this.config.commandDelayMs) || Number(this.config.placementDelayMs) || 0));
+    });
+    await this.commandQueue;
+    return "placed";
+  }
 
+  async placeBlock(bot, mcData, block, logger) {
+    const mode = this.config.placementMode || "command-fallback";
+    if (mode === "commands") {
+      return this.placeBlockByCommand(block, logger);
+    }
+
+    const worldPosition = this.getWorldPosition(block);
+    try {
+      return await this.placeBlockWithMineflayer(bot, mcData, block, worldPosition);
+    } catch (error) {
+      if (mode === "command-fallback" && this.config.commandBuildFallback !== false && this.canUseWorldCommands() && shouldUseCommandFallback(error)) {
+        return this.placeBlockByCommand(block, logger);
+      }
+      throw error;
+    }
+  }
+
+  async placeBlockWithMineflayer(bot, mcData, block, worldPosition) {
     await moveNear(
       bot,
       { x: worldPosition.x, y: worldPosition.y, z: worldPosition.z },
@@ -230,4 +403,7 @@ class BotManager {
 
 module.exports = {
   BotManager,
+  formatServerFullMessage,
+  isServerFullReason,
+  worldPositionFromOrigin,
 };

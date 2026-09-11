@@ -298,6 +298,16 @@ class GenerationTests(unittest.TestCase):
             self.assertTrue(config_payload["issueCreativeCommands"])
             self.assertEqual(config_payload["creativeCommandDelayMs"], 750)
             self.assertEqual(config_payload["commandPrefix"], "/")
+            self.assertEqual(config_payload["placementMode"], "command-fallback")
+            self.assertTrue(config_payload["commandBuildFallback"])
+            self.assertTrue(config_payload["prepareBuildPlatform"])
+            self.assertTrue(config_payload["clearAbovePlatform"])
+            self.assertEqual(config_payload["platformBlock"], "minecraft:grass_block")
+            self.assertEqual(config_payload["platformPadding"], 8)
+            self.assertEqual(config_payload["connectTimeoutMs"], 120000)
+            self.assertEqual(config_payload["connectRetries"], 3)
+            self.assertEqual(config_payload["connectRetryDelayMs"], 5000)
+            self.assertFalse(config_payload["allowPartialTeam"])
 
     def test_generation_can_export_four_bot_role_mapping(self):
         story = "A fantasy library with towers, roof, and secret room."
@@ -354,9 +364,10 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(len(config_payload["bots"]), 50)
             self.assertEqual(config_payload["bots"][0]["username"], "Builder_01")
             self.assertEqual(config_payload["bots"][-1]["username"], "Builder_50")
-            self.assertEqual(config_payload["joinBatchSize"], 5)
-            self.assertEqual(config_payload["joinBatchDelayMs"], 3000)
+            self.assertEqual(config_payload["joinBatchSize"], 1)
+            self.assertEqual(config_payload["joinBatchDelayMs"], 5000)
             self.assertEqual(config_payload["placementDelayMs"], 1000)
+            self.assertEqual(config_payload["commandDelayMs"], 1000)
             self.assertTrue(config_payload["autoFindOrigin"])
             self.assertEqual(config_payload["origin"], "auto")
             self.assertTrue(config_payload["teleportBotsToOrigin"])
@@ -365,6 +376,16 @@ class GenerationTests(unittest.TestCase):
             self.assertTrue(config_payload["issueCreativeCommands"])
             self.assertEqual(config_payload["creativeCommandDelayMs"], 750)
             self.assertEqual(config_payload["commandPrefix"], "/")
+            self.assertEqual(config_payload["placementMode"], "command-fallback")
+            self.assertTrue(config_payload["commandBuildFallback"])
+            self.assertTrue(config_payload["prepareBuildPlatform"])
+            self.assertTrue(config_payload["clearAbovePlatform"])
+            self.assertEqual(config_payload["platformBlock"], "minecraft:grass_block")
+            self.assertEqual(config_payload["platformPadding"], 8)
+            self.assertEqual(config_payload["connectTimeoutMs"], 120000)
+            self.assertEqual(config_payload["connectRetries"], 3)
+            self.assertEqual(config_payload["connectRetryDelayMs"], 5000)
+            self.assertFalse(config_payload["allowPartialTeam"])
             self.assertGreaterEqual(
                 {bot["role"] for bot in config_payload["bots"]},
                 {"foundation", "walls", "towers", "roof", "secret_room", "decorations"},

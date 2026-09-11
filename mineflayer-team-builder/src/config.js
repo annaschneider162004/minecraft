@@ -51,6 +51,16 @@ function parseSearchCenter(value) {
   return value;
 }
 
+function parsePlacementMode(value) {
+  if (value === undefined || value === null || value === "") {
+    return "command-fallback";
+  }
+  if (value === "mineflayer" || value === "commands" || value === "command-fallback") {
+    return value;
+  }
+  throw new Error('placementMode phải là "mineflayer", "commands" hoặc "command-fallback".');
+}
+
 function loadConfig(configArg) {
   const configPath = configArg || process.env.TEAM_BUILDER_CONFIG;
   if (!configPath) {
@@ -94,20 +104,34 @@ function loadConfig(configArg) {
     creativeMode: parsed.creativeMode !== false,
     commandPrefix: withDefault(parsed.commandPrefix, "/"),
     issueCreativeCommands: parsed.issueCreativeCommands === true,
+    issueWorldCommands: parsed.issueWorldCommands === true,
     creativeCommandDelayMs: readNumberValue(
       withDefault(parsed.creativeCommandDelayMs, withDefault(readNumberEnv("TEAM_BUILDER_CREATIVE_COMMAND_DELAY_MS"), 750)),
       750
     ),
     placementDelayMs: withDefault(parsed.placementDelayMs, withDefault(readNumberEnv("TEAM_BUILDER_PLACEMENT_DELAY_MS"), 700)),
+    commandDelayMs: withDefault(
+      parsed.commandDelayMs,
+      withDefault(readNumberEnv("TEAM_BUILDER_COMMAND_DELAY_MS"), withDefault(parsed.placementDelayMs, 700))
+    ),
+    placementMode: parsePlacementMode(parsed.placementMode),
+    commandBuildFallback: parsed.commandBuildFallback !== false,
     movementTimeoutMs: withDefault(parsed.movementTimeoutMs, 15000),
-    connectTimeoutMs: withDefault(parsed.connectTimeoutMs, withDefault(readNumberEnv("TEAM_BUILDER_CONNECT_TIMEOUT_MS"), 30000)),
+    connectTimeoutMs: withDefault(parsed.connectTimeoutMs, withDefault(readNumberEnv("TEAM_BUILDER_CONNECT_TIMEOUT_MS"), 120000)),
+    connectRetries: withDefault(parsed.connectRetries, 3),
+    connectRetryDelayMs: withDefault(parsed.connectRetryDelayMs, 5000),
     maxPlacementRetries: withDefault(parsed.maxPlacementRetries, 2),
-    joinBatchSize: withDefault(parsed.joinBatchSize, 5),
-    joinBatchDelayMs: withDefault(parsed.joinBatchDelayMs, 3000),
+    joinBatchSize: withDefault(parsed.joinBatchSize, 1),
+    joinBatchDelayMs: withDefault(parsed.joinBatchDelayMs, 5000),
+    allowPartialTeam: parsed.allowPartialTeam === true,
     replaceOccupiedBlocks: parsed.replaceOccupiedBlocks === true,
     teleportBotsToOrigin: parsed.teleportBotsToOrigin === true,
     setWorldConditions: parsed.setWorldConditions === true,
     clearBuildArea: parsed.clearBuildArea === true,
+    prepareBuildPlatform: parsed.prepareBuildPlatform !== false,
+    platformBlock: withDefault(parsed.platformBlock, "minecraft:grass_block"),
+    clearAbovePlatform: parsed.clearAbovePlatform !== false,
+    platformPadding: withDefault(parsed.platformPadding, 8),
   };
 }
 

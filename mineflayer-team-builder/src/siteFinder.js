@@ -176,6 +176,23 @@ function generateCandidates(center, radius) {
   return candidates;
 }
 
+function canUseWorldCommands(config) {
+  return config.issueCreativeCommands === true || config.issueWorldCommands === true;
+}
+
+function buildFailureMessage(config) {
+  const suggestions = [
+    "tăng maxSearchRadius",
+    "dùng world phẳng/superflat",
+  ];
+  if (!config.prepareBuildPlatform) {
+    suggestions.push("bật prepareBuildPlatform");
+  } else if (!canUseWorldCommands(config)) {
+    suggestions.push("bật issueCreativeCommands hoặc issueWorldCommands");
+  }
+  return `Không tìm thấy khu vực phù hợp để đặt công trình tự động. Hãy ${suggestions.join(", ")}.`;
+}
+
 function isAutoOriginEnabled(config) {
   if (config.autoFindOriginConfigured) {
     return config.autoFindOrigin === true;
@@ -191,6 +208,9 @@ async function findBuildOrigin(bot, config, planSize, logger) {
   let best = null;
 
   for (let radius = initialRadius; radius <= maxRadius; radius += radiusStep) {
+    if (logger) {
+      logger.info(`${bot.username || "Scout"} đang quét địa hình bán kính ${radius}...`);
+    }
     const candidates = generateCandidates(center, radius);
     for (const candidate of candidates) {
       const evaluation = evaluateCandidate(bot, candidate, planSize, config);
@@ -203,6 +223,11 @@ async function findBuildOrigin(bot, config, planSize, logger) {
         (evaluation.obstructionScore === best.obstructionScore && evaluation.flatnessScore < best.flatnessScore)
       ) {
         best = evaluation;
+        if (logger) {
+          logger.info(
+            `Đã tìm thấy khu đất phù hợp tại ${best.origin.x} ${best.origin.y} ${best.origin.z} (${best.reason}).`
+          );
+        }
       }
       if (evaluation.obstructionScore === 0 && evaluation.flatnessScore === 0) {
         break;
@@ -211,10 +236,34 @@ async function findBuildOrigin(bot, config, planSize, logger) {
     if (best && best.obstructionScore <= 2) {
       break;
     }
+    if (!best && radius < maxRadius && logger) {
+      const nextRadius = Math.min(maxRadius, radius + radiusStep);
+      logger.info(`Chưa thấy khu đất đủ tốt, mở rộng bán kính lên ${nextRadius}...`);
+    }
   }
 
   if (!best) {
-    throw new Error("Không tìm thấy khu vực phù hợp để đặt công trình tự động.");
+    if (config.prepareBuildPlatform && canUseWorldCommands(config)) {
+      const probeY = findGroundY(
+        bot,
+        center.x,
+        center.z,
+        bot.entity?.position?.y || 64,
+        Math.max(1, Number(config.clearanceHeight) || planSize.height)
+      );
+      const fallbackOrigin = {
+        x: center.x,
+        y: probeY ?? Math.floor(bot.entity?.position?.y || 64),
+        z: center.z,
+      };
+      if (logger) {
+        logger.warn(
+          `Không thấy khu đất tự nhiên đạt yêu cầu. Sẽ dùng khu nền nhân tạo tại ${fallbackOrigin.x} ${fallbackOrigin.y} ${fallbackOrigin.z}.`
+        );
+      }
+      return fallbackOrigin;
+    }
+    throw new Error(buildFailureMessage(config));
   }
 
   if (logger) {
@@ -229,4 +278,5 @@ module.exports = {
   findBuildOrigin,
   isAutoOriginEnabled,
   resolveSearchCenter,
+  canUseWorldCommands,
 };

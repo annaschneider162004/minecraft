@@ -1,10 +1,11 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
-const { evaluateCandidate, findBuildOrigin, isAutoOriginEnabled, resolveSearchCenter } = require("../src/siteFinder");
+const { canUseWorldCommands, evaluateCandidate, findBuildOrigin, isAutoOriginEnabled, resolveSearchCenter } = require("../src/siteFinder");
 
-function createMockBot({ groundY = 64, blockedPositions = new Set(), waterPositions = new Set(), groundByXZ = new Map() } = {}) {
+function createMockBot({ groundY = 64, blockedPositions = new Set(), waterPositions = new Set(), groundByXZ = new Map(), username = "Builder_01" } = {}) {
   return {
+    username,
     entity: {
       position: { x: 10.2, y: groundY, z: -2.8 },
     },
@@ -35,11 +36,29 @@ function createMockBot({ groundY = 64, blockedPositions = new Set(), waterPositi
   };
 }
 
+function createAirOnlyBot() {
+  return {
+    username: "Builder_01",
+    entity: {
+      position: { x: 4.4, y: 70, z: 8.6 },
+    },
+    blockAt() {
+      return { name: "minecraft:air", boundingBox: "empty" };
+    },
+  };
+}
+
 test("isAutoOriginEnabled supports both toggles", () => {
   assert.equal(isAutoOriginEnabled({ autoFindOriginConfigured: true, autoFindOrigin: true, origin: { x: 0, y: 64, z: 0 } }), true);
   assert.equal(isAutoOriginEnabled({ autoFindOriginConfigured: false, autoFindOrigin: false, origin: "auto" }), true);
   assert.equal(isAutoOriginEnabled({ autoFindOriginConfigured: true, autoFindOrigin: false, origin: "auto" }), false);
   assert.equal(isAutoOriginEnabled({ autoFindOrigin: false, origin: { x: 0, y: 64, z: 0 } }), false);
+});
+
+test("canUseWorldCommands supports both command flags", () => {
+  assert.equal(canUseWorldCommands({ issueCreativeCommands: true, issueWorldCommands: false }), true);
+  assert.equal(canUseWorldCommands({ issueCreativeCommands: false, issueWorldCommands: true }), true);
+  assert.equal(canUseWorldCommands({ issueCreativeCommands: false, issueWorldCommands: false }), false);
 });
 
 test("resolveSearchCenter honors explicit configured coordinates", () => {
@@ -85,10 +104,62 @@ test("findBuildOrigin returns usable coordinate near center", async () => {
       buildPadding: 0,
       replaceOccupiedBlocks: false,
       preferCurrentPlayerArea: true,
+      prepareBuildPlatform: true,
+      issueCreativeCommands: false,
+      issueWorldCommands: false,
     },
     { width: 2, height: 6, length: 2 }
   );
   assert.equal(typeof origin.x, "number");
   assert.equal(typeof origin.y, "number");
   assert.equal(typeof origin.z, "number");
+});
+
+test("findBuildOrigin falls back to synthetic platform origin when commands are enabled", async () => {
+  const origin = await findBuildOrigin(
+    createAirOnlyBot(),
+    {
+      autoFindOrigin: true,
+      origin: "auto",
+      searchRadius: 8,
+      maxSearchRadius: 16,
+      requiredFlatness: 0,
+      clearanceHeight: 8,
+      buildPadding: 0,
+      replaceOccupiedBlocks: false,
+      preferCurrentPlayerArea: true,
+      prepareBuildPlatform: true,
+      issueCreativeCommands: true,
+      issueWorldCommands: false,
+    },
+    { width: 4, height: 6, length: 4 },
+    { info() {}, warn() {} }
+  );
+
+  assert.deepEqual(origin, { x: 4, y: 70, z: 8 });
+});
+
+test("findBuildOrigin fails with actionable Vietnamese guidance when fallback is unavailable", async () => {
+  await assert.rejects(
+    () =>
+      findBuildOrigin(
+        createAirOnlyBot(),
+        {
+          autoFindOrigin: true,
+          origin: "auto",
+          searchRadius: 8,
+          maxSearchRadius: 16,
+          requiredFlatness: 0,
+          clearanceHeight: 8,
+          buildPadding: 0,
+          replaceOccupiedBlocks: false,
+          preferCurrentPlayerArea: true,
+          prepareBuildPlatform: false,
+          issueCreativeCommands: false,
+          issueWorldCommands: false,
+        },
+        { width: 4, height: 6, length: 4 }
+      ),
+    /maxSearchRadius|superflat|prepareBuildPlatform/
+  );
 });
