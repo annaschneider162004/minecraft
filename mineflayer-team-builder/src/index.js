@@ -180,6 +180,9 @@ async function executeBuild(config, plan, options = {}) {
       scopedLogger.info(`Đã chọn build origin tự động: (${buildOrigin.x}, ${buildOrigin.y}, ${buildOrigin.z}).`);
       assignments = buildAssignmentsFn(plan, config.bots, buildOrigin);
       const manager = new BotManagerClass({ ...config, origin: buildOrigin, issueCreativeCommandsOnConnect: false }, assignments);
+      if (typeof manager.setCommandController === "function") {
+        manager.setCommandController(scoutEntry);
+      }
       const remainingBots = config.bots.filter((bot) => bot.username !== scoutBot.username);
       const remainingConnectedBots = await manager.connectBots(remainingBots);
       const connectedBots = [scoutEntry, ...remainingConnectedBots];

@@ -53,7 +53,8 @@ function shouldUseCommandFallback(error) {
   return (
     /Không tìm thấy block để đặt bám vào/i.test(message) ||
     /Took too long to decide path to goal/i.test(message) ||
-    /path/i.test(message)
+    /No path to the goal/i.test(message) ||
+    /Goal.*path/i.test(message)
   );
 }
 
@@ -240,7 +241,10 @@ class BotManager {
 
   async runBuild(connectedBots) {
     this.commandController =
-      connectedBots.find((entry) => entry.username === this.config.scoutBot) || connectedBots[0] || null;
+      this.commandController ||
+      connectedBots.find((entry) => entry.username === this.config.scoutBot) ||
+      connectedBots[0] ||
+      null;
     const activeAssignments = this.assignments.filter((assignment) => {
         const connected = connectedBots.find((entry) => entry.username === assignment.bot.username);
         if (!connected) {
@@ -262,6 +266,10 @@ class BotManager {
 
   canUseWorldCommands() {
     return this.config.issueCreativeCommands === true || this.config.issueWorldCommands === true;
+  }
+
+  setCommandController(entry) {
+    this.commandController = entry || null;
   }
 
   getWorldPosition(block) {
