@@ -6,6 +6,7 @@ import unittest
 from contextlib import redirect_stderr
 from contextlib import redirect_stdout
 from io import StringIO
+from unittest.mock import patch
 
 from fantasy_schematic_builder.app import main
 from fantasy_schematic_builder.builder import generate_project
@@ -545,6 +546,14 @@ class GenerationTests(unittest.TestCase):
             self.assertTrue(os.path.exists(os.path.join(tempdir, "cong_trinh_huyen_huyen_team_config.json")))
             self.assertIn("Đã xuất Auralis v2 vào", stdout.getvalue())
             self.assertIn("server-console-setup-commands.txt", stdout.getvalue())
+
+    def test_cli_reports_auralis_v2_export_failures_cleanly(self):
+        stderr = StringIO()
+        with patch("fantasy_schematic_builder.app.export_auralis_v2_assets", side_effect=FileNotFoundError("missing plan")):
+            with self.assertRaises(SystemExit) as exc, redirect_stderr(stderr):
+                main(["--export-auralis-v2"])
+        self.assertEqual(exc.exception.code, 1)
+        self.assertIn("Không thể xuất Auralis v2: missing plan", stderr.getvalue())
 
     def test_creative_tools_generate_idea_and_titles(self):
         idea = generate_build_idea(theme="wizard", keyword="moon archive")

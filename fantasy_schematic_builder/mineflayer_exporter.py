@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import tempfile
 from typing import Iterable
 
 from fantasy_schematic_builder.models import GeneratedBuild
@@ -161,16 +162,23 @@ def _recommended_placement_delay(team_bot_count: int) -> int:
     return 700
 
 
-def auralis_v2_examples_directory() -> str:
-    return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "mineflayer-team-builder", "examples"))
-
-
-def auralis_v2_mineflayer_directory() -> str:
+def auralis_v2_mineflayer_directory(mineflayer_dir: str | None = None) -> str:
+    if mineflayer_dir:
+        return os.path.abspath(mineflayer_dir)
+    configured_dir = os.environ.get("MINEFLAYER_TEAM_BUILDER_DIR")
+    if configured_dir:
+        return os.path.abspath(configured_dir)
     return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "mineflayer-team-builder"))
 
 
-def _auralis_v2_plan_source_path() -> str:
-    return os.path.join(auralis_v2_examples_directory(), AURALIS_V2_PLAN_FILENAME)
+def auralis_v2_examples_directory(examples_dir: str | None = None, mineflayer_dir: str | None = None) -> str:
+    if examples_dir:
+        return os.path.abspath(examples_dir)
+    return os.path.join(auralis_v2_mineflayer_directory(mineflayer_dir), "examples")
+
+
+def _auralis_v2_plan_source_path(examples_dir: str | None = None, mineflayer_dir: str | None = None) -> str:
+    return os.path.join(auralis_v2_examples_directory(examples_dir=examples_dir, mineflayer_dir=mineflayer_dir), AURALIS_V2_PLAN_FILENAME)
 
 
 def _auralis_v2_bot_definitions() -> list[dict[str, object]]:
@@ -264,20 +272,40 @@ def format_auralis_v2_export_summary(result: dict[str, str]) -> str:
     )
 
 
-def export_auralis_v2_assets(output_dir: str) -> dict[str, str]:
+def export_auralis_v2_assets(
+    output_dir: str,
+    examples_dir: str | None = None,
+    mineflayer_dir: str | None = None,
+) -> dict[str, str]:
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
+    resolved_mineflayer_dir = auralis_v2_mineflayer_directory(mineflayer_dir if mineflayer_dir else (os.path.dirname(examples_dir) if examples_dir else None))
+    plan_source_path = _auralis_v2_plan_source_path(examples_dir=examples_dir, mineflayer_dir=resolved_mineflayer_dir)
     plan_output_path = os.path.join(output_dir, AURALIS_V2_PLAN_FILENAME)
     config_output_path = os.path.join(output_dir, AURALIS_V2_CONFIG_FILENAME)
     alias_output_path = os.path.join(output_dir, AURALIS_V2_ALIAS_CONFIG_FILENAME)
     server_setup_output_path = os.path.join(output_dir, AURALIS_V2_SERVER_SETUP_FILENAME)
 
-    shutil.copyfile(_auralis_v2_plan_source_path(), plan_output_path)
-    config_payload = build_auralis_v2_team_config(plan_output_path)
-    _write_json(config_payload, config_output_path)
-    _write_json(config_payload, alias_output_path)
-    with open(server_setup_output_path, "w", encoding="utf-8") as handle:
-        handle.write("\n".join(AURALIS_V2_SERVER_SETUP_COMMANDS) + "\n")
+    with tempfile.TemporaryDirectory(dir=output_dir, prefix=".auralis_v2_export_") as temp_dir:
+        temp_plan_output_path = os.path.join(temp_dir, AURALIS_V2_PLAN_FILENAME)
+        temp_config_output_path = os.path.join(temp_dir, AURALIS_V2_CONFIG_FILENAME)
+        temp_alias_output_path = os.path.join(temp_dir, AURALIS_V2_ALIAS_CONFIG_FILENAME)
+        temp_server_setup_output_path = os.path.join(temp_dir, AURALIS_V2_SERVER_SETUP_FILENAME)
+
+        shutil.copyfile(plan_source_path, temp_plan_output_path)
+        config_payload = build_auralis_v2_team_config(plan_output_path)
+        _write_json(config_payload, temp_config_output_path)
+        _write_json(config_payload, temp_alias_output_path)
+        with open(temp_server_setup_output_path, "w", encoding="utf-8") as handle:
+            handle.write("\n".join(AURALIS_V2_SERVER_SETUP_COMMANDS) + "\n")
+
+        for temp_path, final_path in (
+            (temp_plan_output_path, plan_output_path),
+            (temp_config_output_path, config_output_path),
+            (temp_alias_output_path, alias_output_path),
+            (temp_server_setup_output_path, server_setup_output_path),
+        ):
+            os.replace(temp_path, final_path)
 
     return {
         "output_dir": output_dir,
@@ -285,7 +313,7 @@ def export_auralis_v2_assets(output_dir: str) -> dict[str, str]:
         "config": config_output_path,
         "alias_config": alias_output_path,
         "server_console_setup": server_setup_output_path,
-        "mineflayer_dir": auralis_v2_mineflayer_directory(),
+        "mineflayer_dir": resolved_mineflayer_dir,
     }
 
 
