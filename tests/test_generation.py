@@ -549,7 +549,7 @@ class GenerationTests(unittest.TestCase):
 
     def test_cli_reports_auralis_v2_export_failures_cleanly(self):
         stderr = StringIO()
-        with patch("fantasy_schematic_builder.app.export_auralis_v2_assets", side_effect=FileNotFoundError("missing plan")):
+        with patch("fantasy_schematic_builder.app.export_auralis_v2_assets", side_effect=RuntimeError("missing plan")):
             with self.assertRaises(SystemExit) as exc, redirect_stderr(stderr):
                 main(["--export-auralis-v2"])
         self.assertEqual(exc.exception.code, 1)
