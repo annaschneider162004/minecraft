@@ -3,7 +3,12 @@ const assert = require("node:assert/strict");
 const { EventEmitter } = require("node:events");
 
 const mineflayer = require("mineflayer");
-const { BotManager, formatServerFullMessage, worldPositionFromOrigin } = require("../src/botManager");
+const {
+  BotManager,
+  formatServerFullMessage,
+  formatWorldCommandPermissionMessage,
+  worldPositionFromOrigin,
+} = require("../src/botManager");
 
 function createFakeConnectingBot(onCreate) {
   const bot = new EventEmitter();
@@ -166,9 +171,107 @@ test("worldPositionFromOrigin adds origin offsets for command placement", () => 
   assert.deepEqual({ x: position.x, y: position.y, z: position.z }, { x: 698, y: 86, z: -167 });
 });
 
+test("commands mode places blocks by /setblock without calling mineflayer placement", async () => {
+  const manager = new BotManager({
+    origin: { x: 696, y: 81, z: -163 },
+    placementMode: "commands",
+    issueWorldCommands: true,
+    issueCreativeCommands: false,
+    commandPrefix: "/",
+    commandDelayMs: 0,
+    verbose: false,
+  }, []);
+  const chats = [];
+  manager.commandController = {
+    username: "Builder_01",
+    bot: Object.assign(new EventEmitter(), {
+      chat(message) {
+        chats.push(message);
+      },
+    }),
+  };
+  manager.placeBlockWithMineflayer = async () => {
+    throw new Error("mineflayer placement should not be used");
+  };
+
+  const result = await manager.placeBlock({ blockAt() {} }, {}, { x: 2, y: 5, z: -4, block: "minecraft:stone" }, { info() {} });
+
+  assert.equal(result, "placed");
+  assert.deepEqual(chats, ["/setblock 698 86 -167 minecraft:stone"]);
+});
+
+test("commands mode surfaces a clear Vietnamese permission error", async () => {
+  const manager = new BotManager({
+    origin: { x: 0, y: 100, z: 0 },
+    placementMode: "commands",
+    issueWorldCommands: true,
+    issueCreativeCommands: false,
+    commandPrefix: "/",
+    commandDelayMs: 0,
+  }, []);
+  manager.commandController = {
+    username: "Builder_01",
+    bot: Object.assign(new EventEmitter(), {
+      chat() {
+        setImmediate(() => this.emit("messagestr", "You do not have permission to perform this command"));
+      },
+    }),
+  };
+
+  await assert.rejects(
+    () => manager.placeBlockByCommand({ x: 0, y: 0, z: 0, block: "minecraft:stone" }, { info() {} }),
+    /op Builder_01|gamemode=creative|force-gamemode=true|online-mode=false|max-players=50/
+  );
+});
+
+test("command queue recovers after a rejected command", async () => {
+  const manager = new BotManager({
+    origin: { x: 0, y: 100, z: 0 },
+    placementMode: "commands",
+    issueWorldCommands: true,
+    issueCreativeCommands: false,
+    commandPrefix: "/",
+    commandDelayMs: 0,
+  }, []);
+  const chats = [];
+  const bot = Object.assign(new EventEmitter(), {
+    chat(message) {
+      chats.push(message);
+      if (message.includes("minecraft:stone")) {
+        setImmediate(() => this.emit("messagestr", "You do not have permission to perform this command"));
+      }
+    },
+  });
+  manager.commandController = {
+    username: "Builder_01",
+    bot,
+  };
+
+  await assert.rejects(
+    () => manager.placeBlockByCommand({ x: 0, y: 0, z: 0, block: "minecraft:stone" }, { info() {} }),
+    /op Builder_01/
+  );
+
+  await manager.placeBlockByCommand({ x: 1, y: 0, z: 0, block: "minecraft:glass" }, { info() {} });
+
+  assert.deepEqual(chats, [
+    "/setblock 0 100 0 minecraft:stone",
+    "/setblock 1 100 0 minecraft:glass",
+  ]);
+});
+
 test("formatServerFullMessage includes dedicated server guidance", () => {
   const message = formatServerFullMessage("Builder_08");
   assert.match(message, /server\.properties/);
   assert.match(message, /max-players=50/);
   assert.match(message, /Builder_08/);
+});
+
+test("formatWorldCommandPermissionMessage includes local server command guidance", () => {
+  const message = formatWorldCommandPermissionMessage("Builder_01");
+  assert.match(message, /op Builder_01/);
+  assert.match(message, /gamemode=creative/);
+  assert.match(message, /force-gamemode=true/);
+  assert.match(message, /online-mode=false/);
+  assert.match(message, /max-players=50/);
 });

@@ -1,7 +1,14 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
-const { canUseWorldCommands, evaluateCandidate, findBuildOrigin, isAutoOriginEnabled, resolveSearchCenter } = require("../src/siteFinder");
+const {
+  canUseWorldCommands,
+  evaluateCandidate,
+  findBuildOrigin,
+  isAutoOriginEnabled,
+  resolvePlatformOrigin,
+  resolveSearchCenter,
+} = require("../src/siteFinder");
 
 function createMockBot({ groundY = 64, blockedPositions = new Set(), waterPositions = new Set(), groundByXZ = new Map(), username = "Builder_01" } = {}) {
   return {
@@ -131,12 +138,13 @@ test("findBuildOrigin falls back to synthetic platform origin when commands are 
       prepareBuildPlatform: true,
       issueCreativeCommands: true,
       issueWorldCommands: false,
+      platformOrigin: { x: 0, y: 100, z: 0 },
     },
     { width: 4, height: 6, length: 4 },
     { info() {}, warn() {} }
   );
 
-  assert.deepEqual(origin, { x: 4, y: 70, z: 8 });
+  assert.deepEqual(origin, { x: 0, y: 100, z: 0 });
 });
 
 test("findBuildOrigin fails with actionable Vietnamese guidance when fallback is unavailable", async () => {
@@ -162,4 +170,17 @@ test("findBuildOrigin fails with actionable Vietnamese guidance when fallback is
       ),
     /maxSearchRadius|superflat|prepareBuildPlatform/
   );
+});
+
+test("resolvePlatformOrigin prefers explicit platform origin over auto origin", () => {
+  const origin = resolvePlatformOrigin(
+    {
+      origin: "auto",
+      platformOrigin: { x: 0, y: 100, z: 0 },
+    },
+    { x: 10, y: 70, z: -3 },
+    createAirOnlyBot()
+  );
+
+  assert.deepEqual(origin, { x: 0, y: 100, z: 0 });
 });

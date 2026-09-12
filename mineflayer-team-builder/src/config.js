@@ -33,10 +33,20 @@ function parseOrigin(origin) {
     return "auto";
   }
   if (origin === undefined) {
-    return { x: 0, y: 64, z: 0 };
+    return { x: 0, y: 100, z: 0 };
   }
   if (!isCoordinateObject(origin)) {
     throw new Error("origin phải là {x, y, z} hoặc \"auto\".");
+  }
+  return origin;
+}
+
+function parseCoordinateOrigin(origin, fieldName) {
+  if (origin === undefined) {
+    return undefined;
+  }
+  if (!isCoordinateObject(origin)) {
+    throw new Error(`${fieldName} phải là {x, y, z}.`);
   }
   return origin;
 }
@@ -53,7 +63,7 @@ function parseSearchCenter(value) {
 
 function parsePlacementMode(value) {
   if (value === undefined || value === null || value === "") {
-    return "command-fallback";
+    return "commands";
   }
   if (value === "mineflayer" || value === "commands" || value === "command-fallback") {
     return value;
@@ -72,6 +82,10 @@ function loadConfig(configArg) {
   const parsed = JSON.parse(raw);
   const configDir = path.dirname(absolutePath);
   const planFile = parsed.planFile ? path.resolve(configDir, parsed.planFile) : null;
+  const origin = parseOrigin(parsed.origin);
+  const platformOrigin =
+    parseCoordinateOrigin(parsed.platformOrigin, "platformOrigin") ||
+    (origin === "auto" ? { x: 0, y: 100, z: 0 } : origin);
 
   if (!parsed.host) {
     throw new Error("Config Mineflayer phải có trường host.");
@@ -88,7 +102,8 @@ function loadConfig(configArg) {
     port: withDefault(parsed.port, 25565),
     version: Object.prototype.hasOwnProperty.call(parsed, "version") ? parsed.version : false,
     auth: withDefault(parsed.auth, "offline"),
-    origin: parseOrigin(parsed.origin),
+    origin,
+    platformOrigin,
     autoFindOriginConfigured: Object.prototype.hasOwnProperty.call(parsed, "autoFindOrigin"),
     autoFindOrigin: parsed.autoFindOrigin === true,
     searchCenter: parseSearchCenter(parsed.searchCenter),
@@ -104,13 +119,13 @@ function loadConfig(configArg) {
     creativeMode: parsed.creativeMode !== false,
     commandPrefix: withDefault(parsed.commandPrefix, "/"),
     issueCreativeCommands: parsed.issueCreativeCommands === true,
-    issueWorldCommands: parsed.issueWorldCommands === true,
+    issueWorldCommands: parsed.issueWorldCommands !== false,
     creativeCommandDelayMs: readNumberValue(
       withDefault(parsed.creativeCommandDelayMs, withDefault(readNumberEnv("TEAM_BUILDER_CREATIVE_COMMAND_DELAY_MS"), 750)),
       750
     ),
     placementDelayMs: withDefault(parsed.placementDelayMs, withDefault(readNumberEnv("TEAM_BUILDER_PLACEMENT_DELAY_MS"), 700)),
-    commandDelayMs: withDefault(
+    commandDelayMs: readNumberValue(
       parsed.commandDelayMs,
       withDefault(readNumberEnv("TEAM_BUILDER_COMMAND_DELAY_MS"), withDefault(parsed.placementDelayMs, 700))
     ),
@@ -131,7 +146,9 @@ function loadConfig(configArg) {
     prepareBuildPlatform: parsed.prepareBuildPlatform !== false,
     platformBlock: withDefault(parsed.platformBlock, "minecraft:grass_block"),
     clearAbovePlatform: parsed.clearAbovePlatform !== false,
-    platformPadding: withDefault(parsed.platformPadding, 8),
+    platformPadding: withDefault(parsed.platformPadding, 20),
+    platformExtraHeight: withDefault(parsed.platformExtraHeight, 20),
+    verbose: parsed.verbose === true,
   };
 }
 

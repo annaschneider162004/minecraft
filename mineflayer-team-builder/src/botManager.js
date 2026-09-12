@@ -58,6 +58,43 @@ function shouldUseCommandFallback(error) {
   );
 }
 
+function formatWorldCommandPermissionMessage(username) {
+  return [
+    `Bot ${username} không có quyền dùng lệnh world command để build tự động.`,
+    "Hãy vào server console rồi chạy:",
+    `op ${username}`,
+    "Và kiểm tra server.properties có các dòng: gamemode=creative, force-gamemode=true, online-mode=false, max-players=50.",
+  ].join(" ");
+}
+
+function stringifyChatMessage(message) {
+  if (!message) {
+    return "";
+  }
+  if (typeof message === "string") {
+    return message;
+  }
+  if (typeof message.toString === "function") {
+    return message.toString();
+  }
+  try {
+    return JSON.stringify(message);
+  } catch (error) {
+    return String(message);
+  }
+}
+
+function isWorldCommandPermissionError(message) {
+  return (
+    /do not have permission/i.test(message) ||
+    /không có quyền/i.test(message) ||
+    /unknown or incomplete command/i.test(message) ||
+    /unknown command/i.test(message) ||
+    /must be a player operator/i.test(message) ||
+    /not allowed to use this command/i.test(message)
+  );
+}
+
 class BotManager {
   constructor(config, assignments) {
     this.config = config;
@@ -277,6 +314,63 @@ class BotManager {
     return worldPositionFromOrigin(this.config.origin, block);
   }
 
+  async issueWorldCommand(commandBody, logger, options = {}) {
+    if (!this.canUseWorldCommands()) {
+      throw new Error('placementMode dạng command yêu cầu bật issueCreativeCommands hoặc issueWorldCommands.');
+    }
+    if (!this.commandController?.bot) {
+      throw new Error("Không có controller bot đang online để gửi lệnh build.");
+    }
+    const controller = this.commandController.bot;
+    const controllerName = this.commandController.username || controller.username || "controller";
+    const fullCommand = `${this.config.commandPrefix || "/"}${commandBody}`;
+    const shouldLogCommand = options.logCommand === true || this.config.verbose === true;
+    const feedbackTimeoutMs = Math.max(0, Number(options.feedbackTimeoutMs) || 1200);
+
+    const queuedCommand = this.commandQueue.catch(() => undefined).then(
+      () =>
+        new Promise((resolve, reject) => {
+          let settled = false;
+          const cleanup = () => {
+            controller.removeListener("messagestr", onMessage);
+            controller.removeListener("message", onMessage);
+          };
+          const settle = (callback, value) => {
+            if (settled) {
+              return;
+            }
+            settled = true;
+            clearTimeout(timer);
+            cleanup();
+            callback(value);
+          };
+          const onMessage = (message) => {
+            const text = stringifyChatMessage(message);
+            if (!isWorldCommandPermissionError(text)) {
+              return;
+            }
+            const error = new Error(formatWorldCommandPermissionMessage(controllerName));
+            error.worldCommandPermission = true;
+            error.chatMessage = text;
+            settle(reject, error);
+          };
+          const timer = setTimeout(() => settle(resolve), feedbackTimeoutMs);
+
+          controller.on("messagestr", onMessage);
+          controller.on("message", onMessage);
+          controller.chat(fullCommand);
+          if (shouldLogCommand && logger) {
+            logger.info(`Đã gửi: ${fullCommand}`);
+          }
+        }).then(async () => {
+          await sleep(Math.max(0, Number(options.delayMs) || 0));
+        })
+    );
+
+    this.commandQueue = queuedCommand.catch(() => undefined);
+    await queuedCommand;
+  }
+
   async runAssignment(connected, blocks) {
     const { bot, logger, mcData, role } = connected;
     logger.info(`Nhận ${blocks.length} block cho vai trò ${role || "general"}.`);
@@ -293,10 +387,15 @@ class BotManager {
           skipped += 1;
         }
       } catch (error) {
+        if (error?.worldCommandPermission) {
+          throw error;
+        }
         failed += 1;
         logger.warn(`Bỏ qua block ${block.block} tại (${block.x}, ${block.y}, ${block.z}): ${error.message}`);
       }
-      await sleep(this.config.placementDelayMs);
+      if (this.config.placementMode !== "commands") {
+        await sleep(this.config.placementDelayMs);
+      }
     }
 
     logger.info(`Hoàn tất: placed=${placed}, skipped=${skipped}, failed=${failed}.`);
@@ -319,22 +418,15 @@ class BotManager {
   }
 
   async placeBlockByCommand(block, logger) {
-    if (!this.canUseWorldCommands()) {
-      throw new Error('placementMode dạng command yêu cầu bật issueCreativeCommands hoặc issueWorldCommands.');
-    }
-    if (!this.commandController?.bot) {
-      throw new Error("Không có controller bot đang online để gửi /setblock.");
-    }
     const worldPosition = this.getWorldPosition(block);
-    const command = `${this.config.commandPrefix || "/"}setblock ${worldPosition.x} ${worldPosition.y} ${worldPosition.z} ${block.block}`;
-    this.commandQueue = this.commandQueue.then(async () => {
-      this.commandController.bot.chat(command);
-      if (logger) {
-        logger.info(`Dùng lệnh build fallback: ${command}`);
+    await this.issueWorldCommand(
+      `setblock ${worldPosition.x} ${worldPosition.y} ${worldPosition.z} ${block.block}`,
+      logger,
+      {
+        delayMs: Math.max(0, Number(this.config.commandDelayMs) || Number(this.config.placementDelayMs) || 0),
+        logCommand: this.config.verbose === true,
       }
-      await sleep(Math.max(0, Number(this.config.commandDelayMs) || Number(this.config.placementDelayMs) || 0));
-    });
-    await this.commandQueue;
+    );
     return "placed";
   }
 
@@ -404,6 +496,7 @@ class BotManager {
 module.exports = {
   BotManager,
   formatServerFullMessage,
+  formatWorldCommandPermissionMessage,
   isServerFullReason,
   worldPositionFromOrigin,
 };

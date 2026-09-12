@@ -193,6 +193,28 @@ function buildFailureMessage(config) {
   return `Không tìm thấy khu vực phù hợp để đặt công trình tự động. Hãy ${suggestions.join(", ")}.`;
 }
 
+function resolvePlatformOrigin(config, center, bot) {
+  if (config.platformOrigin && typeof config.platformOrigin === "object") {
+    return {
+      x: Math.floor(config.platformOrigin.x),
+      y: Math.floor(config.platformOrigin.y),
+      z: Math.floor(config.platformOrigin.z),
+    };
+  }
+  if (config.origin && config.origin !== "auto" && typeof config.origin === "object") {
+    return {
+      x: Math.floor(config.origin.x),
+      y: Math.floor(config.origin.y),
+      z: Math.floor(config.origin.z),
+    };
+  }
+  return {
+    x: center.x,
+    y: Math.floor(bot.entity?.position?.y || 64),
+    z: center.z,
+  };
+}
+
 function isAutoOriginEnabled(config) {
   if (config.autoFindOriginConfigured) {
     return config.autoFindOrigin === true;
@@ -244,18 +266,7 @@ async function findBuildOrigin(bot, config, planSize, logger) {
 
   if (!best) {
     if (config.prepareBuildPlatform && canUseWorldCommands(config)) {
-      const probeY = findGroundY(
-        bot,
-        center.x,
-        center.z,
-        bot.entity?.position?.y || 64,
-        Math.max(1, Number(config.clearanceHeight) || planSize.height)
-      );
-      const fallbackOrigin = {
-        x: center.x,
-        y: probeY ?? Math.floor(bot.entity?.position?.y || 64),
-        z: center.z,
-      };
+      const fallbackOrigin = resolvePlatformOrigin(config, center, bot);
       if (logger) {
         logger.warn(
           `Không thấy khu đất tự nhiên đạt yêu cầu. Sẽ dùng khu nền nhân tạo tại ${fallbackOrigin.x} ${fallbackOrigin.y} ${fallbackOrigin.z}.`
@@ -279,4 +290,5 @@ module.exports = {
   isAutoOriginEnabled,
   resolveSearchCenter,
   canUseWorldCommands,
+  resolvePlatformOrigin,
 };
