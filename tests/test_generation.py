@@ -550,6 +550,16 @@ class GenerationTests(unittest.TestCase):
 
             self.assertEqual(result["mineflayer_dir"], fake_mineflayer_dir)
 
+    def test_export_auralis_v2_assets_reports_missing_plan_source_clearly(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            missing_examples_dir = os.path.join(tempdir, "custom-assets")
+            os.makedirs(missing_examples_dir, exist_ok=True)
+            with self.assertRaisesRegex(
+                FileNotFoundError,
+                r"Không tìm thấy asset nguồn auralis_v2_team_plan\.json",
+            ):
+                export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=missing_examples_dir)
+
     def test_cli_can_export_auralis_v2_without_story(self):
         with tempfile.TemporaryDirectory() as tempdir:
             stdout = StringIO()

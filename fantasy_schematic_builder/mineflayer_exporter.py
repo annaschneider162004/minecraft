@@ -282,10 +282,12 @@ def export_auralis_v2_assets(
     resolved_examples_dir = auralis_v2_examples_directory(examples_dir=examples_dir, mineflayer_dir=mineflayer_dir)
     resolved_mineflayer_dir = auralis_v2_mineflayer_directory(mineflayer_dir)
     if mineflayer_dir is None and examples_dir:
-        normalized_examples_dir = os.path.basename(os.path.normpath(resolved_examples_dir)).lower()
-        if normalized_examples_dir == "examples":
-            resolved_mineflayer_dir = os.path.abspath(os.path.dirname(resolved_examples_dir))
+        resolved_mineflayer_dir = os.path.abspath(os.path.dirname(resolved_examples_dir))
     plan_source_path = os.path.join(resolved_examples_dir, AURALIS_V2_PLAN_FILENAME)
+    if not os.path.isfile(plan_source_path):
+        raise FileNotFoundError(
+            f"Không tìm thấy asset nguồn {AURALIS_V2_PLAN_FILENAME} trong thư mục: {resolved_examples_dir}"
+        )
     plan_output_path = os.path.join(output_dir, AURALIS_V2_PLAN_FILENAME)
     config_output_path = os.path.join(output_dir, AURALIS_V2_CONFIG_FILENAME)
     alias_output_path = os.path.join(output_dir, AURALIS_V2_ALIAS_CONFIG_FILENAME)
