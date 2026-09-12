@@ -240,8 +240,14 @@ async function orbitCameraForStage(manager, config, stageCenter, scopedLogger, s
 }
 
 async function runCinematicBuild(manager, config, plan, assignments, connectedBots, buildOrigin, scopedLogger) {
-  const stageOrder = resolveStageOrder(plan, config.buildStageOrder);
-  const totalStages = stageOrder.length;
+  const runnableStages = resolveStageOrder(plan, config.buildStageOrder)
+    .map((stage) => ({
+      stage,
+      stageAssignments: filterAssignmentsByStage(assignments, stage),
+      stageBlocks: getStageBlocks(plan, stage),
+    }))
+    .filter((entry) => entry.stageAssignments.length > 0 && entry.stageBlocks.length > 0);
+  const totalStages = runnableStages.length;
   if (totalStages === 0) {
     scopedLogger.warn("Cinematic mode đang bật nhưng build plan chưa có stage. Tool sẽ build theo chế độ cũ.");
     await manager.runBuild(connectedBots, assignments);
@@ -249,12 +255,8 @@ async function runCinematicBuild(manager, config, plan, assignments, connectedBo
   }
   let cameraReady = await prepareCamera(manager, config, scopedLogger);
 
-  for (const [stageIndex, stage] of stageOrder.entries()) {
-    const stageAssignments = filterAssignmentsByStage(assignments, stage);
-    const stageBlocks = getStageBlocks(plan, stage);
-    if (stageAssignments.length === 0 || stageBlocks.length === 0) {
-      continue;
-    }
+  for (const [stageIndex, stageEntry] of runnableStages.entries()) {
+    const { stage, stageAssignments, stageBlocks } = stageEntry;
     const label = stageProgressLabel(stageIndex, totalStages);
     const stageCenter = calculateStageCenter(stageBlocks, buildOrigin);
     const stageAnnouncement = sanitizeAnnouncementText(stage);
