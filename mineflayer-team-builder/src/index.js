@@ -268,6 +268,7 @@ async function runCinematicBuild(manager, config, plan, assignments, connectedBo
     const buildPromise = manager.runBuild(connectedBots, stageAssignments).finally(() => {
       buildCompleted = true;
     });
+    let orbitError = null;
     if (cameraReady && config.cameraOrbitEnabled) {
       try {
         await orbitCameraForStage(manager, config, stageCenter, scopedLogger, () => !buildCompleted);
@@ -278,11 +279,14 @@ async function runCinematicBuild(manager, config, plan, assignments, connectedBo
             `Cảnh báo: camera player "${config.cameraPlayer}" đã offline giữa lúc quay stage ${stage}. Tiếp tục build không có camera orbit.`
           );
         } else {
-          throw error;
+          orbitError = error;
         }
       }
     }
     await buildPromise;
+    if (orbitError) {
+      throw orbitError;
+    }
     scopedLogger.info(`Hoàn thành ${label}: ${stage}.`);
 
     if (config.pauseBetweenStages && config.stagePauseMs > 0 && stageIndex < totalStages - 1) {
