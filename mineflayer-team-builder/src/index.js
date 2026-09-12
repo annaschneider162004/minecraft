@@ -226,7 +226,7 @@ async function runCinematicBuild(manager, config, plan, assignments, connectedBo
   const totalStages = stageOrder.length;
   if (totalStages === 0) {
     scopedLogger.warn("Cinematic mode đang bật nhưng build plan chưa có stage. Tool sẽ build theo chế độ cũ.");
-    await manager.runBuild(connectedBots);
+    await manager.runBuild(connectedBots, assignments);
     return;
   }
   let cameraReady = await prepareCamera(manager, config, scopedLogger);
