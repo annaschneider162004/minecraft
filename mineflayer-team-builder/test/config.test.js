@@ -267,3 +267,48 @@ test("loadConfig keeps explicit platform origin unchanged", () => {
     fs.rmSync(tempdir, { recursive: true, force: true });
   }
 });
+
+test("loadConfig rejects invalid camera gamemode", () => {
+  const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
+  try {
+    const configPath = path.join(tempdir, "team-config.json");
+    const planPath = path.join(tempdir, "team-plan.json");
+    fs.writeFileSync(planPath, JSON.stringify({ blocks: [] }), "utf8");
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify({
+        host: "localhost",
+        bots: [{ username: "Builder_01", role: "foundation" }],
+        planFile: "./team-plan.json",
+        cameraGamemode: "spectator @a",
+      }),
+      "utf8"
+    );
+
+    assert.throws(() => loadConfig(configPath), /cameraGamemode/);
+  } finally {
+    fs.rmSync(tempdir, { recursive: true, force: true });
+  }
+});
+
+test("loadConfig rejects invalid bot usernames", () => {
+  const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
+  try {
+    const configPath = path.join(tempdir, "team-config.json");
+    const planPath = path.join(tempdir, "team-plan.json");
+    fs.writeFileSync(planPath, JSON.stringify({ blocks: [] }), "utf8");
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify({
+        host: "localhost",
+        bots: [{ username: "Builder_01 say hi", role: "foundation" }],
+        planFile: "./team-plan.json",
+      }),
+      "utf8"
+    );
+
+    assert.throws(() => loadConfig(configPath), /bots\[0\]\.username/);
+  } finally {
+    fs.rmSync(tempdir, { recursive: true, force: true });
+  }
+});

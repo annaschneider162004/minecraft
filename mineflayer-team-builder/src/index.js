@@ -62,6 +62,19 @@ function stageProgressLabel(index, total) {
   return `phase ${index + 1}/${total}`;
 }
 
+function requireMinecraftUsername(username, fieldName) {
+  if (typeof username !== "string" || !/^[A-Za-z0-9_]{1,16}$/.test(username)) {
+    throw new Error(`${fieldName} phải là username Minecraft hợp lệ (A-Z, a-z, 0-9, _, tối đa 16 ký tự).`);
+  }
+  return username;
+}
+
+function sanitizeAnnouncementText(value) {
+  return String(value || "")
+    .replace(/[^\p{L}\p{N}_:\- ]/gu, "_")
+    .trim();
+}
+
 function getStageBlocks(plan, stage) {
   return plan.blocks.filter((block) => block.stage === stage);
 }
@@ -107,6 +120,7 @@ function calculateLookAngles(from, target) {
 }
 
 function createCameraOrbitCommand(cameraPlayer, stageCenter, options = {}) {
+  const safeCameraPlayer = requireMinecraftUsername(cameraPlayer, "cameraPlayer");
   const radius = Math.max(1, Number(options.radius) || 12);
   const height = Number(options.height) || 8;
   const stepIndex = Math.max(0, Number(options.stepIndex) || 0);
@@ -118,7 +132,7 @@ function createCameraOrbitCommand(cameraPlayer, stageCenter, options = {}) {
     z: stageCenter.z + Math.sin(angle) * radius,
   };
   const { yaw, pitch } = calculateLookAngles(position, stageCenter);
-  return `tp ${cameraPlayer} ${formatCoordinate(position.x)} ${formatCoordinate(position.y)} ${formatCoordinate(position.z)} ${formatCoordinate(yaw)} ${formatCoordinate(pitch)}`;
+  return `tp ${safeCameraPlayer} ${formatCoordinate(position.x)} ${formatCoordinate(position.y)} ${formatCoordinate(position.z)} ${formatCoordinate(yaw)} ${formatCoordinate(pitch)}`;
 }
 
 function createOfflineCameraError(cameraPlayer, message) {
@@ -153,9 +167,10 @@ async function prepareCamera(manager, config, scopedLogger) {
   if (!config.cinematicMode || !config.cameraPlayer) {
     return true;
   }
+  const safeCameraPlayer = requireMinecraftUsername(config.cameraPlayer, "cameraPlayer");
   try {
-    await issueCameraCommand(manager, config, `gamemode ${config.cameraGamemode} ${config.cameraPlayer}`, scopedLogger);
-    scopedLogger.info(`Đã chuyển camera ${config.cameraPlayer} sang chế độ ${config.cameraGamemode}.`);
+    await issueCameraCommand(manager, config, `gamemode ${config.cameraGamemode} ${safeCameraPlayer}`, scopedLogger);
+    scopedLogger.info(`Đã chuyển camera ${safeCameraPlayer} sang chế độ ${config.cameraGamemode}.`);
     return true;
   } catch (error) {
     if (error?.cameraPlayerOffline) {
@@ -175,8 +190,9 @@ async function gatherBotsAroundStage(manager, config, connectedBots, stageCenter
     z: Math.round(stageCenter.z),
   };
   for (const [index, entry] of connectedBots.entries()) {
+    const safeUsername = requireMinecraftUsername(entry.username, "bot.username");
     const target = teleportTargetForIndex(anchor, index);
-    await manager.issueWorldCommand(`tp ${entry.username} ${target.x} ${target.y} ${target.z}`, scopedLogger, {
+    await manager.issueWorldCommand(`tp ${safeUsername} ${target.x} ${target.y} ${target.z}`, scopedLogger, {
       delayMs: 100,
       logCommand: config.verbose === true,
     });
@@ -184,8 +200,10 @@ async function gatherBotsAroundStage(manager, config, connectedBots, stageCenter
 }
 
 async function gatherBotsAroundCamera(manager, config, connectedBots, scopedLogger) {
+  const safeCameraPlayer = requireMinecraftUsername(config.cameraPlayer, "cameraPlayer");
   for (const entry of connectedBots) {
-    await manager.issueWorldCommand(`tp ${entry.username} ${config.cameraPlayer}`, scopedLogger, {
+    const safeUsername = requireMinecraftUsername(entry.username, "bot.username");
+    await manager.issueWorldCommand(`tp ${safeUsername} ${safeCameraPlayer}`, scopedLogger, {
       delayMs: 100,
       logCommand: config.verbose === true,
       errorMatcher: createCameraErrorMatcher(config.cameraPlayer),
@@ -239,9 +257,10 @@ async function runCinematicBuild(manager, config, plan, assignments, connectedBo
     }
     const label = stageProgressLabel(stageIndex, totalStages);
     const stageCenter = calculateStageCenter(stageBlocks, buildOrigin);
+    const stageAnnouncement = sanitizeAnnouncementText(stage);
     scopedLogger.info(`Bắt đầu ${label}: ${stage}`);
     if (config.announceStages) {
-      await manager.issueWorldCommand(`say Bắt đầu ${label}: ${stage}`, scopedLogger, {
+      await manager.issueWorldCommand(`say Bắt đầu ${label}: ${stageAnnouncement}`, scopedLogger, {
         delayMs: Math.max(0, Number(config.commandDelayMs) || Number(config.placementDelayMs) || 0),
         logCommand: config.verbose === true,
       });
@@ -283,7 +302,15 @@ async function runCinematicBuild(manager, config, plan, assignments, connectedBo
         }
       }
     }
-    await buildPromise;
+    let buildError = null;
+    try {
+      await buildPromise;
+    } catch (error) {
+      buildError = error;
+    }
+    if (buildError) {
+      throw buildError;
+    }
     if (orbitError) {
       throw orbitError;
     }
