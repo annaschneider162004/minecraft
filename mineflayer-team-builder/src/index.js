@@ -201,7 +201,7 @@ async function orbitCameraForStage(manager, config, stageCenter, scopedLogger, s
   const totalSteps = Math.max(1, Number(config.cameraOrbitStepsPerStage) || 1);
   const stepDelayMs = Math.max(0, Number(config.cameraOrbitStepDelayMs) || 0);
   for (let stepIndex = 0; stepIndex < totalSteps; stepIndex += 1) {
-    if (!shouldContinue()) {
+    if (stepIndex > 0 && !shouldContinue()) {
       break;
     }
     await issueCameraCommand(
