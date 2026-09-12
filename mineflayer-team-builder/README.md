@@ -73,6 +73,34 @@ Mặc định Python sẽ tự sinh:
 
 Bạn có thể chạy trực tiếp file config sinh sẵn đó hoặc chỉnh thêm nếu cần.
 
+### Auralis v2 mẫu chi tiết (10 bot)
+
+Trong `mineflayer-team-builder/examples` đã có sẵn:
+
+- `auralis_v2_team_plan.json` (kế hoạch lớn cho **Thiên Thành Auralis – Thành Phố Trên Lưng Rồng**)
+- `auralis_v2_team_config.json` (map 10 bot theo stage)
+- `server-console-setup-commands.txt` (lệnh OP copy/paste cho server console)
+
+Nếu muốn regenerate plan:
+
+```bash
+cd mineflayer-team-builder
+node examples/generate_auralis_v2_plan.js
+```
+
+Plan Auralis v2 đã chia stage rõ ràng cho team assignment:
+
+- `dragon_body`
+- `dragon_head`
+- `heavenly_gate`
+- `city_platform`
+- `central_tower`
+- `elemental_temples`
+- `void_abyss`
+- `demon_fortress`
+- `decorations`
+- `lighting`
+
 Ví dụ vai trò cho video:
 
 - `Builder_01` = nền móng
@@ -224,6 +252,21 @@ Nếu log báo bot không có quyền dùng world command:
 ```text
 op Builder_01
 ```
+
+Bạn có thể copy nhanh toàn bộ từ file:
+
+```text
+examples/server-console-setup-commands.txt
+```
+
+Quan trọng:
+
+- Dán trong **cửa sổ server.jar console** (dedicated server), **không dán trong CMD chạy bot**.
+- Trong **server console** thì dùng `op Builder_01` (**không có `/`**).
+- Trong **Minecraft chat** mới dùng `/op Builder_01`.
+- Nếu `ops.json` đang rỗng thì bot sẽ fail `/fill` và `/setblock`.
+- File helper đã gồm cả `op Jonhbh` (tên dùng trước đó) và `op Jonh` (tên vừa yêu cầu thêm).
+- Không nên tự sửa `ops.json` bằng UUID giả; hãy dùng lệnh `op` để server tự ghi đúng UUID.
 
 2. Kiểm tra lại `server.properties`:
 
