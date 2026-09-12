@@ -16,7 +16,11 @@ from fantasy_schematic_builder.creative_tools import (  # noqa: E402
     generate_youtube_title_package,
     idea_to_story_prompt,
 )
-from fantasy_schematic_builder.mineflayer_exporter import validate_team_bot_count  # noqa: E402
+from fantasy_schematic_builder.mineflayer_exporter import (  # noqa: E402
+    export_auralis_v2_assets,
+    format_auralis_v2_export_summary,
+    validate_team_bot_count,
+)
 from fantasy_schematic_builder.models import GenerationOptions  # noqa: E402
 from fantasy_schematic_builder.story_analyzer import BUILD_TYPES  # noqa: E402
 
@@ -44,6 +48,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--no-youtube-notes", action="store_true", help="Skip generating YouTube/story notes")
     parser.add_argument("--mineflayer-plan", action="store_true", help="Generate a Mineflayer team build plan JSON")
     parser.add_argument("--team-bots", type=parse_team_bot_count, default=6, help="Mineflayer bot count to encode into the plan/config (1-50)")
+    parser.add_argument(
+        "--export-auralis-v2",
+        "--auralis-v2",
+        action="store_true",
+        help="Export ready-to-run Auralis v2 Mineflayer assets into the output directory",
+    )
     parser.add_argument("--generate-idea", action="store_true", help="Generate an offline fantasy Minecraft build idea")
     parser.add_argument("--idea-theme", choices=IDEA_THEMES, default="fantasy", help="Theme to use for generated ideas")
     parser.add_argument("--idea-keyword", default="", help="Optional keyword to include in the generated idea")
@@ -61,6 +71,14 @@ def main(argv: list[str] | None = None) -> int:
             run_gui()
         except RuntimeError as exc:
             parser.exit(1, f"{exc}\n")
+        return 0
+
+    if args.export_auralis_v2:
+        try:
+            result = export_auralis_v2_assets(args.output_dir)
+        except Exception as exc:
+            parser.exit(1, f"Không thể xuất Auralis v2: {exc}\n")
+        print(format_auralis_v2_export_summary(result))
         return 0
 
     idea = None
@@ -87,7 +105,7 @@ def main(argv: list[str] | None = None) -> int:
     if not args.story:
         if args.generate_idea or args.generate_titles:
             return 0
-        parser.error("--story is required unless --gui is used")
+        parser.error("--story is required unless --gui or --export-auralis-v2 is used")
 
     result = generate_project(
         story_text=story_text,

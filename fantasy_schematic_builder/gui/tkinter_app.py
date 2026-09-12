@@ -31,7 +31,11 @@ from fantasy_schematic_builder.creative_tools import (
     idea_to_story_prompt,
 )
 from fantasy_schematic_builder.models import GenerationOptions
-from fantasy_schematic_builder.mineflayer_exporter import validate_team_bot_count
+from fantasy_schematic_builder.mineflayer_exporter import (
+    export_auralis_v2_assets,
+    format_auralis_v2_export_summary,
+    validate_team_bot_count,
+)
 
 
 def build_generation_options(
@@ -430,6 +434,7 @@ class BuilderGUI:
         action_bar.grid(row=2, column=0, sticky="ew", pady=(12, 0))
         action_bar.columnconfigure(0, weight=2)
         action_bar.columnconfigure(1, weight=1)
+        action_bar.columnconfigure(2, weight=1)
         self.generate_button = ttk.Button(
             action_bar,
             text="TẠO FILE .SCHEM NGAY",
@@ -437,13 +442,19 @@ class BuilderGUI:
             style="ActionPrimary.TButton",
         )
         self.generate_button.grid(row=0, column=0, sticky="ew", padx=(0, 10))
+        ttk.Button(
+            action_bar,
+            text="XUẤT AURALIS V2 GIỐNG PROMPT ẢNH",
+            command=self.export_auralis_v2,
+            style="ActionPrimary.TButton",
+        ).grid(row=0, column=1, sticky="ew", padx=(0, 10))
         self.open_output_button = ttk.Button(
             action_bar,
             text="MỞ THƯ MỤC FILE ĐÃ TẠO",
             command=self.open_output_directory,
             style="ActionSecondary.TButton",
         )
-        self.open_output_button.grid(row=0, column=1, sticky="ew")
+        self.open_output_button.grid(row=0, column=2, sticky="ew")
 
     def _set_output_text(self, content: str) -> None:
         self.output_text.configure(state="normal")
@@ -565,6 +576,22 @@ class BuilderGUI:
         )
         self._append_output_text(format_title_package(titles))
         self.status.set(f"Đã tạo {len(titles.titles)} gợi ý tiêu đề YouTube.")
+
+    def export_auralis_v2(self):
+        if self.is_generating:
+            messagebox.showinfo("Đang xử lý", "Ứng dụng đang tạo schematic. Vui lòng chờ tác vụ hiện tại hoàn tất.")
+            return
+        output_dir = self.output_dir.get().strip() or default_output_directory()
+        try:
+            result = export_auralis_v2_assets(output_dir)
+        except Exception as exc:
+            messagebox.showerror("Lỗi", f"Không thể xuất Auralis v2:\n{exc}")
+            self.status.set("Xuất Auralis v2 thất bại.")
+            return
+        self.last_generated_output_dir = os.path.abspath(result["output_dir"])
+        self._set_output_text(format_auralis_v2_export_summary(result))
+        self.output_text.focus_set()
+        self.status.set(f"Đã xuất Auralis v2 vào: {result['output_dir']}")
 
     def generate(self):
         if self.is_generating:
