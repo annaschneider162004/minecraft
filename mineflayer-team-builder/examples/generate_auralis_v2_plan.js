@@ -4,17 +4,21 @@ const path = require("node:path");
 
 function addBlockFactory() {
   const blockMap = new Map();
+  let duplicateCoordinates = 0;
   return {
     add(x, y, z, block, stage) {
       const xi = Math.round(x);
       const yi = Math.round(y);
       const zi = Math.round(z);
       const key = `${xi},${yi},${zi}`;
-      if (blockMap.has(key)) return;
+      if (blockMap.has(key)) duplicateCoordinates += 1;
       blockMap.set(key, { x: xi, y: yi, z: zi, block, stage, role: stage });
     },
     values() {
       return [...blockMap.values()];
+    },
+    duplicateCoordinates() {
+      return duplicateCoordinates;
     },
   };
 }
@@ -25,7 +29,7 @@ function pick(palette, seed) {
 
 function buildAuralisV2Plan() {
   const size = { width: 120, height: 80, length: 160 };
-  const { add, values } = addBlockFactory();
+  const { add, values, duplicateCoordinates } = addBlockFactory();
   const cx = 60;
 
   const dragonPalette = [
@@ -267,6 +271,9 @@ function buildAuralisV2Plan() {
     origin: { x: 0, y: 100, z: 0 },
     recommendedBotCount: 10,
     blocks,
+    generationStats: {
+      duplicateCoordinates: duplicateCoordinates(),
+    },
   };
 }
 
@@ -281,6 +288,7 @@ function writePlan(outputPath) {
   }, {});
   process.stdout.write(`Wrote ${outputPath}\n`);
   process.stdout.write(`Total blocks: ${plan.blocks.length}\n`);
+  process.stdout.write(`Duplicate coordinates overwritten: ${plan.generationStats.duplicateCoordinates}\n`);
   process.stdout.write(`Stages: ${Object.keys(stageCounts).sort().join(", ")}\n`);
 }
 

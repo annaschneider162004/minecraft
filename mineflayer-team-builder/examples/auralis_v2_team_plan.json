@@ -99218,8 +99218,8 @@
       "y": 16,
       "z": 19,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -101545,57 +101545,57 @@
       "x": 57,
       "y": 17,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 17,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 17,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 17,
       "z": 19,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 17,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 17,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 17,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -101730,8 +101730,8 @@
       "y": 17,
       "z": 20,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -101882,8 +101882,8 @@
       "y": 17,
       "z": 21,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -102034,8 +102034,8 @@
       "y": 17,
       "z": 22,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -102178,8 +102178,8 @@
       "y": 17,
       "z": 23,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -104362,88 +104362,88 @@
       "y": 18,
       "z": 19,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 18,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 18,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 18,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 18,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 18,
       "z": 19,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 18,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 18,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 18,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 18,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 18,
       "z": 19,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -104553,57 +104553,57 @@
       "x": 57,
       "y": 18,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 18,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 18,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 18,
       "z": 20,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 18,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 18,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 18,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -104721,57 +104721,57 @@
       "x": 57,
       "y": 18,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 18,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 18,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 18,
       "z": 21,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 18,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 18,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 18,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -104889,57 +104889,57 @@
       "x": 57,
       "y": 18,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 18,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 18,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 18,
       "z": 22,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 18,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 18,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 18,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -105049,57 +105049,57 @@
       "x": 57,
       "y": 18,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 18,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 18,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 18,
       "z": 23,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 18,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 18,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 18,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -105226,8 +105226,8 @@
       "y": 18,
       "z": 24,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -105378,8 +105378,8 @@
       "y": 18,
       "z": 25,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -105522,8 +105522,8 @@
       "y": 18,
       "z": 26,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -107890,88 +107890,88 @@
       "y": 19,
       "z": 19,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 19,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 19,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 19,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 19,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 19,
       "z": 19,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 19,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 19,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 19,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 19,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 19,
       "z": 19,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -108082,88 +108082,88 @@
       "y": 19,
       "z": 20,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 19,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 19,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 19,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 19,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 19,
       "z": 20,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 19,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 19,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 19,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 19,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 19,
       "z": 20,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -108266,88 +108266,88 @@
       "y": 19,
       "z": 21,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 19,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 19,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 19,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 19,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 19,
       "z": 21,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 19,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 19,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 19,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 19,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 19,
       "z": 21,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -108450,88 +108450,88 @@
       "y": 19,
       "z": 22,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 19,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 19,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 19,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 19,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 19,
       "z": 22,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 19,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 19,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 19,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 19,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 19,
       "z": 22,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -108626,88 +108626,88 @@
       "y": 19,
       "z": 23,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 19,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 19,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 19,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 19,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 19,
       "z": 23,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 19,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 19,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 19,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 19,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 19,
       "z": 23,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -108809,57 +108809,57 @@
       "x": 57,
       "y": 19,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 19,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 19,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 19,
       "z": 24,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 19,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 19,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 19,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -108977,57 +108977,57 @@
       "x": 57,
       "y": 19,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 19,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 19,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 19,
       "z": 25,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 19,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 19,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 19,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -109129,57 +109129,57 @@
       "x": 57,
       "y": 19,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 19,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 19,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 19,
       "z": 26,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 19,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 19,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 19,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -112265,105 +112265,105 @@
       "x": 54,
       "y": 20,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 55,
       "y": 20,
       "z": 19,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 20,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 20,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 20,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 20,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 20,
       "z": 19,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 20,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 20,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 20,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 20,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 20,
       "z": 19,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
       "y": 20,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 67,
@@ -112466,88 +112466,88 @@
       "y": 20,
       "z": 20,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 20,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 20,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 20,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 20,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 20,
       "z": 20,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 20,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 20,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 20,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 20,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 20,
       "z": 20,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -112650,88 +112650,88 @@
       "y": 20,
       "z": 21,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 20,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 20,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 20,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 20,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 20,
       "z": 21,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 20,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 20,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 20,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 20,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 20,
       "z": 21,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -112834,88 +112834,88 @@
       "y": 20,
       "z": 22,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 20,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 20,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 20,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 20,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 20,
       "z": 22,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 20,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 20,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 20,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 20,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 20,
       "z": 22,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -113010,88 +113010,88 @@
       "y": 20,
       "z": 23,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 20,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 20,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 20,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 20,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 20,
       "z": 23,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 20,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 20,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 20,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 20,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 20,
       "z": 23,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -113178,88 +113178,88 @@
       "y": 20,
       "z": 24,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 20,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 20,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 20,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 20,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 20,
       "z": 24,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 20,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 20,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 20,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 20,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 20,
       "z": 24,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -113346,88 +113346,88 @@
       "y": 20,
       "z": 25,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 20,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 20,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 20,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 20,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 20,
       "z": 25,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 20,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 20,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 20,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 20,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 20,
       "z": 25,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -113506,88 +113506,88 @@
       "y": 20,
       "z": 26,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 20,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 20,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 20,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 20,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 20,
       "z": 26,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 20,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 20,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 20,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 20,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 20,
       "z": 26,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -117394,88 +117394,88 @@
       "y": 21,
       "z": 19,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 21,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 21,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 21,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 21,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 21,
       "z": 19,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 21,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 21,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 21,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 21,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 21,
       "z": 19,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -117593,105 +117593,105 @@
       "x": 54,
       "y": 21,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 55,
       "y": 21,
       "z": 20,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 21,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 21,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 21,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 21,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 21,
       "z": 20,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 21,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 21,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 21,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 21,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 21,
       "z": 20,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
       "y": 21,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 67,
@@ -117793,105 +117793,105 @@
       "x": 54,
       "y": 21,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 55,
       "y": 21,
       "z": 21,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 21,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 21,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 21,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 21,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 21,
       "z": 21,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 21,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 21,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 21,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 21,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 21,
       "z": 21,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
       "y": 21,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 67,
@@ -117993,105 +117993,105 @@
       "x": 54,
       "y": 21,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 55,
       "y": 21,
       "z": 22,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 21,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 21,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 21,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 21,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 21,
       "z": 22,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 21,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 21,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 21,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 21,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 21,
       "z": 22,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
       "y": 21,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 67,
@@ -118185,105 +118185,105 @@
       "x": 54,
       "y": 21,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 55,
       "y": 21,
       "z": 23,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 21,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 21,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 21,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 21,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 21,
       "z": 23,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 21,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 21,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 21,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 21,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 21,
       "z": 23,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
       "y": 21,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 67,
@@ -118378,88 +118378,88 @@
       "y": 21,
       "z": 24,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 21,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 21,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 21,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 21,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 21,
       "z": 24,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 21,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 21,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 21,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 21,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 21,
       "z": 24,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -118562,88 +118562,88 @@
       "y": 21,
       "z": 25,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 21,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 21,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 21,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 21,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 21,
       "z": 25,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 21,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 21,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 21,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 21,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 21,
       "z": 25,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -118730,88 +118730,88 @@
       "y": 21,
       "z": 26,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 21,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 21,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 21,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 21,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 21,
       "z": 26,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 21,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 21,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 21,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 21,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 21,
       "z": 26,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -123866,88 +123866,88 @@
       "y": 22,
       "z": 19,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 22,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 22,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 22,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 22,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 22,
       "z": 19,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 22,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 22,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 22,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 22,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 22,
       "z": 19,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -124074,88 +124074,88 @@
       "y": 22,
       "z": 20,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 22,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 22,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 22,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 22,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 22,
       "z": 20,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 22,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 22,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 22,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 22,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 22,
       "z": 20,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -124274,88 +124274,88 @@
       "y": 22,
       "z": 21,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 22,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 22,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 22,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 22,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 22,
       "z": 21,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 22,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 22,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 22,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 22,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 22,
       "z": 21,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -124474,88 +124474,88 @@
       "y": 22,
       "z": 22,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 22,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 22,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 22,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 22,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 22,
       "z": 22,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 22,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 22,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 22,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 22,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 22,
       "z": 22,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -124666,88 +124666,88 @@
       "y": 22,
       "z": 23,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 22,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 22,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 22,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 22,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 22,
       "z": 23,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 22,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 22,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 22,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 22,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 22,
       "z": 23,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -124841,105 +124841,105 @@
       "x": 54,
       "y": 22,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 55,
       "y": 22,
       "z": 24,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 22,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 22,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 22,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 22,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 22,
       "z": 24,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 22,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 22,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 22,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 22,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 22,
       "z": 24,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
       "y": 22,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 67,
@@ -125025,105 +125025,105 @@
       "x": 54,
       "y": 22,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 55,
       "y": 22,
       "z": 25,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 22,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 22,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 22,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 22,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 22,
       "z": 25,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 22,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 22,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 22,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 22,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 22,
       "z": 25,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
       "y": 22,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 67,
@@ -125201,105 +125201,105 @@
       "x": 54,
       "y": 22,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 55,
       "y": 22,
       "z": 26,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 22,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 22,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 22,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 22,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 22,
       "z": 26,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 22,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 22,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 22,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 22,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 22,
       "z": 26,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
       "y": 22,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 67,
@@ -131553,57 +131553,57 @@
       "x": 57,
       "y": 23,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 23,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 23,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 23,
       "z": 19,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 23,
       "z": 19,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 23,
       "z": 19,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 23,
       "z": 19,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -131746,88 +131746,88 @@
       "y": 23,
       "z": 20,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 23,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 23,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 23,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 23,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 23,
       "z": 20,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 23,
       "z": 20,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 23,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 23,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 23,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 23,
       "z": 20,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -131946,88 +131946,88 @@
       "y": 23,
       "z": 21,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 23,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 23,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 23,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 23,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 23,
       "z": 21,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 23,
       "z": 21,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 23,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 23,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 23,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 23,
       "z": 21,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -132146,88 +132146,88 @@
       "y": 23,
       "z": 22,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 23,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 23,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 23,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 23,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 23,
       "z": 22,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 23,
       "z": 22,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 23,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 23,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 23,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 23,
       "z": 22,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -132338,88 +132338,88 @@
       "y": 23,
       "z": 23,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 23,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 23,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 23,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 23,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 23,
       "z": 23,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 23,
       "z": 23,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 23,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 23,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 23,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 23,
       "z": 23,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -132522,88 +132522,88 @@
       "y": 23,
       "z": 24,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 23,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 23,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 23,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 23,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 23,
       "z": 24,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 23,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 23,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 23,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 23,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 23,
       "z": 24,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -132706,88 +132706,88 @@
       "y": 23,
       "z": 25,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 23,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 23,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 23,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 23,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 23,
       "z": 25,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 23,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 23,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 23,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 23,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 23,
       "z": 25,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -132882,88 +132882,88 @@
       "y": 23,
       "z": 26,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 23,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 23,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 23,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 23,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 23,
       "z": 26,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 23,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 23,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 23,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 23,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 23,
       "z": 26,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -141962,8 +141962,8 @@
       "y": 24,
       "z": 18,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -142178,8 +142178,8 @@
       "y": 24,
       "z": 19,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -142361,57 +142361,57 @@
       "x": 57,
       "y": 24,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 24,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 24,
       "z": 20,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 24,
       "z": 20,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 24,
       "z": 20,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 24,
       "z": 20,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 24,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -142561,57 +142561,57 @@
       "x": 57,
       "y": 24,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 24,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 24,
       "z": 21,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 24,
       "z": 21,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 24,
       "z": 21,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 24,
       "z": 21,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 24,
       "z": 21,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -142761,57 +142761,57 @@
       "x": 57,
       "y": 24,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 24,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 24,
       "z": 22,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 24,
       "z": 22,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 24,
       "z": 22,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 24,
       "z": 22,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 24,
       "z": 22,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -142953,57 +142953,57 @@
       "x": 57,
       "y": 24,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 24,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 24,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 24,
       "z": 23,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 24,
       "z": 23,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 24,
       "z": 23,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 24,
       "z": 23,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -143122,88 +143122,88 @@
       "y": 24,
       "z": 24,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 24,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 24,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 24,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 24,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 24,
       "z": 24,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 24,
       "z": 24,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 24,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 24,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 24,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 24,
       "z": 24,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -143306,88 +143306,88 @@
       "y": 24,
       "z": 25,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 24,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 24,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 24,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 24,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 24,
       "z": 25,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 24,
       "z": 25,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 24,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 24,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 24,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 24,
       "z": 25,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -143482,88 +143482,88 @@
       "y": 24,
       "z": 26,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 56,
       "y": 24,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 57,
       "y": 24,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 24,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 24,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 24,
       "z": 26,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 24,
       "z": 26,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 24,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 24,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
       "y": 24,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 65,
       "y": 24,
       "z": 26,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 66,
@@ -151689,7 +151689,7 @@
       "x": 51,
       "y": 25,
       "z": 6,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -151833,7 +151833,7 @@
       "x": 69,
       "y": 25,
       "z": 6,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -151953,7 +151953,7 @@
       "x": 51,
       "y": 25,
       "z": 7,
-      "block": "minecraft:stone_bricks",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -152097,7 +152097,7 @@
       "x": 69,
       "y": 25,
       "z": 7,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -152217,7 +152217,7 @@
       "x": 51,
       "y": 25,
       "z": 8,
-      "block": "minecraft:cobbled_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -152361,7 +152361,7 @@
       "x": 69,
       "y": 25,
       "z": 8,
-      "block": "minecraft:stone_bricks",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -152481,7 +152481,7 @@
       "x": 51,
       "y": 25,
       "z": 9,
-      "block": "minecraft:polished_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -152625,7 +152625,7 @@
       "x": 69,
       "y": 25,
       "z": 9,
-      "block": "minecraft:cobbled_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -152737,7 +152737,7 @@
       "x": 51,
       "y": 25,
       "z": 10,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -152881,7 +152881,7 @@
       "x": 69,
       "y": 25,
       "z": 10,
-      "block": "minecraft:polished_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -152985,7 +152985,7 @@
       "x": 51,
       "y": 25,
       "z": 11,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -153129,7 +153129,7 @@
       "x": 69,
       "y": 25,
       "z": 11,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -153233,7 +153233,7 @@
       "x": 51,
       "y": 25,
       "z": 12,
-      "block": "minecraft:stone_bricks",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -153377,7 +153377,7 @@
       "x": 69,
       "y": 25,
       "z": 12,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -153473,7 +153473,7 @@
       "x": 51,
       "y": 25,
       "z": 13,
-      "block": "minecraft:cobbled_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -153617,7 +153617,7 @@
       "x": 69,
       "y": 25,
       "z": 13,
-      "block": "minecraft:stone_bricks",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -153705,7 +153705,7 @@
       "x": 51,
       "y": 25,
       "z": 14,
-      "block": "minecraft:polished_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -153849,7 +153849,7 @@
       "x": 69,
       "y": 25,
       "z": 14,
-      "block": "minecraft:cobbled_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -153937,7 +153937,7 @@
       "x": 51,
       "y": 25,
       "z": 15,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -154081,7 +154081,7 @@
       "x": 69,
       "y": 25,
       "z": 15,
-      "block": "minecraft:polished_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -154169,7 +154169,7 @@
       "x": 51,
       "y": 25,
       "z": 16,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -154313,7 +154313,7 @@
       "x": 69,
       "y": 25,
       "z": 16,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -154401,7 +154401,7 @@
       "x": 51,
       "y": 25,
       "z": 17,
-      "block": "minecraft:stone_bricks",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -154545,7 +154545,7 @@
       "x": 69,
       "y": 25,
       "z": 17,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -154633,7 +154633,7 @@
       "x": 51,
       "y": 25,
       "z": 18,
-      "block": "minecraft:cobbled_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -154705,9 +154705,9 @@
       "x": 60,
       "y": 25,
       "z": 18,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -154777,7 +154777,7 @@
       "x": 69,
       "y": 25,
       "z": 18,
-      "block": "minecraft:stone_bricks",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -154865,7 +154865,7 @@
       "x": 51,
       "y": 25,
       "z": 19,
-      "block": "minecraft:polished_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155009,7 +155009,7 @@
       "x": 69,
       "y": 25,
       "z": 19,
-      "block": "minecraft:cobbled_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155089,7 +155089,7 @@
       "x": 51,
       "y": 25,
       "z": 20,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155162,8 +155162,8 @@
       "y": 25,
       "z": 20,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -155233,7 +155233,7 @@
       "x": 69,
       "y": 25,
       "z": 20,
-      "block": "minecraft:polished_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155305,7 +155305,7 @@
       "x": 51,
       "y": 25,
       "z": 21,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155378,8 +155378,8 @@
       "y": 25,
       "z": 21,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -155449,7 +155449,7 @@
       "x": 69,
       "y": 25,
       "z": 21,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155521,7 +155521,7 @@
       "x": 51,
       "y": 25,
       "z": 22,
-      "block": "minecraft:stone_bricks",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155594,8 +155594,8 @@
       "y": 25,
       "z": 22,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -155665,7 +155665,7 @@
       "x": 69,
       "y": 25,
       "z": 22,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155729,7 +155729,7 @@
       "x": 51,
       "y": 25,
       "z": 23,
-      "block": "minecraft:cobbled_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155802,8 +155802,8 @@
       "y": 25,
       "z": 23,
       "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -155873,7 +155873,7 @@
       "x": 69,
       "y": 25,
       "z": 23,
-      "block": "minecraft:stone_bricks",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155929,7 +155929,7 @@
       "x": 51,
       "y": 25,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -155977,57 +155977,57 @@
       "x": 57,
       "y": 25,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 25,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 25,
       "z": 24,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 25,
       "z": 24,
       "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 25,
       "z": 24,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 25,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 25,
       "z": 24,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -156073,7 +156073,7 @@
       "x": 69,
       "y": 25,
       "z": 24,
-      "block": "minecraft:cobbled_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -156129,7 +156129,7 @@
       "x": 51,
       "y": 25,
       "z": 25,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -156177,57 +156177,57 @@
       "x": 57,
       "y": 25,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 25,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 25,
       "z": 25,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 25,
       "z": 25,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 25,
       "z": 25,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 25,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 25,
       "z": 25,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -156273,7 +156273,7 @@
       "x": 69,
       "y": 25,
       "z": 25,
-      "block": "minecraft:polished_deepslate",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -156313,7 +156313,7 @@
       "x": 51,
       "y": 25,
       "z": 26,
-      "block": "minecraft:tuff",
+      "block": "minecraft:deepslate_tile_stairs[facing=east,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -156361,57 +156361,57 @@
       "x": 57,
       "y": 25,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 58,
       "y": 25,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 59,
       "y": 25,
       "z": 26,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 60,
       "y": 25,
       "z": 26,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
       "y": 25,
       "z": 26,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:tuff",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 62,
       "y": 25,
       "z": 26,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 63,
       "y": 25,
       "z": 26,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:stone_bricks",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 64,
@@ -156457,7 +156457,7 @@
       "x": 69,
       "y": 25,
       "z": 26,
-      "block": "minecraft:andesite",
+      "block": "minecraft:deepslate_tile_stairs[facing=west,half=top,shape=straight]",
       "stage": "dragon_head",
       "role": "dragon_head"
     },
@@ -171537,9 +171537,9 @@
       "x": 60,
       "y": 26,
       "z": 20,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -171937,9 +171937,9 @@
       "x": 60,
       "y": 26,
       "z": 22,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -172314,8 +172314,8 @@
       "y": 26,
       "z": 24,
       "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -172498,8 +172498,8 @@
       "y": 26,
       "z": 25,
       "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -172682,8 +172682,8 @@
       "y": 26,
       "z": 26,
       "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -194953,9 +194953,9 @@
       "x": 60,
       "y": 27,
       "z": 24,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:cobbled_deepslate",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -195313,9 +195313,9 @@
       "x": 60,
       "y": 27,
       "z": 26,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:andesite",
+      "stage": "dragon_head",
+      "role": "dragon_head"
     },
     {
       "x": 61,
@@ -309465,9 +309465,9 @@
       "x": 60,
       "y": 36,
       "z": 64,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -310825,9 +310825,9 @@
       "x": 60,
       "y": 36,
       "z": 66,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -312185,9 +312185,9 @@
       "x": 60,
       "y": 36,
       "z": 68,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -312865,9 +312865,9 @@
       "x": 60,
       "y": 36,
       "z": 69,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -313545,9 +313545,9 @@
       "x": 60,
       "y": 36,
       "z": 70,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -314225,9 +314225,9 @@
       "x": 60,
       "y": 36,
       "z": 71,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -314905,9 +314905,9 @@
       "x": 60,
       "y": 36,
       "z": 72,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -315585,9 +315585,9 @@
       "x": 60,
       "y": 36,
       "z": 73,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -316265,9 +316265,9 @@
       "x": 60,
       "y": 36,
       "z": 74,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -316945,9 +316945,9 @@
       "x": 60,
       "y": 36,
       "z": 75,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -317625,9 +317625,9 @@
       "x": 60,
       "y": 36,
       "z": 76,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -318305,9 +318305,9 @@
       "x": 60,
       "y": 36,
       "z": 77,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -318985,9 +318985,9 @@
       "x": 60,
       "y": 36,
       "z": 78,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -319665,9 +319665,9 @@
       "x": 60,
       "y": 36,
       "z": 79,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -320345,9 +320345,9 @@
       "x": 60,
       "y": 36,
       "z": 80,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -321025,9 +321025,9 @@
       "x": 60,
       "y": 36,
       "z": 81,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -321705,9 +321705,9 @@
       "x": 60,
       "y": 36,
       "z": 82,
-      "block": "minecraft:andesite",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -322385,9 +322385,9 @@
       "x": 60,
       "y": 36,
       "z": 83,
-      "block": "minecraft:tuff",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -323065,9 +323065,9 @@
       "x": 60,
       "y": 36,
       "z": 84,
-      "block": "minecraft:stone_bricks",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -323745,9 +323745,9 @@
       "x": 60,
       "y": 36,
       "z": 85,
-      "block": "minecraft:cobbled_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -324425,9 +324425,9 @@
       "x": 60,
       "y": 36,
       "z": 86,
-      "block": "minecraft:polished_deepslate",
-      "stage": "dragon_body",
-      "role": "dragon_body"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -325785,9 +325785,9 @@
       "x": 60,
       "y": 36,
       "z": 88,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -327145,9 +327145,9 @@
       "x": 60,
       "y": 36,
       "z": 90,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:polished_andesite",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 61,
@@ -359761,9 +359761,9 @@
       "x": 60,
       "y": 37,
       "z": 72,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:smooth_stone",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 63,
@@ -361137,9 +361137,9 @@
       "x": 60,
       "y": 37,
       "z": 78,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:smooth_stone",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 63,
@@ -362513,9 +362513,9 @@
       "x": 60,
       "y": 37,
       "z": 84,
-      "block": "minecraft:amethyst_block",
-      "stage": "decorations",
-      "role": "decorations"
+      "block": "minecraft:smooth_stone",
+      "stage": "city_platform",
+      "role": "city_platform"
     },
     {
       "x": 63,
@@ -374641,9 +374641,9 @@
       "x": 60,
       "y": 38,
       "z": 84,
-      "block": "minecraft:purpur_block",
-      "stage": "central_tower",
-      "role": "central_tower"
+      "block": "minecraft:gold_block",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 102,
@@ -378633,41 +378633,41 @@
       "x": 77,
       "y": 39,
       "z": 65,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 78,
       "y": 39,
       "z": 65,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 79,
       "y": 39,
       "z": 65,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 80,
       "y": 39,
       "z": 65,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 81,
       "y": 39,
       "z": 65,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 82,
@@ -378977,41 +378977,41 @@
       "x": 82,
       "y": 39,
       "z": 66,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 83,
       "y": 39,
       "z": 66,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 84,
       "y": 39,
       "z": 66,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 85,
       "y": 39,
       "z": 66,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 86,
       "y": 39,
       "z": 66,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 87,
@@ -379321,41 +379321,41 @@
       "x": 87,
       "y": 39,
       "z": 67,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 88,
       "y": 39,
       "z": 67,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 89,
       "y": 39,
       "z": 67,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 90,
       "y": 39,
       "z": 67,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 91,
       "y": 39,
       "z": 67,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 92,
@@ -379665,33 +379665,33 @@
       "x": 92,
       "y": 39,
       "z": 68,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 93,
       "y": 39,
       "z": 68,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 94,
       "y": 39,
       "z": 68,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 95,
       "y": 39,
       "z": 68,
-      "block": "minecraft:prismarine_bricks",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:stone_bricks",
+      "stage": "decorations",
+      "role": "decorations"
     },
     {
       "x": 96,
@@ -393177,9 +393177,9 @@
       "x": 86,
       "y": 41,
       "z": 68,
-      "block": "minecraft:blue_stained_glass",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:sea_lantern",
+      "stage": "lighting",
+      "role": "lighting"
     },
     {
       "x": 87,
@@ -394097,9 +394097,9 @@
       "x": 54,
       "y": 41,
       "z": 92,
-      "block": "minecraft:purpur_block",
-      "stage": "central_tower",
-      "role": "central_tower"
+      "block": "minecraft:sea_lantern",
+      "stage": "lighting",
+      "role": "lighting"
     },
     {
       "x": 60,
@@ -394817,9 +394817,9 @@
       "x": 86,
       "y": 41,
       "z": 116,
-      "block": "minecraft:moss_block",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
+      "block": "minecraft:sea_lantern",
+      "stage": "lighting",
+      "role": "lighting"
     },
     {
       "x": 87,
@@ -396089,9 +396089,9 @@
       "x": 54,
       "y": 42,
       "z": 92,
-      "block": "minecraft:purpur_block",
-      "stage": "central_tower",
-      "role": "central_tower"
+      "block": "minecraft:end_rod",
+      "stage": "lighting",
+      "role": "lighting"
     },
     {
       "x": 59,
@@ -420493,5 +420493,8 @@
       "stage": "central_tower",
       "role": "central_tower"
     }
-  ]
+  ],
+  "generationStats": {
+    "duplicateCoordinates": 682
+  }
 }

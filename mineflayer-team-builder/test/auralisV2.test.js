@@ -40,7 +40,7 @@ test("auralis v2 plan is valid and includes all required stages", () => {
 });
 
 test("auralis v2 blocks use minecraft namespaced block strings", () => {
-  const plan = JSON.parse(fs.readFileSync(planPath, "utf8"));
+  const plan = validatePlan(JSON.parse(fs.readFileSync(planPath, "utf8")));
   const blockPattern = /^minecraft:[a-z0-9_]+(?:\[[^\]]+\])?$/;
 
   for (const block of plan.blocks) {
