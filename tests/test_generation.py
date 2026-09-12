@@ -562,21 +562,26 @@ class GenerationTests(unittest.TestCase):
                 FileNotFoundError,
                 r"Không tìm thấy asset nguồn auralis_v2_team_plan\.json",
             ):
-                export_auralis_v2_assets(
-                    os.path.join(tempdir, "output"),
-                    examples_dir=missing_examples_dir,
-                    mineflayer_dir=os.path.join(tempdir, "mineflayer-team-builder"),
-                )
+                export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=missing_examples_dir)
 
-    def test_export_auralis_v2_assets_requires_mineflayer_dir_for_custom_asset_directory(self):
+    def test_export_auralis_v2_assets_uses_default_mineflayer_dir_for_custom_asset_directory(self):
         with tempfile.TemporaryDirectory() as tempdir:
-            examples_dir = os.path.join(tempdir, "examples")
-            os.makedirs(examples_dir, exist_ok=True)
-            with self.assertRaisesRegex(
-                ValueError,
-                r"bạn cũng phải truyền mineflayer_dir",
-            ):
-                export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=examples_dir)
+            custom_assets_dir = os.path.join(tempdir, "custom-assets")
+            os.makedirs(custom_assets_dir, exist_ok=True)
+            shutil.copyfile(
+                os.path.join(
+                    os.path.dirname(os.path.dirname(__file__)),
+                    "mineflayer-team-builder",
+                    "examples",
+                    "auralis_v2_team_plan.json",
+                ),
+                os.path.join(custom_assets_dir, "auralis_v2_team_plan.json"),
+            )
+            result = export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=custom_assets_dir)
+            self.assertEqual(
+                result["mineflayer_dir"],
+                os.path.join(os.path.dirname(os.path.dirname(__file__)), "mineflayer-team-builder"),
+            )
 
     def test_cli_can_export_auralis_v2_without_story(self):
         with tempfile.TemporaryDirectory() as tempdir:
