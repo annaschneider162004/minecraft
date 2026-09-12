@@ -180,6 +180,7 @@ function buildAuralisV2Plan() {
     }
     for (let x = temple.center.x - 2; x <= temple.center.x + 2; x += 1) {
       for (let z = temple.center.z - 2; z <= temple.center.z + 2; z += 1) {
+        if (x === temple.center.x && z === temple.center.z) continue;
         add(x, 41, z, temple.fluid, "elemental_temples");
       }
     }

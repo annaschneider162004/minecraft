@@ -393302,14 +393302,6 @@
       "role": "elemental_temples"
     },
     {
-      "x": 34,
-      "y": 41,
-      "z": 70,
-      "block": "minecraft:lava",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
-    },
-    {
       "x": 35,
       "y": 41,
       "z": 70,
@@ -393335,14 +393327,6 @@
     },
     {
       "x": 85,
-      "y": 41,
-      "z": 70,
-      "block": "minecraft:blue_stained_glass",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
-    },
-    {
-      "x": 86,
       "y": 41,
       "z": 70,
       "block": "minecraft:blue_stained_glass",
@@ -394942,14 +394926,6 @@
       "role": "elemental_temples"
     },
     {
-      "x": 34,
-      "y": 41,
-      "z": 118,
-      "block": "minecraft:white_stained_glass",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
-    },
-    {
       "x": 35,
       "y": 41,
       "z": 118,
@@ -394975,14 +394951,6 @@
     },
     {
       "x": 85,
-      "y": 41,
-      "z": 118,
-      "block": "minecraft:moss_block",
-      "stage": "elemental_temples",
-      "role": "elemental_temples"
-    },
-    {
-      "x": 86,
       "y": 41,
       "z": 118,
       "block": "minecraft:moss_block",
