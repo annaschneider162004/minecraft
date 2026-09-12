@@ -1,6 +1,7 @@
 import gzip
 import json
 import os
+import shutil
 import tempfile
 import unittest
 from contextlib import redirect_stderr
@@ -528,6 +529,26 @@ class GenerationTests(unittest.TestCase):
         self.assertIn("server-console-setup-commands.txt", summary)
         self.assertIn("không dán vào CMD bot", summary)
         self.assertIn('npm start -- --config "/tmp/auralis/cong_trinh_huyen_huyen_team_config.json"', summary)
+
+    def test_export_auralis_v2_assets_uses_parent_of_explicit_examples_dir_for_command(self):
+        repo_examples_dir = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "mineflayer-team-builder",
+            "examples",
+        )
+        with tempfile.TemporaryDirectory() as tempdir:
+            fake_mineflayer_dir = os.path.join(tempdir, "mineflayer-team-builder")
+            fake_examples_dir = os.path.join(fake_mineflayer_dir, "examples")
+            os.makedirs(fake_examples_dir, exist_ok=True)
+            shutil.copyfile(
+                os.path.join(repo_examples_dir, "auralis_v2_team_plan.json"),
+                os.path.join(fake_examples_dir, "auralis_v2_team_plan.json"),
+            )
+
+            output_dir = os.path.join(tempdir, "output")
+            result = export_auralis_v2_assets(output_dir, examples_dir=fake_examples_dir)
+
+            self.assertEqual(result["mineflayer_dir"], fake_mineflayer_dir)
 
     def test_cli_can_export_auralis_v2_without_story(self):
         with tempfile.TemporaryDirectory() as tempdir:
