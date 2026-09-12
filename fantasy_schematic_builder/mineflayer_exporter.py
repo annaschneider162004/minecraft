@@ -248,8 +248,9 @@ def _write_json(payload: dict[str, object], output_path: str) -> None:
 def _config_argument_for_output_dir(output_dir: str, config_path: str) -> str:
     appdata = os.environ.get("APPDATA")
     if os.name == "nt" and appdata:
-        default_windows_output = os.path.abspath(os.path.join(appdata, ".minecraft", "schematics"))
-        if os.path.abspath(output_dir) == default_windows_output:
+        default_windows_output = os.path.normcase(os.path.abspath(os.path.join(appdata, ".minecraft", "schematics")))
+        normalized_output_dir = os.path.normcase(os.path.abspath(output_dir))
+        if normalized_output_dir == default_windows_output:
             return r'%APPDATA%\.minecraft\schematics\cong_trinh_huyen_huyen_team_config.json'
     return os.path.abspath(config_path)
 
