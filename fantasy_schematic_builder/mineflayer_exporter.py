@@ -280,15 +280,10 @@ def export_auralis_v2_assets(
 ) -> dict[str, str]:
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
+    if examples_dir is not None and mineflayer_dir is None:
+        raise ValueError("Khi truyền examples_dir tùy chỉnh, bạn cũng phải truyền mineflayer_dir.")
     resolved_examples_dir = auralis_v2_examples_directory(examples_dir=examples_dir, mineflayer_dir=mineflayer_dir)
     resolved_mineflayer_dir = auralis_v2_mineflayer_directory(mineflayer_dir)
-    if mineflayer_dir is None and examples_dir:
-        normalized_examples_dir = os.path.basename(os.path.normpath(resolved_examples_dir)).lower()
-        if normalized_examples_dir != "examples":
-            raise ValueError(
-                "Khi truyền examples_dir tùy chỉnh không phải thư mục 'examples', bạn cũng phải truyền mineflayer_dir."
-            )
-        resolved_mineflayer_dir = os.path.abspath(os.path.dirname(resolved_examples_dir))
     plan_source_path = os.path.join(resolved_examples_dir, AURALIS_V2_PLAN_FILENAME)
     if not os.path.isfile(plan_source_path):
         raise FileNotFoundError(

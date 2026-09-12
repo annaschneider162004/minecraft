@@ -530,7 +530,7 @@ class GenerationTests(unittest.TestCase):
         self.assertIn("không dán vào CMD bot", summary)
         self.assertIn('npm start -- --config "/tmp/auralis/cong_trinh_huyen_huyen_team_config.json"', summary)
 
-    def test_export_auralis_v2_assets_uses_parent_of_explicit_examples_dir_for_command(self):
+    def test_export_auralis_v2_assets_respects_explicit_mineflayer_directory(self):
         repo_examples_dir = os.path.join(
             os.path.dirname(os.path.dirname(__file__)),
             "mineflayer-team-builder",
@@ -546,7 +546,11 @@ class GenerationTests(unittest.TestCase):
             )
 
             output_dir = os.path.join(tempdir, "output")
-            result = export_auralis_v2_assets(output_dir, examples_dir=fake_examples_dir)
+            result = export_auralis_v2_assets(
+                output_dir,
+                examples_dir=fake_examples_dir,
+                mineflayer_dir=fake_mineflayer_dir,
+            )
 
             self.assertEqual(result["mineflayer_dir"], fake_mineflayer_dir)
 
@@ -566,13 +570,13 @@ class GenerationTests(unittest.TestCase):
 
     def test_export_auralis_v2_assets_requires_mineflayer_dir_for_custom_asset_directory(self):
         with tempfile.TemporaryDirectory() as tempdir:
-            custom_assets_dir = os.path.join(tempdir, "custom-assets")
-            os.makedirs(custom_assets_dir, exist_ok=True)
+            examples_dir = os.path.join(tempdir, "examples")
+            os.makedirs(examples_dir, exist_ok=True)
             with self.assertRaisesRegex(
                 ValueError,
                 r"bạn cũng phải truyền mineflayer_dir",
             ):
-                export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=custom_assets_dir)
+                export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=examples_dir)
 
     def test_cli_can_export_auralis_v2_without_story(self):
         with tempfile.TemporaryDirectory() as tempdir:
