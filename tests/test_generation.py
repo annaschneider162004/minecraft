@@ -558,7 +558,21 @@ class GenerationTests(unittest.TestCase):
                 FileNotFoundError,
                 r"Không tìm thấy asset nguồn auralis_v2_team_plan\.json",
             ):
-                export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=missing_examples_dir)
+                export_auralis_v2_assets(
+                    os.path.join(tempdir, "output"),
+                    examples_dir=missing_examples_dir,
+                    mineflayer_dir=os.path.join(tempdir, "mineflayer-team-builder"),
+                )
+
+    def test_export_auralis_v2_assets_requires_mineflayer_dir_for_custom_asset_directory(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            custom_assets_dir = os.path.join(tempdir, "custom-assets")
+            os.makedirs(custom_assets_dir, exist_ok=True)
+            with self.assertRaisesRegex(
+                ValueError,
+                r"bạn cũng phải truyền mineflayer_dir",
+            ):
+                export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=custom_assets_dir)
 
     def test_cli_can_export_auralis_v2_without_story(self):
         with tempfile.TemporaryDirectory() as tempdir:
