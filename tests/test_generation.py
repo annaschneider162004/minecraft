@@ -23,6 +23,10 @@ from fantasy_schematic_builder.gui.tkinter_app import (
     format_generation_summary,
     resolve_output_directory_to_open,
 )
+from fantasy_schematic_builder.mineflayer_exporter import (
+    export_auralis_v2_assets,
+    format_auralis_v2_export_summary,
+)
 
 
 class GenerationTests(unittest.TestCase):
@@ -460,6 +464,87 @@ class GenerationTests(unittest.TestCase):
                 config_payload = json.load(handle)
             self.assertFalse(config_payload["autoFindOrigin"])
             self.assertEqual(config_payload["origin"], {"x": 0, "y": 100, "z": 0})
+
+    def test_export_auralis_v2_assets_creates_ready_to_run_files(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = export_auralis_v2_assets(tempdir)
+
+            plan_path = os.path.join(tempdir, "auralis_v2_team_plan.json")
+            config_path = os.path.join(tempdir, "auralis_v2_team_config.json")
+            alias_config_path = os.path.join(tempdir, "cong_trinh_huyen_huyen_team_config.json")
+            server_setup_path = os.path.join(tempdir, "server-console-setup-commands.txt")
+
+            self.assertEqual(result["plan"], plan_path)
+            self.assertEqual(result["config"], config_path)
+            self.assertEqual(result["alias_config"], alias_config_path)
+            self.assertTrue(os.path.exists(plan_path))
+            self.assertTrue(os.path.exists(config_path))
+            self.assertTrue(os.path.exists(alias_config_path))
+            self.assertTrue(os.path.exists(server_setup_path))
+
+            with open(config_path, "r", encoding="utf-8") as handle:
+                config_payload = json.load(handle)
+            with open(alias_config_path, "r", encoding="utf-8") as handle:
+                alias_payload = json.load(handle)
+
+            expected_plan_path = os.path.abspath(plan_path)
+            self.assertEqual(config_payload["planFile"], expected_plan_path)
+            self.assertEqual(alias_payload["planFile"], expected_plan_path)
+            self.assertNotIn("cong_trinh_huyen_huyen_mineflayer_plan.json", config_payload["planFile"])
+            self.assertEqual(config_payload["placementMode"], "commands")
+            self.assertTrue(config_payload["prepareBuildPlatform"])
+            self.assertFalse(config_payload["autoFindOrigin"])
+            self.assertEqual(config_payload["origin"], {"x": 0, "y": 100, "z": 0})
+            self.assertEqual(config_payload["platformOrigin"], {"x": 0, "y": 100, "z": 0})
+            self.assertEqual(config_payload["platformPadding"], 30)
+            self.assertEqual(config_payload["platformExtraHeight"], 50)
+            self.assertEqual(config_payload["joinBatchSize"], 1)
+            self.assertEqual(config_payload["joinBatchDelayMs"], 5000)
+            self.assertEqual(config_payload["connectTimeoutMs"], 120000)
+            self.assertFalse(config_payload["allowPartialTeam"])
+            self.assertEqual(len(config_payload["bots"]), 10)
+            self.assertEqual(config_payload["bots"][0]["assignedStages"], ["dragon_body"])
+            self.assertEqual(config_payload["bots"][-1]["assignedStages"], ["lighting"])
+
+            with open(server_setup_path, "r", encoding="utf-8") as handle:
+                server_setup_commands = handle.read()
+            self.assertIn("op Builder_01", server_setup_commands)
+            self.assertIn("op Builder_10", server_setup_commands)
+            self.assertIn("op Jonhbh", server_setup_commands)
+            self.assertIn("op Jonh", server_setup_commands)
+
+    def test_auralis_v2_summary_mentions_server_console_and_run_command(self):
+        result = {
+            "output_dir": "/tmp/auralis",
+            "plan": "/tmp/auralis/auralis_v2_team_plan.json",
+            "config": "/tmp/auralis/auralis_v2_team_config.json",
+            "alias_config": "/tmp/auralis/cong_trinh_huyen_huyen_team_config.json",
+            "server_console_setup": "/tmp/auralis/server-console-setup-commands.txt",
+            "mineflayer_dir": "/repo/mineflayer-team-builder",
+        }
+        summary = format_auralis_v2_export_summary(result)
+        self.assertIn("Đã xuất Auralis v2 vào", summary)
+        self.assertIn("server-console-setup-commands.txt", summary)
+        self.assertIn("không dán vào CMD bot", summary)
+        self.assertIn('npm start -- --config "/tmp/auralis/cong_trinh_huyen_huyen_team_config.json"', summary)
+
+    def test_cli_can_export_auralis_v2_without_story(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            stdout = StringIO()
+            with redirect_stdout(stdout):
+                exit_code = main(
+                    [
+                        "--export-auralis-v2",
+                        "--output-dir",
+                        tempdir,
+                    ]
+                )
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(os.path.exists(os.path.join(tempdir, "auralis_v2_team_plan.json")))
+            self.assertTrue(os.path.exists(os.path.join(tempdir, "auralis_v2_team_config.json")))
+            self.assertTrue(os.path.exists(os.path.join(tempdir, "cong_trinh_huyen_huyen_team_config.json")))
+            self.assertIn("Đã xuất Auralis v2 vào", stdout.getvalue())
+            self.assertIn("server-console-setup-commands.txt", stdout.getvalue())
 
     def test_creative_tools_generate_idea_and_titles(self):
         idea = generate_build_idea(theme="wizard", keyword="moon archive")

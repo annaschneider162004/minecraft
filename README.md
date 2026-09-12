@@ -19,6 +19,7 @@ A user-friendly Python tool for turning English or Vietnamese fantasy story prom
 - Cumulative staged schematic exports for easier Baritone building.
 - Material list, `/give` command export, Baritone build steps, and YouTube notes.
 - Optional Mineflayer team build plan JSON export plus auto-generated `*_team_config.json` for the separate `mineflayer-team-builder/` Node.js bot prototype.
+- One-click **Auralis v2** export from the GUI or CLI to copy the new 10-bot prompt-image assets into `%APPDATA%\.minecraft\schematics`.
 - Example story files in `/examples`.
 
 ## Requirements
@@ -44,6 +45,7 @@ The GUI lets you:
 - bật/tắt tạo schematic đầy đủ, schematic theo giai đoạn, danh sách vật liệu, lệnh `/give`, hướng dẫn Baritone, và ghi chú YouTube
 - bật **Tạo kế hoạch Mineflayer team bot**, nhập `Số bot Mineflayer (1–50)`, và dùng **Mass Bot Mode** để chọn nhanh `10 / 20 / 30 / 40 / 50`
 - bật **Tự tìm vị trí xây phù hợp** để bot đầu tiên tự dò khu đất gần spawn/chỗ đang đứng (không cần tự sửa XYZ thủ công)
+- bấm **`XUẤT AURALIS V2 GIỐNG PROMPT ẢNH`** để chép sẵn `auralis_v2_team_plan.json`, `auralis_v2_team_config.json`, `cong_trinh_huyen_huyen_team_config.json`, và `server-console-setup-commands.txt` vào thư mục schematics
 - dùng nút cyan **`TẠO FILE .SCHEM NGAY`** luôn hiện ở cuối cửa sổ và nút **`MỞ THƯ MỤC FILE ĐÃ TẠO`** để mở nhanh thư mục output
 
 ### Quy trình GUI gợi ý
@@ -56,6 +58,20 @@ The GUI lets you:
 6. Sau khi tạo xong, bấm **`MỞ THƯ MỤC FILE ĐÃ TẠO`** để mở nhanh thư mục output
 7. Trong Minecraft dùng các lệnh Baritone theo file xuất ra từng giai đoạn
 
+### Xuất Auralis v2 giống prompt ảnh
+
+1. Chạy `python fantasy_schematic_builder/app.py --gui`
+2. Giữ **Thư mục xuất file** là `%APPDATA%\.minecraft\schematics` (hoặc chọn thư mục bạn muốn)
+3. Bấm **`XUẤT AURALIS V2 GIỐNG PROMPT ẢNH`**
+4. Mở file `server-console-setup-commands.txt` vừa được xuất rồi **dán vào cửa sổ server.jar**, không dán vào CMD bot
+5. Sau đó chạy trong `mineflayer-team-builder`:
+
+```bash
+npm start -- --config "%APPDATA%\.minecraft\schematics\cong_trinh_huyen_huyen_team_config.json"
+```
+
+Config alias `cong_trinh_huyen_huyen_team_config.json` đã được trỏ sẵn tới `auralis_v2_team_plan.json`, nên lệnh cũ của bạn sẽ chạy Auralis v2 luôn.
+
 ## Run the CLI
 
 ```bash
@@ -65,6 +81,7 @@ python fantasy_schematic_builder/app.py --generate-idea --idea-theme dragon --id
 python fantasy_schematic_builder/app.py --story examples/story_dragon_cave.txt --build-type auto --generate-titles
 python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt --build-type wizard_tower --output-name wizard_team --mineflayer-plan --team-bots 6
 python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt --build-type wizard_tower --output-name wizard_50 --mineflayer-plan --team-bots 50 --staged
+python fantasy_schematic_builder/app.py --export-auralis-v2
 ```
 
 ### Useful CLI options
@@ -83,6 +100,7 @@ python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt 
 - `--no-youtube-notes` - skip YouTube/story notes export
 - `--mineflayer-plan` - generate a JSON build plan plus `*_team_config.json` for the optional Mineflayer multi-bot subsystem
 - `--team-bots 1-50` - choose the Mineflayer bot count encoded into the generated plan/config
+- `--export-auralis-v2` / `--auralis-v2` - export ready-to-run Auralis v2 Mineflayer assets and the server console OP helper
 - `--generate-idea` - print an offline build idea to the console
 - `--idea-theme fantasy|medieval|survival|dragon|wizard|ocean|sky|nether|ancient|village|castle|cave|temple`
 - `--idea-keyword "..."` - inject an extra keyword into the generated idea
