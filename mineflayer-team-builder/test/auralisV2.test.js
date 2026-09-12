@@ -49,6 +49,7 @@ test("auralis v2 blocks use minecraft namespaced block strings", () => {
 });
 
 test("auralis v2 config maps 10 bots and points to auralis v2 plan", () => {
+  const rawConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
   const config = loadConfig(configPath);
   assert.equal(config.autoFindOrigin, false);
   assert.deepEqual(config.origin, { x: 0, y: 100, z: 0 });
@@ -59,7 +60,8 @@ test("auralis v2 config maps 10 bots and points to auralis v2 plan", () => {
   assert.equal(config.commandDelayMs, 50);
   assert.equal(config.joinBatchSize, 1);
   assert.equal(config.bots.length, 10);
-  assert.equal(config.planFile, planPath);
+  assert.equal(rawConfig.planFile, "./auralis_v2_team_plan.json");
+  assert.equal(config.planFile, path.resolve(path.dirname(configPath), rawConfig.planFile));
 
   const stagesFromBots = new Set(config.bots.flatMap((bot) => bot.assignedStages || []));
   for (const stage of requiredStages) {
