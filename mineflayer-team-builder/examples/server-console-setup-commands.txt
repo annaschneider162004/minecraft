@@ -1,0 +1,13 @@
+op Builder_01
+op Builder_02
+op Builder_03
+op Builder_04
+op Builder_05
+op Builder_06
+op Builder_07
+op Builder_08
+op Builder_09
+op Builder_10
+op Jonhbh
+op Jonh
+say Mineflayer bot operators configured
