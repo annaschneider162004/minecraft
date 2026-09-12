@@ -286,7 +286,7 @@ function writePlan(outputPath) {
   const stageCounts = plan.blocks.reduce((acc, block) => {
     acc[block.stage] = (acc[block.stage] || 0) + 1;
     return acc;
-  }, {});
+  }, Object.create(null));
   process.stdout.write(`Wrote ${outputPath}\n`);
   process.stdout.write(`Total blocks: ${plan.blocks.length}\n`);
   process.stdout.write(`Duplicate coordinates overwritten: ${plan.generationStats.duplicateCoordinates}\n`);
