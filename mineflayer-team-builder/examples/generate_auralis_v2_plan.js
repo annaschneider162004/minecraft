@@ -250,7 +250,15 @@ function buildAuralisV2Plan() {
     add(point[0], point[1], point[2], "minecraft:soul_lantern", "lighting");
   }
 
-  const blocks = values().sort((a, b) => a.y - b.y || a.z - b.z || a.x - b.x || a.block.localeCompare(b.block));
+  const blocks = values().sort(
+    (a, b) =>
+      a.y - b.y ||
+      a.z - b.z ||
+      a.x - b.x ||
+      a.block.localeCompare(b.block) ||
+      a.stage.localeCompare(b.stage) ||
+      a.role.localeCompare(b.role)
+  );
 
   return {
     name: "Thien Thanh Auralis - Thanh Pho Tren Lung Rong (v2)",
