@@ -71,6 +71,16 @@ function parsePlacementMode(value) {
   throw new Error('placementMode phải là "mineflayer", "commands" hoặc "command-fallback".');
 }
 
+function parseCameraFocus(value) {
+  if (value === undefined || value === null || value === "") {
+    return "stage_center";
+  }
+  if (value === "stage_center") {
+    return value;
+  }
+  throw new Error('cameraFocus hiện chỉ hỗ trợ "stage_center".');
+}
+
 function loadConfig(configArg) {
   const configPath = configArg || process.env.TEAM_BUILDER_CONFIG;
   if (!configPath) {
@@ -148,6 +158,21 @@ function loadConfig(configArg) {
     clearAbovePlatform: parsed.clearAbovePlatform !== false,
     platformPadding: withDefault(parsed.platformPadding, 20),
     platformExtraHeight: withDefault(parsed.platformExtraHeight, 20),
+    cinematicMode: parsed.cinematicMode === true,
+    cameraPlayer: typeof parsed.cameraPlayer === "string" ? parsed.cameraPlayer : null,
+    cameraGamemode: withDefault(parsed.cameraGamemode, "spectator"),
+    cameraOrbitEnabled: parsed.cameraOrbitEnabled === true,
+    cameraOrbitRadius: readNumberValue(parsed.cameraOrbitRadius, 12),
+    cameraOrbitHeight: readNumberValue(parsed.cameraOrbitHeight, 8),
+    cameraOrbitStepDelayMs: readNumberValue(parsed.cameraOrbitStepDelayMs, 1200),
+    cameraOrbitStepsPerStage: readNumberValue(parsed.cameraOrbitStepsPerStage, 12),
+    cameraFocus: parseCameraFocus(parsed.cameraFocus),
+    gatherBotsAroundStage: parsed.gatherBotsAroundStage === true,
+    gatherBotsAroundCamera: parsed.gatherBotsAroundCamera === true,
+    stagePauseMs: readNumberValue(parsed.stagePauseMs, 0),
+    pauseBetweenStages: parsed.pauseBetweenStages === true,
+    announceStages: parsed.announceStages === true,
+    buildStageOrder: Array.isArray(parsed.buildStageOrder) ? parsed.buildStageOrder.filter((stage) => typeof stage === "string" && stage.trim()) : [],
     verbose: parsed.verbose === true,
   };
 }

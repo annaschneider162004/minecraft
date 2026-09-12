@@ -86,6 +86,46 @@ test("loadConfig reads creative and command fallback settings", () => {
   }
 });
 
+test("loadConfig reads cinematic camera fields with stable defaults", () => {
+  const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
+  try {
+    const configPath = path.join(tempdir, "team-config.json");
+    const planPath = path.join(tempdir, "team-plan.json");
+    fs.writeFileSync(planPath, JSON.stringify({ blocks: [] }), "utf8");
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify({
+        host: "localhost",
+        bots: [{ username: "Builder_01", role: "foundation" }],
+        planFile: "./team-plan.json",
+        cinematicMode: true,
+        cameraPlayer: "Jonhbh",
+        cameraOrbitEnabled: true,
+      }),
+      "utf8"
+    );
+
+    const loaded = loadConfig(configPath);
+    assert.equal(loaded.cinematicMode, true);
+    assert.equal(loaded.cameraPlayer, "Jonhbh");
+    assert.equal(loaded.cameraGamemode, "spectator");
+    assert.equal(loaded.cameraOrbitEnabled, true);
+    assert.equal(loaded.cameraOrbitRadius, 12);
+    assert.equal(loaded.cameraOrbitHeight, 8);
+    assert.equal(loaded.cameraOrbitStepDelayMs, 1200);
+    assert.equal(loaded.cameraOrbitStepsPerStage, 12);
+    assert.equal(loaded.cameraFocus, "stage_center");
+    assert.equal(loaded.gatherBotsAroundStage, false);
+    assert.equal(loaded.gatherBotsAroundCamera, false);
+    assert.equal(loaded.stagePauseMs, 0);
+    assert.equal(loaded.pauseBetweenStages, false);
+    assert.equal(loaded.announceStages, false);
+    assert.deepEqual(loaded.buildStageOrder, []);
+  } finally {
+    fs.rmSync(tempdir, { recursive: true, force: true });
+  }
+});
+
 test("loadConfig supports env override for creative command delay", () => {
   const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-config-"));
   const previous = process.env.TEAM_BUILDER_CREATIVE_COMMAND_DELAY_MS;

@@ -5,7 +5,7 @@ const os = require("os");
 const path = require("path");
 const { spawnSync } = require("child_process");
 
-const { buildPlatformCommands, executeBuild } = require("../src/index");
+const { buildPlatformCommands, calculateStageCenter, createCameraOrbitCommand, executeBuild } = require("../src/index");
 
 test("dry-run with auto origin does not require world access", () => {
   const tempdir = fs.mkdtempSync(path.join(os.tmpdir(), "mf-index-"));
@@ -146,6 +146,29 @@ test("executeBuild keeps scout connected and only connects remaining bots after 
   assert.deepEqual(result.buildOrigin, { x: 10, y: 70, z: -5 });
 });
 
+test("calculateStageCenter returns world-space center for a stage", () => {
+  const center = calculateStageCenter(
+    [
+      { x: 0, y: 0, z: 0 },
+      { x: 4, y: 2, z: 6 },
+    ],
+    { x: 10, y: 100, z: -20 }
+  );
+
+  assert.deepEqual(center, { x: 12.5, y: 101.5, z: -16.5 });
+});
+
+test("createCameraOrbitCommand generates /tp yaw pitch orbit commands", () => {
+  const command = createCameraOrbitCommand("Jonhbh", { x: 10.5, y: 101.5, z: -16.5 }, {
+    radius: 12,
+    height: 8,
+    stepIndex: 0,
+    totalSteps: 8,
+  });
+
+  assert.match(command, /^tp Jonhbh -?\d+(?:\.\d+)? -?\d+(?:\.\d+)? -?\d+(?:\.\d+)? -?\d+(?:\.\d+)? -?\d+(?:\.\d+)?$/);
+});
+
 test("buildPlatformCommands uses padded bounds above and below origin", () => {
   const commands = buildPlatformCommands(
     {
@@ -271,6 +294,177 @@ test("executeBuild disconnects scout if auto-origin run aborts before build star
     /remaining bots failed/
   );
   assert.equal(quitCalled, true);
+});
+
+test("executeBuild keeps non-cinematic behavior unchanged", async () => {
+  const calls = [];
+
+  class MockManager {
+    constructor(config, assignments) {
+      this.config = config;
+      this.assignments = assignments;
+    }
+
+    async connectAll() {
+      return this.assignments.map((assignment) => ({
+        ...assignment.bot,
+        bot: { username: assignment.bot.username, chat() {} },
+        logger: { info() {}, warn() {} },
+        mcData: {},
+      }));
+    }
+
+    async runBuild(connectedBots, assignments = this.assignments) {
+      calls.push({
+        connectedBots: connectedBots.map((entry) => entry.username),
+        assignments: assignments.map((assignment) => ({
+          username: assignment.bot.username,
+          blocks: assignment.blocks.map((block) => block.stage),
+        })),
+      });
+    }
+
+    async issueWorldCommand() {}
+
+    setCommandController() {}
+  }
+
+  await executeBuild(
+    {
+      host: "localhost",
+      port: 25565,
+      auth: "offline",
+      version: false,
+      autoFindOriginConfigured: false,
+      autoFindOrigin: false,
+      origin: { x: 0, y: 100, z: 0 },
+      platformOrigin: { x: 0, y: 100, z: 0 },
+      bots: [
+        { username: "Builder_01", role: "dragon_body", assignedStages: ["dragon_body"] },
+        { username: "Builder_02", role: "lighting", assignedStages: ["lighting"] },
+      ],
+      scoutBot: "Builder_01",
+      planFile: "/tmp/example_plan.json",
+      cinematicMode: false,
+      creativeMode: false,
+      issueCreativeCommands: false,
+      issueWorldCommands: false,
+      setWorldConditions: false,
+      teleportBotsToOrigin: false,
+      clearBuildArea: false,
+      prepareBuildPlatform: false,
+    },
+    {
+      name: "Non cinematic test",
+      size: { width: 2, height: 3, length: 2 },
+      origin: { x: 0, y: 0, z: 0 },
+      blocks: [
+        { x: 0, y: 0, z: 0, block: "minecraft:stone", stage: "dragon_body", role: "dragon_body" },
+        { x: 1, y: 0, z: 0, block: "minecraft:sea_lantern", stage: "lighting", role: "lighting" },
+      ],
+    },
+    {
+      logger: { info() {}, warn() {} },
+      BotManagerClass: MockManager,
+    }
+  );
+
+  assert.equal(calls.length, 1);
+  assert.deepEqual(calls[0].assignments, [
+    { username: "Builder_01", blocks: ["dragon_body"] },
+    { username: "Builder_02", blocks: ["lighting"] },
+  ]);
+});
+
+test("executeBuild warns and continues when camera player is offline", async () => {
+  const warnings = [];
+  const runStages = [];
+
+  class MockManager {
+    constructor(config, assignments) {
+      this.config = config;
+      this.assignments = assignments;
+    }
+
+    async connectAll() {
+      return this.assignments.map((assignment) => ({
+        ...assignment.bot,
+        bot: { username: assignment.bot.username, chat() {} },
+        logger: { info() {}, warn() {} },
+        mcData: {},
+      }));
+    }
+
+    async runBuild(_connectedBots, assignments = this.assignments) {
+      runStages.push(assignments.map((assignment) => assignment.blocks.map((block) => block.stage)));
+    }
+
+    async issueWorldCommand(commandBody) {
+      if (commandBody.startsWith("gamemode spectator Jonhbh")) {
+        const error = new Error("camera offline");
+        error.cameraPlayerOffline = true;
+        throw error;
+      }
+    }
+
+    setCommandController() {}
+  }
+
+  await executeBuild(
+    {
+      host: "localhost",
+      port: 25565,
+      auth: "offline",
+      version: false,
+      autoFindOriginConfigured: false,
+      autoFindOrigin: false,
+      origin: { x: 0, y: 100, z: 0 },
+      platformOrigin: { x: 0, y: 100, z: 0 },
+      bots: [{ username: "Builder_01", role: "dragon_body", assignedStages: ["dragon_body"] }],
+      scoutBot: "Builder_01",
+      planFile: "/tmp/example_plan.json",
+      cinematicMode: true,
+      cameraPlayer: "Jonhbh",
+      cameraGamemode: "spectator",
+      cameraOrbitEnabled: true,
+      cameraOrbitRadius: 12,
+      cameraOrbitHeight: 8,
+      cameraOrbitStepDelayMs: 0,
+      cameraOrbitStepsPerStage: 4,
+      cameraFocus: "stage_center",
+      gatherBotsAroundStage: false,
+      gatherBotsAroundCamera: false,
+      buildStageOrder: ["dragon_body"],
+      stagePauseMs: 0,
+      pauseBetweenStages: false,
+      announceStages: false,
+      creativeMode: false,
+      issueCreativeCommands: false,
+      issueWorldCommands: true,
+      setWorldConditions: false,
+      teleportBotsToOrigin: false,
+      clearBuildArea: false,
+      prepareBuildPlatform: false,
+    },
+    {
+      name: "Camera offline test",
+      size: { width: 2, height: 3, length: 2 },
+      origin: { x: 0, y: 0, z: 0 },
+      blocks: [{ x: 0, y: 0, z: 0, block: "minecraft:stone", stage: "dragon_body", role: "dragon_body" }],
+    },
+    {
+      logger: {
+        info() {},
+        warn(message) {
+          warnings.push(message);
+        },
+      },
+      BotManagerClass: MockManager,
+    }
+  );
+
+  assert.equal(runStages.length, 1);
+  assert.match(warnings[0], /không tìm thấy camera player "Jonhbh"/i);
 });
 
 test("runPreparationCommands logs exact Vietnamese /fill commands", async () => {

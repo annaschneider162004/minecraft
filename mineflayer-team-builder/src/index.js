@@ -5,7 +5,7 @@ require("dotenv").config();
 const path = require("path");
 
 const { BotManager } = require("./botManager");
-const { buildAssignments } = require("./buildPlanner");
+const { buildAssignments, filterAssignmentsByStage, resolveStageOrder } = require("./buildPlanner");
 const { loadConfig } = require("./config");
 const { createLogger } = require("./logger");
 const { loadBuildPlan } = require("./schematicReader");
@@ -51,6 +51,247 @@ function teleportTargetForIndex(origin, index) {
     y: origin.y,
     z: origin.z + row * spacing,
   };
+}
+
+function formatCoordinate(value) {
+  const rounded = Math.round(value * 100) / 100;
+  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2).replace(/\.?0+$/, "");
+}
+
+function stageProgressLabel(index, total) {
+  return `phase ${index + 1}/${total}`;
+}
+
+function getStageBlocks(plan, stage) {
+  return plan.blocks.filter((block) => block.stage === stage);
+}
+
+function calculateStageCenter(stageBlocks, origin) {
+  if (!Array.isArray(stageBlocks) || stageBlocks.length === 0) {
+    throw new Error("Không thể tính tâm stage vì stage không có block.");
+  }
+  const bounds = stageBlocks.reduce(
+    (current, block) => ({
+      minX: Math.min(current.minX, block.x),
+      maxX: Math.max(current.maxX, block.x),
+      minY: Math.min(current.minY, block.y),
+      maxY: Math.max(current.maxY, block.y),
+      minZ: Math.min(current.minZ, block.z),
+      maxZ: Math.max(current.maxZ, block.z),
+    }),
+    {
+      minX: stageBlocks[0].x,
+      maxX: stageBlocks[0].x,
+      minY: stageBlocks[0].y,
+      maxY: stageBlocks[0].y,
+      minZ: stageBlocks[0].z,
+      maxZ: stageBlocks[0].z,
+    }
+  );
+  return {
+    x: origin.x + (bounds.minX + bounds.maxX) / 2 + 0.5,
+    y: origin.y + (bounds.minY + bounds.maxY) / 2 + 0.5,
+    z: origin.z + (bounds.minZ + bounds.maxZ) / 2 + 0.5,
+  };
+}
+
+function calculateLookAngles(from, target) {
+  const deltaX = target.x - from.x;
+  const deltaY = target.y - from.y;
+  const deltaZ = target.z - from.z;
+  const horizontal = Math.sqrt(deltaX ** 2 + deltaZ ** 2) || 1;
+  return {
+    yaw: -Math.atan2(deltaX, deltaZ) * (180 / Math.PI),
+    pitch: -Math.atan2(deltaY, horizontal) * (180 / Math.PI),
+  };
+}
+
+function createCameraOrbitCommand(cameraPlayer, stageCenter, options = {}) {
+  const radius = Math.max(1, Number(options.radius) || 12);
+  const height = Number(options.height) || 8;
+  const stepIndex = Math.max(0, Number(options.stepIndex) || 0);
+  const totalSteps = Math.max(1, Number(options.totalSteps) || 12);
+  const angle = (Math.PI * 2 * stepIndex) / totalSteps;
+  const position = {
+    x: stageCenter.x + Math.cos(angle) * radius,
+    y: stageCenter.y + height,
+    z: stageCenter.z + Math.sin(angle) * radius,
+  };
+  const { yaw, pitch } = calculateLookAngles(position, stageCenter);
+  return `tp ${cameraPlayer} ${formatCoordinate(position.x)} ${formatCoordinate(position.y)} ${formatCoordinate(position.z)} ${formatCoordinate(yaw)} ${formatCoordinate(pitch)}`;
+}
+
+function createOfflineCameraError(cameraPlayer, message) {
+  const error = new Error(`Camera player ${cameraPlayer} hiện không online hoặc server không tìm thấy người chơi này.`);
+  error.cameraPlayerOffline = true;
+  error.chatMessage = message;
+  return error;
+}
+
+function isMissingPlayerMessage(message) {
+  return (
+    /no entity was found/i.test(message) ||
+    /no player was found/i.test(message) ||
+    /can't find player/i.test(message) ||
+    /player not found/i.test(message)
+  );
+}
+
+function createCameraErrorMatcher(cameraPlayer) {
+  return (message) => (isMissingPlayerMessage(message) ? createOfflineCameraError(cameraPlayer, message) : null);
+}
+
+async function issueCameraCommand(manager, config, command, scopedLogger) {
+  await manager.issueWorldCommand(command, scopedLogger, {
+    delayMs: Math.max(0, Number(config.commandDelayMs) || Number(config.placementDelayMs) || 0),
+    logCommand: config.verbose === true,
+    errorMatcher: createCameraErrorMatcher(config.cameraPlayer),
+  });
+}
+
+async function prepareCamera(manager, config, scopedLogger) {
+  if (!config.cinematicMode || !config.cameraPlayer) {
+    return true;
+  }
+  try {
+    await issueCameraCommand(manager, config, `gamemode ${config.cameraGamemode} ${config.cameraPlayer}`, scopedLogger);
+    scopedLogger.info(`Đã chuyển camera ${config.cameraPlayer} sang chế độ ${config.cameraGamemode}.`);
+    return true;
+  } catch (error) {
+    if (error?.cameraPlayerOffline) {
+      scopedLogger.warn(
+        `Cảnh báo: không tìm thấy camera player "${config.cameraPlayer}" trong server. Tiếp tục build không có camera orbit.`
+      );
+      return false;
+    }
+    throw error;
+  }
+}
+
+async function gatherBotsAroundStage(manager, config, connectedBots, stageCenter, scopedLogger) {
+  const anchor = {
+    x: Math.round(stageCenter.x),
+    y: Math.round(stageCenter.y),
+    z: Math.round(stageCenter.z),
+  };
+  for (const [index, entry] of connectedBots.entries()) {
+    const target = teleportTargetForIndex(anchor, index);
+    await manager.issueWorldCommand(`tp ${entry.username} ${target.x} ${target.y} ${target.z}`, scopedLogger, {
+      delayMs: 100,
+      logCommand: config.verbose === true,
+    });
+  }
+}
+
+async function gatherBotsAroundCamera(manager, config, connectedBots, scopedLogger) {
+  for (const entry of connectedBots) {
+    await manager.issueWorldCommand(`tp ${entry.username} ${config.cameraPlayer}`, scopedLogger, {
+      delayMs: 100,
+      logCommand: config.verbose === true,
+      errorMatcher: createCameraErrorMatcher(config.cameraPlayer),
+    });
+  }
+}
+
+async function orbitCameraForStage(manager, config, stageCenter, scopedLogger, shouldContinue) {
+  if (!config.cameraOrbitEnabled || !config.cameraPlayer) {
+    return;
+  }
+  scopedLogger.info(`Đang di chuyển camera ${config.cameraPlayer} quanh khu vực đang xây...`);
+  const totalSteps = Math.max(1, Number(config.cameraOrbitStepsPerStage) || 1);
+  const stepDelayMs = Math.max(0, Number(config.cameraOrbitStepDelayMs) || 0);
+  for (let stepIndex = 0; stepIndex < totalSteps; stepIndex += 1) {
+    if (!shouldContinue()) {
+      break;
+    }
+    await issueCameraCommand(
+      manager,
+      config,
+      createCameraOrbitCommand(config.cameraPlayer, stageCenter, {
+        radius: config.cameraOrbitRadius,
+        height: config.cameraOrbitHeight,
+        stepIndex,
+        totalSteps,
+      }),
+      scopedLogger
+    );
+    if (stepDelayMs > 0 && shouldContinue()) {
+      await sleep(stepDelayMs);
+    }
+  }
+}
+
+async function runCinematicBuild(manager, config, plan, assignments, connectedBots, buildOrigin, scopedLogger) {
+  const stageOrder = resolveStageOrder(plan, config.buildStageOrder);
+  const totalStages = stageOrder.length;
+  if (totalStages === 0) {
+    scopedLogger.warn("Cinematic mode đang bật nhưng build plan chưa có stage. Tool sẽ build theo chế độ cũ.");
+    await manager.runBuild(connectedBots);
+    return;
+  }
+  let cameraReady = await prepareCamera(manager, config, scopedLogger);
+
+  for (const [stageIndex, stage] of stageOrder.entries()) {
+    const stageAssignments = filterAssignmentsByStage(assignments, stage);
+    const stageBlocks = getStageBlocks(plan, stage);
+    if (stageAssignments.length === 0 || stageBlocks.length === 0) {
+      continue;
+    }
+    const label = stageProgressLabel(stageIndex, totalStages);
+    const stageCenter = calculateStageCenter(stageBlocks, buildOrigin);
+    scopedLogger.info(`Bắt đầu ${label}: ${stage}`);
+    if (config.announceStages) {
+      await manager.issueWorldCommand(`say Bắt đầu ${label}: ${stage}`, scopedLogger, {
+        delayMs: Math.max(0, Number(config.commandDelayMs) || Number(config.placementDelayMs) || 0),
+        logCommand: config.verbose === true,
+      });
+    }
+    if (config.gatherBotsAroundCamera && cameraReady) {
+      try {
+        await gatherBotsAroundCamera(manager, config, connectedBots, scopedLogger);
+      } catch (error) {
+        if (error?.cameraPlayerOffline) {
+          cameraReady = false;
+          scopedLogger.warn(
+            `Cảnh báo: camera player "${config.cameraPlayer}" đã rời server khi đang gather bot. Tiếp tục build stage ${stage}.`
+          );
+        } else {
+          throw error;
+        }
+      }
+    }
+    if (config.gatherBotsAroundStage) {
+      await gatherBotsAroundStage(manager, config, connectedBots, stageCenter, scopedLogger);
+    }
+
+    let buildCompleted = false;
+    const buildPromise = manager.runBuild(connectedBots, stageAssignments).finally(() => {
+      buildCompleted = true;
+    });
+    if (cameraReady && config.cameraOrbitEnabled) {
+      try {
+        await orbitCameraForStage(manager, config, stageCenter, scopedLogger, () => !buildCompleted);
+      } catch (error) {
+        if (error?.cameraPlayerOffline) {
+          cameraReady = false;
+          scopedLogger.warn(
+            `Cảnh báo: camera player "${config.cameraPlayer}" đã offline giữa lúc quay stage ${stage}. Tiếp tục build không có camera orbit.`
+          );
+        } else {
+          throw error;
+        }
+      }
+    }
+    await buildPromise;
+    scopedLogger.info(`Hoàn thành ${label}: ${stage}.`);
+
+    if (config.pauseBetweenStages && config.stagePauseMs > 0 && stageIndex < totalStages - 1) {
+      scopedLogger.info(
+        `Hoàn thành ${label}, tạm dừng ${Math.round(config.stagePauseMs / 1000)} giây để quay cảnh chuyển phase...`
+      );
+      await sleep(config.stagePauseMs);
+    }
+  }
 }
 
 function pickPreparationController(connectedBots, scoutBotName, scopedLogger) {
@@ -207,7 +448,11 @@ async function executeBuild(config, plan, options = {}) {
       }
       await runPreparationCommands(manager, config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
       scopedLogger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
-      await manager.runBuild(connectedBots);
+      if (config.cinematicMode) {
+        await runCinematicBuild(manager, config, plan, assignments, connectedBots, buildOrigin, scopedLogger);
+      } else {
+        await manager.runBuild(connectedBots);
+      }
       scopedLogger.info("Đội bot đã hoàn tất build plan.");
       completed = true;
       return { buildOrigin, connectedBots };
@@ -227,7 +472,11 @@ async function executeBuild(config, plan, options = {}) {
   }
   await runPreparationCommands(manager, config, connectedScout, connectedBots, plan, buildOrigin, scopedLogger);
   scopedLogger.info("Tất cả bot đã sẵn sàng. Bắt đầu xây dựng.");
-  await manager.runBuild(connectedBots);
+  if (config.cinematicMode) {
+    await runCinematicBuild(manager, config, plan, assignments, connectedBots, buildOrigin, scopedLogger);
+  } else {
+    await manager.runBuild(connectedBots);
+  }
   scopedLogger.info("Đội bot đã hoàn tất build plan.");
   return { buildOrigin, connectedBots };
 }
@@ -263,11 +512,17 @@ async function main(argv = process.argv.slice(2)) {
 
 module.exports = {
   buildPlatformCommands,
+  calculateStageCenter,
+  createCameraOrbitCommand,
   executeBuild,
   formatCommand,
+  gatherBotsAroundCamera,
+  gatherBotsAroundStage,
   main,
   parseArgs,
   pickPreparationController,
+  prepareCamera,
+  runCinematicBuild,
   runPreparationCommands,
   teleportTargetForIndex,
 };

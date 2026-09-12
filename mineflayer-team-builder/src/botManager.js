@@ -277,13 +277,13 @@ class BotManager {
     }
   }
 
-  async runBuild(connectedBots) {
+  async runBuild(connectedBots, assignments = this.assignments) {
     this.commandController =
       this.commandController ||
       connectedBots.find((entry) => entry.username === this.config.scoutBot) ||
       connectedBots[0] ||
       null;
-    const activeAssignments = this.assignments.filter((assignment) => {
+    const activeAssignments = assignments.filter((assignment) => {
         const connected = connectedBots.find((entry) => entry.username === assignment.bot.username);
         if (!connected) {
           if (!this.config.allowPartialTeam) {
@@ -347,6 +347,12 @@ class BotManager {
           const onMessage = (message) => {
             const text = stringifyChatMessage(message);
             if (!isWorldCommandPermissionError(text)) {
+              const matchedError =
+                typeof options.errorMatcher === "function" ? options.errorMatcher(text) : null;
+              if (!matchedError) {
+                return;
+              }
+              settle(reject, matchedError);
               return;
             }
             const error = new Error(formatWorldCommandPermissionMessage(controllerName));

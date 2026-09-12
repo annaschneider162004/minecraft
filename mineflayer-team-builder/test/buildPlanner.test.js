@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
-const { buildAssignments } = require("../src/buildPlanner");
+const { buildAssignments, filterAssignmentsByStage, resolveStageOrder } = require("../src/buildPlanner");
 
 test("buildAssignments groups by role and falls back for unmatched roles", () => {
   const plan = {
@@ -62,4 +62,43 @@ test("buildAssignments can match assignedStages when bot roles are grouped", () 
   assert.equal(assignments[0].blocks.length, 1);
   assert.equal(assignments[1].blocks[0].stage, "walls");
   assert.equal(assignments[2].blocks[0].stage, "decorations");
+});
+
+test("resolveStageOrder keeps requested order and appends remaining plan stages", () => {
+  const plan = {
+    blocks: [
+      { stage: "dragon_body" },
+      { stage: "dragon_head" },
+      { stage: "lighting" },
+      { stage: "decorations" },
+    ],
+  };
+
+  assert.deepEqual(resolveStageOrder(plan, ["lighting", "dragon_body"]), [
+    "lighting",
+    "dragon_body",
+    "dragon_head",
+    "decorations",
+  ]);
+});
+
+test("filterAssignmentsByStage keeps only blocks for the requested stage", () => {
+  const assignments = [
+    {
+      bot: { username: "Builder_01" },
+      blocks: [
+        { stage: "dragon_body", block: "minecraft:stone" },
+        { stage: "lighting", block: "minecraft:sea_lantern" },
+      ],
+    },
+    {
+      bot: { username: "Builder_02" },
+      blocks: [{ stage: "dragon_body", block: "minecraft:stone_bricks" }],
+    },
+  ];
+
+  const filtered = filterAssignmentsByStage(assignments, "lighting");
+  assert.equal(filtered.length, 1);
+  assert.equal(filtered[0].bot.username, "Builder_01");
+  assert.deepEqual(filtered[0].blocks, [{ stage: "lighting", block: "minecraft:sea_lantern" }]);
 });

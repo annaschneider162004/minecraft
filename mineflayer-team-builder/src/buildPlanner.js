@@ -97,9 +97,56 @@ function buildAssignments(plan, bots, origin) {
   return assignByRole(plan, bots, origin);
 }
 
+function listPlanStages(plan) {
+  const stages = [];
+  const seen = new Set();
+  for (const block of plan.blocks) {
+    if (!block.stage || seen.has(block.stage)) {
+      continue;
+    }
+    seen.add(block.stage);
+    stages.push(block.stage);
+  }
+  return stages;
+}
+
+function resolveStageOrder(plan, requestedOrder = []) {
+  const planStages = listPlanStages(plan);
+  const availableStages = new Set(planStages);
+  const ordered = [];
+  const seen = new Set();
+  for (const stage of requestedOrder) {
+    if (typeof stage !== "string" || !stage.trim() || seen.has(stage) || !availableStages.has(stage)) {
+      continue;
+    }
+    seen.add(stage);
+    ordered.push(stage);
+  }
+  for (const stage of planStages) {
+    if (seen.has(stage)) {
+      continue;
+    }
+    seen.add(stage);
+    ordered.push(stage);
+  }
+  return ordered;
+}
+
+function filterAssignmentsByStage(assignments, stage) {
+  return assignments
+    .map((assignment) => ({
+      bot: assignment.bot,
+      blocks: assignment.blocks.filter((block) => block.stage === stage),
+    }))
+    .filter((assignment) => assignment.blocks.length > 0);
+}
+
 module.exports = {
   assignByRole,
   assignRoundRobin,
   buildAssignments,
+  filterAssignmentsByStage,
+  listPlanStages,
+  resolveStageOrder,
   sortBlocks,
 };
