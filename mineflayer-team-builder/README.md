@@ -73,13 +73,13 @@ Mặc định Python sẽ tự sinh:
 
 Bạn có thể chạy trực tiếp file config sinh sẵn đó hoặc chỉnh thêm nếu cần.
 
-### Auralis v2 mẫu chi tiết (10 bot)
+### Auralis v2 mẫu chi tiết (bot động 10-50)
 
 Trong `mineflayer-team-builder/examples` đã có sẵn:
 
 - `auralis_v2_team_plan.json` (kế hoạch lớn cho **Thiên Thành Auralis – Thành Phố Trên Lưng Rồng**)
-- `auralis_v2_team_config.json` (map 10 bot theo stage)
-- `auralis_v2_cinematic_config.json` (bản quay video theo phase với camera orbit cho `Jonhbh`)
+- `auralis_v2_team_config.json` (mẫu 10 bot theo stage, flow export Python có thể sinh 10-50 bot)
+- `auralis_v2_cinematic_config.json` (mẫu quay video theo phase với camera orbit cho `Jonhbh`, cũng hỗ trợ bot động khi export)
 - `server-console-setup-commands.txt` (lệnh OP copy/paste cho server console)
 - `run_auralis_recording.bat` (script CMD gợi ý để mở OBS/server và chạy build)
 
@@ -90,18 +90,20 @@ cd mineflayer-team-builder
 node examples/generate_auralis_v2_plan.js
 ```
 
-Plan Auralis v2 đã chia stage rõ ràng cho team assignment:
+Plan Auralis v2 đã chia stage rõ ràng theo thứ tự:
 
+- `void_abyss`
 - `dragon_body`
 - `dragon_head`
 - `heavenly_gate`
 - `city_platform`
 - `central_tower`
 - `elemental_temples`
-- `void_abyss`
 - `demon_fortress`
 - `decorations`
 - `lighting`
+
+Flow export Python sẽ tự tạo `Builder_01` ... `Builder_50` và chia stage theo vòng lặp (round-robin). Ví dụ chọn `20 bot` thì mỗi stage nhận `2 bot`.
 
 Ví dụ vai trò cho video:
 
@@ -169,7 +171,7 @@ examples/auralis_v2_cinematic_config.json
 Luồng hoạt động:
 
 1. `Jonhbh` là **camera player**, không phải builder bot
-2. `Builder_01` tới `Builder_10` sẽ xây theo từng `phase/stage`
+2. `Builder_01` tới `Builder_xx` (theo số bot đã export) sẽ xây theo từng `phase/stage`
 3. controller bot gửi lệnh `/gamemode spectator Jonhbh`
 4. trong lúc bot xây từng phase, tool gửi `/tp Jonhbh x y z yaw pitch` để camera bay vòng quanh khu vực đang xây
 5. nếu bật `pauseBetweenStages`, tool sẽ dừng ngắn giữa các phase để bạn quay cảnh chuyển tiếp
@@ -194,7 +196,8 @@ Checklist nhanh:
 1. Mở server local/private `localhost:25565`
 2. Vào Minecraft bằng tài khoản/người chơi `Jonhbh`
 3. Paste file `examples/server-console-setup-commands.txt` vào **server console**
-4. Chạy config cinematic hoặc file `.bat`
+4. Nếu cần bot động, chạy script `examples/run_auralis_recording.bat` rồi đặt `BOT_COUNT=20/25/.../50`
+5. Chạy config cinematic hoặc file `.bat`
 
 Nếu `Jonhbh` đang offline, tool sẽ log cảnh báo tiếng Việt rồi vẫn tiếp tục build bằng bot thay vì crash.
 
