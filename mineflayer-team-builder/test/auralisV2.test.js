@@ -9,6 +9,7 @@ const { loadConfig } = require("../src/config");
 const examplesDir = path.resolve(__dirname, "../examples");
 const planPath = path.join(examplesDir, "auralis_v2_team_plan.json");
 const configPath = path.join(examplesDir, "auralis_v2_team_config.json");
+const cinematicConfigPath = path.join(examplesDir, "auralis_v2_cinematic_config.json");
 const requiredStages = [
   "dragon_body",
   "dragon_head",
@@ -67,4 +68,30 @@ test("auralis v2 config maps 10 bots and points to auralis v2 plan", () => {
   for (const stage of requiredStages) {
     assert.ok(stagesFromBots.has(stage), `Missing stage mapping: ${stage}`);
   }
+});
+
+test("auralis v2 cinematic config enables staged orbit camera flow", () => {
+  const rawConfig = JSON.parse(fs.readFileSync(cinematicConfigPath, "utf8"));
+  const config = loadConfig(cinematicConfigPath);
+  assert.equal(rawConfig.planFile, "./auralis_v2_team_plan.json");
+  assert.equal(config.planFile, path.resolve(path.dirname(cinematicConfigPath), rawConfig.planFile));
+  assert.equal(config.cinematicMode, true);
+  assert.equal(config.cameraPlayer, "Jonhbh");
+  assert.equal(config.cameraGamemode, "spectator");
+  assert.equal(config.cameraOrbitEnabled, true);
+  assert.equal(config.pauseBetweenStages, true);
+  assert.equal(config.stagePauseMs, 8000);
+  assert.equal(config.announceStages, true);
+  assert.deepEqual(config.buildStageOrder, [
+    "void_abyss",
+    "dragon_body",
+    "dragon_head",
+    "heavenly_gate",
+    "city_platform",
+    "central_tower",
+    "elemental_temples",
+    "demon_fortress",
+    "decorations",
+    "lighting",
+  ]);
 });

@@ -49,12 +49,12 @@ function worldPositionFromOrigin(origin, block) {
 }
 
 function shouldUseCommandFallback(error) {
-  const message = String(error?.message || error || "");
+  const message = String(error?.message || error || "").toLowerCase();
   return (
-    /Không tìm thấy block để đặt bám vào/i.test(message) ||
-    /Took too long to decide path to goal/i.test(message) ||
-    /No path to the goal/i.test(message) ||
-    /Goal.*path/i.test(message)
+    message.includes("không tìm thấy block để đặt bám vào") ||
+    message.includes("took too long to decide path to goal") ||
+    message.includes("no path to the goal") ||
+    (message.includes("goal") && message.includes("path"))
   );
 }
 
@@ -277,13 +277,13 @@ class BotManager {
     }
   }
 
-  async runBuild(connectedBots) {
+  async runBuild(connectedBots, assignments = this.assignments) {
     this.commandController =
       this.commandController ||
       connectedBots.find((entry) => entry.username === this.config.scoutBot) ||
       connectedBots[0] ||
       null;
-    const activeAssignments = this.assignments.filter((assignment) => {
+    const activeAssignments = assignments.filter((assignment) => {
         const connected = connectedBots.find((entry) => entry.username === assignment.bot.username);
         if (!connected) {
           if (!this.config.allowPartialTeam) {
@@ -347,6 +347,12 @@ class BotManager {
           const onMessage = (message) => {
             const text = stringifyChatMessage(message);
             if (!isWorldCommandPermissionError(text)) {
+              const matchedError =
+                typeof options.errorMatcher === "function" ? options.errorMatcher(text) : null;
+              if (!matchedError) {
+                return;
+              }
+              settle(reject, matchedError);
               return;
             }
             const error = new Error(formatWorldCommandPermissionMessage(controllerName));

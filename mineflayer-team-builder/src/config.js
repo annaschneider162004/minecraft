@@ -71,6 +71,36 @@ function parsePlacementMode(value) {
   throw new Error('placementMode phải là "mineflayer", "commands" hoặc "command-fallback".');
 }
 
+function parseUsername(value, fieldName) {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+  if (typeof value !== "string" || !/^[A-Za-z0-9_]{1,16}$/.test(value)) {
+    throw new Error(`${fieldName} phải là username Minecraft hợp lệ (A-Z, a-z, 0-9, _, tối đa 16 ký tự).`);
+  }
+  return value;
+}
+
+function parseCameraFocus(value) {
+  if (value === undefined || value === null || value === "") {
+    return "stage_center";
+  }
+  if (value === "stage_center") {
+    return value;
+  }
+  throw new Error('cameraFocus hiện chỉ hỗ trợ "stage_center".');
+}
+
+function parseCameraGamemode(value) {
+  if (value === undefined || value === null || value === "") {
+    return "spectator";
+  }
+  if (value === "spectator" || value === "creative" || value === "survival" || value === "adventure") {
+    return value;
+  }
+  throw new Error('cameraGamemode phải là "spectator", "creative", "survival" hoặc "adventure".');
+}
+
 function loadConfig(configArg) {
   const configPath = configArg || process.env.TEAM_BUILDER_CONFIG;
   if (!configPath) {
@@ -96,6 +126,10 @@ function loadConfig(configArg) {
   if (!planFile) {
     throw new Error("Config Mineflayer phải có planFile trỏ tới file JSON build plan.");
   }
+  const bots = parsed.bots.map((bot, index) => ({
+    ...bot,
+    username: parseUsername(bot?.username, `bots[${index}].username`),
+  }));
 
   return {
     host: parsed.host,
@@ -113,8 +147,8 @@ function loadConfig(configArg) {
     clearanceHeight: withDefault(parsed.clearanceHeight, 20),
     preferCurrentPlayerArea: parsed.preferCurrentPlayerArea !== false,
     buildPadding: withDefault(parsed.buildPadding, 6),
-    scoutBot: typeof parsed.scoutBot === "string" ? parsed.scoutBot : null,
-    bots: parsed.bots,
+    scoutBot: parseUsername(parsed.scoutBot, "scoutBot"),
+    bots,
     planFile,
     creativeMode: parsed.creativeMode !== false,
     commandPrefix: withDefault(parsed.commandPrefix, "/"),
@@ -148,6 +182,21 @@ function loadConfig(configArg) {
     clearAbovePlatform: parsed.clearAbovePlatform !== false,
     platformPadding: withDefault(parsed.platformPadding, 20),
     platformExtraHeight: withDefault(parsed.platformExtraHeight, 20),
+    cinematicMode: parsed.cinematicMode === true,
+    cameraPlayer: parseUsername(parsed.cameraPlayer, "cameraPlayer"),
+    cameraGamemode: parseCameraGamemode(parsed.cameraGamemode),
+    cameraOrbitEnabled: parsed.cameraOrbitEnabled === true,
+    cameraOrbitRadius: readNumberValue(parsed.cameraOrbitRadius, 12),
+    cameraOrbitHeight: readNumberValue(parsed.cameraOrbitHeight, 8),
+    cameraOrbitStepDelayMs: readNumberValue(parsed.cameraOrbitStepDelayMs, 1200),
+    cameraOrbitStepsPerStage: readNumberValue(parsed.cameraOrbitStepsPerStage, 12),
+    cameraFocus: parseCameraFocus(parsed.cameraFocus),
+    gatherBotsAroundStage: parsed.gatherBotsAroundStage === true,
+    gatherBotsAroundCamera: parsed.gatherBotsAroundCamera === true,
+    stagePauseMs: readNumberValue(parsed.stagePauseMs, 0),
+    pauseBetweenStages: parsed.pauseBetweenStages === true,
+    announceStages: parsed.announceStages === true,
+    buildStageOrder: Array.isArray(parsed.buildStageOrder) ? parsed.buildStageOrder.filter((stage) => typeof stage === "string" && stage.trim()) : [],
     verbose: parsed.verbose === true,
   };
 }

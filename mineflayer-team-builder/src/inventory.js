@@ -1,10 +1,10 @@
 const createItem = require("prismarine-item");
 
 function normalizeBlockName(name) {
-  return String(name || "")
-    .replace(/^minecraft:/, "")
-    .replace(/\[.*\]$/, "")
-    .trim();
+  const raw = String(name || "").trim();
+  const withoutNamespace = raw.startsWith("minecraft:") ? raw.slice("minecraft:".length) : raw;
+  const stateIndex = withoutNamespace.indexOf("[");
+  return stateIndex >= 0 ? withoutNamespace.slice(0, stateIndex) : withoutNamespace;
 }
 
 function getInventoryItemByBlock(bot, blockName) {

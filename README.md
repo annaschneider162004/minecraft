@@ -72,6 +72,28 @@ npm start -- --config "%APPDATA%\.minecraft\schematics\cong_trinh_huyen_huyen_te
 
 Config alias `cong_trinh_huyen_huyen_team_config.json` đã được trỏ sẵn tới `auralis_v2_team_plan.json`, nên lệnh cũ của bạn sẽ chạy Auralis v2 luôn.
 
+### Quay video cinematic với `Jonhbh` làm camera
+
+Nếu bạn muốn quay Auralis v2 theo từng phase để dựng video đẹp hơn, dùng config có sẵn:
+
+```bat
+cd /d "D:\minecraft-main\minecraft-main\mineflayer-team-builder"
+npm start -- --config "examples\auralis_v2_cinematic_config.json"
+```
+
+Hoặc chạy file helper:
+
+```bat
+examples\run_auralis_recording.bat
+```
+
+Lưu ý:
+
+- `Jonhbh` là **camera player**, không phải builder bot
+- `Builder_01` tới `Builder_10` sẽ xây theo nhiều phase, ví dụ `void_abyss -> dragon_body -> ... -> lighting`
+- tool sẽ dùng lệnh `/tp Jonhbh x y z yaw pitch` để quay orbit quanh phase hiện tại
+- để có file video `.mp4`, bạn vẫn cần OBS hoặc công cụ quay màn hình khác; Minecraft không tự export video
+
 ## Run the CLI
 
 ```bash
