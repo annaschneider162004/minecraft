@@ -34,6 +34,7 @@ from fantasy_schematic_builder.models import GenerationOptions
 from fantasy_schematic_builder.mineflayer_exporter import (
     export_auralis_v2_assets,
     format_auralis_v2_export_summary,
+    validate_auralis_v2_bot_count,
     validate_team_bot_count,
 )
 
@@ -98,6 +99,10 @@ def resolve_output_directory_to_open(last_output_dir: str | None, selected_outpu
         if os.path.isdir(selected_path):
             return selected_path
     return None
+
+
+def resolve_auralis_export_bot_count(team_bot_count: int | str) -> int:
+    return validate_auralis_v2_bot_count(team_bot_count)
 
 
 class BuilderGUI:
@@ -583,7 +588,8 @@ class BuilderGUI:
             return
         output_dir = self.output_dir.get().strip() or default_output_directory()
         try:
-            result = export_auralis_v2_assets(output_dir)
+            team_bot_count = resolve_auralis_export_bot_count(self.team_bot_count.get())
+            result = export_auralis_v2_assets(output_dir, team_bot_count=team_bot_count)
         except Exception as exc:
             messagebox.showerror("Lỗi", f"Không thể xuất Auralis v2:\n{exc}")
             self.status.set("Xuất Auralis v2 thất bại.")
@@ -591,7 +597,7 @@ class BuilderGUI:
         self.last_generated_output_dir = os.path.abspath(result["output_dir"])
         self._set_output_text(format_auralis_v2_export_summary(result))
         self.output_text.focus_set()
-        self.status.set(f"Đã xuất Auralis v2 vào: {result['output_dir']}")
+        self.status.set(f"Đã xuất Auralis v2 ({result['team_bot_count']} bot) vào: {result['output_dir']}")
 
     def generate(self):
         if self.is_generating:

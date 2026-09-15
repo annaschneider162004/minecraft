@@ -24,8 +24,10 @@ from fantasy_schematic_builder.gui.tkinter_app import (
     build_generation_options,
     format_generation_summary,
     resolve_output_directory_to_open,
+    resolve_auralis_export_bot_count,
 )
 from fantasy_schematic_builder.mineflayer_exporter import (
+    build_auralis_v2_server_setup_commands,
     export_auralis_v2_assets,
     format_auralis_v2_export_summary,
 )
@@ -58,6 +60,11 @@ class GenerationTests(unittest.TestCase):
         self.assertIn("Các file đã tạo:", summary)
         self.assertIn("Schematic đầy đủ", summary)
         self.assertIn("Giai đoạn build", summary)
+
+    def test_gui_auralis_export_bot_count_validation_uses_10_to_50_range(self):
+        self.assertEqual(resolve_auralis_export_bot_count("20"), 20)
+        with self.assertRaisesRegex(ValueError, "10-50"):
+            resolve_auralis_export_bot_count("6")
 
     def test_resolve_output_directory_prefers_latest_successful_folder(self):
         with tempfile.TemporaryDirectory() as selected_dir, tempfile.TemporaryDirectory() as latest_dir:
@@ -473,14 +480,17 @@ class GenerationTests(unittest.TestCase):
 
             plan_path = os.path.join(tempdir, "auralis_v2_team_plan.json")
             config_path = os.path.join(tempdir, "auralis_v2_team_config.json")
+            cinematic_config_path = os.path.join(tempdir, "auralis_v2_cinematic_config.json")
             alias_config_path = os.path.join(tempdir, "cong_trinh_huyen_huyen_team_config.json")
             server_setup_path = os.path.join(tempdir, "server-console-setup-commands.txt")
 
             self.assertEqual(result["plan"], plan_path)
             self.assertEqual(result["config"], config_path)
+            self.assertEqual(result["cinematic_config"], cinematic_config_path)
             self.assertEqual(result["alias_config"], alias_config_path)
             self.assertTrue(os.path.exists(plan_path))
             self.assertTrue(os.path.exists(config_path))
+            self.assertTrue(os.path.exists(cinematic_config_path))
             self.assertTrue(os.path.exists(alias_config_path))
             self.assertTrue(os.path.exists(server_setup_path))
 
@@ -505,7 +515,7 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(config_payload["connectTimeoutMs"], 120000)
             self.assertFalse(config_payload["allowPartialTeam"])
             self.assertEqual(len(config_payload["bots"]), 10)
-            self.assertEqual(config_payload["bots"][0]["assignedStages"], ["dragon_body"])
+            self.assertEqual(config_payload["bots"][0]["assignedStages"], ["void_abyss"])
             self.assertEqual(config_payload["bots"][-1]["assignedStages"], ["lighting"])
 
             with open(server_setup_path, "r", encoding="utf-8") as handle:
@@ -515,17 +525,65 @@ class GenerationTests(unittest.TestCase):
             self.assertIn("op Jonhbh", server_setup_commands)
             self.assertIn("op Jonh", server_setup_commands)
 
+    def test_export_auralis_v2_assets_supports_20_bots_with_stage_round_robin(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = export_auralis_v2_assets(tempdir, team_bot_count=20)
+            with open(result["config"], "r", encoding="utf-8") as handle:
+                config_payload = json.load(handle)
+            with open(result["cinematic_config"], "r", encoding="utf-8") as handle:
+                cinematic_payload = json.load(handle)
+
+            self.assertEqual(len(config_payload["bots"]), 20)
+            self.assertEqual(config_payload["bots"][-1]["username"], "Builder_20")
+            self.assertEqual(cinematic_payload["bots"][-1]["username"], "Builder_20")
+            self.assertEqual(cinematic_payload["buildStageOrder"], [
+                "void_abyss",
+                "dragon_body",
+                "dragon_head",
+                "heavenly_gate",
+                "city_platform",
+                "central_tower",
+                "elemental_temples",
+                "demon_fortress",
+                "decorations",
+                "lighting",
+            ])
+
+            stage_counts: dict[str, int] = {}
+            for bot in config_payload["bots"]:
+                stage_name = bot["assignedStages"][0]
+                stage_counts[stage_name] = stage_counts.get(stage_name, 0) + 1
+            self.assertEqual(set(stage_counts.values()), {2})
+
+            self.assertEqual(config_payload["bots"][0]["assignedStages"], ["void_abyss"])
+            self.assertEqual(config_payload["bots"][10]["assignedStages"], ["void_abyss"])
+            self.assertEqual(config_payload["bots"][1]["assignedStages"], ["dragon_body"])
+            self.assertEqual(config_payload["bots"][11]["assignedStages"], ["dragon_body"])
+
+    def test_export_auralis_v2_assets_supports_25_bot_op_helper(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            result = export_auralis_v2_assets(tempdir, team_bot_count=25)
+            with open(result["server_console_setup"], "r", encoding="utf-8") as handle:
+                server_setup_commands = handle.read()
+            self.assertIn("op Builder_25", server_setup_commands)
+            self.assertIn("op Jonhbh", server_setup_commands)
+            self.assertIn("op Jonh", server_setup_commands)
+
     def test_auralis_v2_summary_mentions_server_console_and_run_command(self):
         result = {
             "output_dir": "/tmp/auralis",
             "plan": "/tmp/auralis/auralis_v2_team_plan.json",
             "config": "/tmp/auralis/auralis_v2_team_config.json",
+            "cinematic_config": "/tmp/auralis/auralis_v2_cinematic_config.json",
             "alias_config": "/tmp/auralis/cong_trinh_huyen_huyen_team_config.json",
             "server_console_setup": "/tmp/auralis/server-console-setup-commands.txt",
             "mineflayer_dir": "/repo/mineflayer-team-builder",
+            "team_bot_count": "20",
         }
         summary = format_auralis_v2_export_summary(result)
         self.assertIn("Đã xuất Auralis v2 vào", summary)
+        self.assertIn("Config cinematic", summary)
+        self.assertIn("Số bot Auralis v2: 20", summary)
         self.assertIn("server-console-setup-commands.txt", summary)
         self.assertIn("không dán vào CMD bot", summary)
         self.assertIn('npm start -- --config "/tmp/auralis/cong_trinh_huyen_huyen_team_config.json"', summary)
@@ -554,6 +612,56 @@ class GenerationTests(unittest.TestCase):
 
             self.assertEqual(result["mineflayer_dir"], fake_mineflayer_dir)
 
+    def test_export_auralis_v2_assets_applies_cinematic_template_camera_overrides_without_overwriting_team_fields(self):
+        repo_examples_dir = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "mineflayer-team-builder",
+            "examples",
+        )
+        with tempfile.TemporaryDirectory() as tempdir:
+            fake_mineflayer_dir = os.path.join(tempdir, "mineflayer-team-builder")
+            fake_examples_dir = os.path.join(fake_mineflayer_dir, "examples")
+            os.makedirs(fake_examples_dir, exist_ok=True)
+            shutil.copyfile(
+                os.path.join(repo_examples_dir, "auralis_v2_team_plan.json"),
+                os.path.join(fake_examples_dir, "auralis_v2_team_plan.json"),
+            )
+            with open(os.path.join(repo_examples_dir, "auralis_v2_cinematic_config.json"), "r", encoding="utf-8") as handle:
+                template_payload = json.load(handle)
+            template_payload["cameraOrbitRadius"] = 31
+            template_payload["stagePauseMs"] = 4321
+            template_payload["buildStageOrder"] = ["lighting"]
+            template_payload["scoutBot"] = "Builder_10"
+            with open(os.path.join(fake_examples_dir, "auralis_v2_cinematic_config.json"), "w", encoding="utf-8") as handle:
+                json.dump(template_payload, handle, ensure_ascii=False, indent=2)
+
+            result = export_auralis_v2_assets(
+                os.path.join(tempdir, "output"),
+                team_bot_count=20,
+                examples_dir=fake_examples_dir,
+                mineflayer_dir=fake_mineflayer_dir,
+            )
+
+            with open(result["cinematic_config"], "r", encoding="utf-8") as handle:
+                cinematic_payload = json.load(handle)
+            self.assertEqual(cinematic_payload["cameraOrbitRadius"], 31)
+            self.assertEqual(cinematic_payload["stagePauseMs"], 4321)
+            self.assertEqual(cinematic_payload["scoutBot"], "Builder_01")
+            self.assertEqual(cinematic_payload["buildStageOrder"], [
+                "void_abyss",
+                "dragon_body",
+                "dragon_head",
+                "heavenly_gate",
+                "city_platform",
+                "central_tower",
+                "elemental_temples",
+                "demon_fortress",
+                "decorations",
+                "lighting",
+            ])
+            self.assertEqual(len(cinematic_payload["bots"]), 20)
+            self.assertEqual(cinematic_payload["bots"][-1]["username"], "Builder_20")
+
     def test_export_auralis_v2_assets_reports_missing_plan_source_clearly(self):
         with tempfile.TemporaryDirectory() as tempdir:
             missing_examples_dir = os.path.join(tempdir, "custom-assets")
@@ -563,6 +671,27 @@ class GenerationTests(unittest.TestCase):
                 r"Không tìm thấy asset nguồn auralis_v2_team_plan\.json",
             ):
                 export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=missing_examples_dir)
+
+    def test_export_auralis_v2_assets_reports_invalid_cinematic_template_clearly(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            custom_assets_dir = os.path.join(tempdir, "custom-assets")
+            os.makedirs(custom_assets_dir, exist_ok=True)
+            shutil.copyfile(
+                os.path.join(
+                    os.path.dirname(os.path.dirname(__file__)),
+                    "mineflayer-team-builder",
+                    "examples",
+                    "auralis_v2_team_plan.json",
+                ),
+                os.path.join(custom_assets_dir, "auralis_v2_team_plan.json"),
+            )
+            with open(os.path.join(custom_assets_dir, "auralis_v2_cinematic_config.json"), "w", encoding="utf-8") as handle:
+                handle.write("{ not-json")
+            with self.assertRaisesRegex(
+                ValueError,
+                r"File template cinematic không hợp lệ",
+            ):
+                export_auralis_v2_assets(os.path.join(tempdir, "output"), examples_dir=custom_assets_dir)
 
     def test_export_auralis_v2_assets_uses_default_mineflayer_dir_for_custom_asset_directory(self):
         with tempfile.TemporaryDirectory() as tempdir:
@@ -592,14 +721,35 @@ class GenerationTests(unittest.TestCase):
                         "--export-auralis-v2",
                         "--output-dir",
                         tempdir,
+                        "--team-bots",
+                        "20",
                     ]
                 )
             self.assertEqual(exit_code, 0)
             self.assertTrue(os.path.exists(os.path.join(tempdir, "auralis_v2_team_plan.json")))
             self.assertTrue(os.path.exists(os.path.join(tempdir, "auralis_v2_team_config.json")))
+            self.assertTrue(os.path.exists(os.path.join(tempdir, "auralis_v2_cinematic_config.json")))
             self.assertTrue(os.path.exists(os.path.join(tempdir, "cong_trinh_huyen_huyen_team_config.json")))
+            with open(os.path.join(tempdir, "auralis_v2_team_config.json"), "r", encoding="utf-8") as handle:
+                config_payload = json.load(handle)
+            self.assertEqual(len(config_payload["bots"]), 20)
+            self.assertEqual(config_payload["bots"][-1]["username"], "Builder_20")
             self.assertIn("Đã xuất Auralis v2 vào", stdout.getvalue())
             self.assertIn("server-console-setup-commands.txt", stdout.getvalue())
+
+    def test_cli_rejects_auralis_export_bot_count_below_10(self):
+        stderr = StringIO()
+        with self.assertRaises(SystemExit) as exc, redirect_stderr(stderr):
+            main(["--export-auralis-v2", "--team-bots", "6"])
+        self.assertEqual(exc.exception.code, 2)
+        self.assertIn("Số bot Auralis v2", stderr.getvalue())
+
+    def test_auralis_server_setup_command_helper_scales_to_selected_count(self):
+        setup_commands = build_auralis_v2_server_setup_commands(25)
+        self.assertEqual(setup_commands[0], "op Builder_01")
+        self.assertIn("op Builder_25", setup_commands)
+        self.assertIn("op Jonhbh", setup_commands)
+        self.assertIn("op Jonh", setup_commands)
 
     def test_cli_reports_auralis_v2_export_failures_cleanly(self):
         stderr = StringIO()

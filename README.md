@@ -19,7 +19,7 @@ A user-friendly Python tool for turning English or Vietnamese fantasy story prom
 - Cumulative staged schematic exports for easier Baritone building.
 - Material list, `/give` command export, Baritone build steps, and YouTube notes.
 - Optional Mineflayer team build plan JSON export plus auto-generated `*_team_config.json` for the separate `mineflayer-team-builder/` Node.js bot prototype.
-- One-click **Auralis v2** export from the GUI or CLI to copy the new 10-bot prompt-image assets into `%APPDATA%\.minecraft\schematics`.
+- One-click **Auralis v2** export from the GUI or CLI with dynamic `10-50` bot support into `%APPDATA%\.minecraft\schematics`.
 - Example story files in `/examples`.
 
 ## Requirements
@@ -45,7 +45,7 @@ The GUI lets you:
 - bật/tắt tạo schematic đầy đủ, schematic theo giai đoạn, danh sách vật liệu, lệnh `/give`, hướng dẫn Baritone, và ghi chú YouTube
 - bật **Tạo kế hoạch Mineflayer team bot**, nhập `Số bot Mineflayer (1–50)`, và dùng **Mass Bot Mode** để chọn nhanh `10 / 20 / 30 / 40 / 50`
 - bật **Tự tìm vị trí xây phù hợp** để bot đầu tiên tự dò khu đất gần spawn/chỗ đang đứng (không cần tự sửa XYZ thủ công)
-- bấm **`XUẤT AURALIS V2 GIỐNG PROMPT ẢNH`** để chép sẵn `auralis_v2_team_plan.json`, `auralis_v2_team_config.json`, `cong_trinh_huyen_huyen_team_config.json`, và `server-console-setup-commands.txt` vào thư mục schematics
+- bấm **`XUẤT AURALIS V2 GIỐNG PROMPT ẢNH`** (dùng số bot hiện tại trong ô `Số bot Mineflayer`, hợp lệ `10-50`) để chép sẵn `auralis_v2_team_plan.json`, `auralis_v2_team_config.json`, `auralis_v2_cinematic_config.json`, `cong_trinh_huyen_huyen_team_config.json`, và `server-console-setup-commands.txt` vào thư mục schematics
 - dùng nút cyan **`TẠO FILE .SCHEM NGAY`** luôn hiện ở cuối cửa sổ và nút **`MỞ THƯ MỤC FILE ĐÃ TẠO`** để mở nhanh thư mục output
 
 ### Quy trình GUI gợi ý
@@ -70,7 +70,18 @@ The GUI lets you:
 npm start -- --config "%APPDATA%\.minecraft\schematics\cong_trinh_huyen_huyen_team_config.json"
 ```
 
+CLI tương đương để xuất đúng `20` bot:
+
+```bash
+python fantasy_schematic_builder/app.py --export-auralis-v2 --team-bots 20
+```
+
 Config alias `cong_trinh_huyen_huyen_team_config.json` đã được trỏ sẵn tới `auralis_v2_team_plan.json`, nên lệnh cũ của bạn sẽ chạy Auralis v2 luôn.
+
+Nhắc nhanh trước khi chạy bot:
+
+- `max-players` phải lớn hơn `số bot + người chơi thật` (ví dụ 20 bot + Jonhbh thì nên để ít nhất `max-players=30`)
+- luôn dán file `server-console-setup-commands.txt` vào **server.jar console**
 
 ### Quay video cinematic với `Jonhbh` làm camera
 
@@ -90,7 +101,7 @@ examples\run_auralis_recording.bat
 Lưu ý:
 
 - `Jonhbh` là **camera player**, không phải builder bot
-- `Builder_01` tới `Builder_10` sẽ xây theo nhiều phase, ví dụ `void_abyss -> dragon_body -> ... -> lighting`
+- `Builder_01` tới `Builder_xx` (theo `--team-bots` đã export) sẽ xây theo nhiều phase, ví dụ `void_abyss -> dragon_body -> ... -> lighting`
 - tool sẽ dùng lệnh `/tp Jonhbh x y z yaw pitch` để quay orbit quanh phase hiện tại
 - để có file video `.mp4`, bạn vẫn cần OBS hoặc công cụ quay màn hình khác; Minecraft không tự export video
 
@@ -103,7 +114,7 @@ python fantasy_schematic_builder/app.py --generate-idea --idea-theme dragon --id
 python fantasy_schematic_builder/app.py --story examples/story_dragon_cave.txt --build-type auto --generate-titles
 python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt --build-type wizard_tower --output-name wizard_team --mineflayer-plan --team-bots 6
 python fantasy_schematic_builder/app.py --story examples/story_wizard_tower.txt --build-type wizard_tower --output-name wizard_50 --mineflayer-plan --team-bots 50 --staged
-python fantasy_schematic_builder/app.py --export-auralis-v2
+python fantasy_schematic_builder/app.py --export-auralis-v2 --team-bots 20
 ```
 
 ### Useful CLI options
@@ -122,7 +133,7 @@ python fantasy_schematic_builder/app.py --export-auralis-v2
 - `--no-youtube-notes` - skip YouTube/story notes export
 - `--mineflayer-plan` - generate a JSON build plan plus `*_team_config.json` for the optional Mineflayer multi-bot subsystem
 - `--team-bots 1-50` - choose the Mineflayer bot count encoded into the generated plan/config
-- `--export-auralis-v2` / `--auralis-v2` - export ready-to-run Auralis v2 Mineflayer assets and the server console OP helper
+- `--export-auralis-v2` / `--auralis-v2` - export ready-to-run Auralis v2 Mineflayer assets and the server console OP helper (`--team-bots` cho flow này dùng `10-50`)
 - `--generate-idea` - print an offline build idea to the console
 - `--idea-theme fantasy|medieval|survival|dragon|wizard|ocean|sky|nether|ancient|village|castle|cave|temple`
 - `--idea-keyword "..."` - inject an extra keyword into the generated idea

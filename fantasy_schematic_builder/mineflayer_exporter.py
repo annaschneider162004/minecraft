@@ -68,24 +68,39 @@ EXTRA_ROLE_CYCLE = ("walls", "towers", "decorations", "roof", "foundation", "sec
 
 AURALIS_V2_PLAN_FILENAME = "auralis_v2_team_plan.json"
 AURALIS_V2_CONFIG_FILENAME = "auralis_v2_team_config.json"
+AURALIS_V2_CINEMATIC_CONFIG_FILENAME = "auralis_v2_cinematic_config.json"
 AURALIS_V2_ALIAS_CONFIG_FILENAME = "cong_trinh_huyen_huyen_team_config.json"
 AURALIS_V2_SERVER_SETUP_FILENAME = "server-console-setup-commands.txt"
-AURALIS_V2_BOT_ASSIGNMENTS = (
-    ("Builder_01", "dragon_body"),
-    ("Builder_02", "dragon_head"),
-    ("Builder_03", "heavenly_gate"),
-    ("Builder_04", "city_platform"),
-    ("Builder_05", "central_tower"),
-    ("Builder_06", "elemental_temples"),
-    ("Builder_07", "void_abyss"),
-    ("Builder_08", "demon_fortress"),
-    ("Builder_09", "decorations"),
-    ("Builder_10", "lighting"),
+AURALIS_V2_STAGE_ORDER = (
+    "void_abyss",
+    "dragon_body",
+    "dragon_head",
+    "heavenly_gate",
+    "city_platform",
+    "central_tower",
+    "elemental_temples",
+    "demon_fortress",
+    "decorations",
+    "lighting",
 )
-AURALIS_V2_SERVER_SETUP_COMMANDS = tuple(
-    [f"op Builder_{index:02d}" for index in range(1, 11)]
-    + ["op Jonhbh", "op Jonh", "say Mineflayer bot operators configured"]
-)
+AURALIS_V2_MIN_BOT_COUNT = 10
+AURALIS_V2_MAX_BOT_COUNT = 50
+AURALIS_V2_CINEMATIC_OVERRIDE_KEYS = {
+    "cinematicMode",
+    "cameraPlayer",
+    "cameraGamemode",
+    "cameraOrbitEnabled",
+    "cameraOrbitRadius",
+    "cameraOrbitHeight",
+    "cameraOrbitStepDelayMs",
+    "cameraOrbitStepsPerStage",
+    "cameraFocus",
+    "gatherBotsAroundStage",
+    "gatherBotsAroundCamera",
+    "pauseBetweenStages",
+    "stagePauseMs",
+    "announceStages",
+}
 
 
 def validate_team_bot_count(value: int | str) -> int:
@@ -95,6 +110,15 @@ def validate_team_bot_count(value: int | str) -> int:
         raise ValueError("Số bot Mineflayer phải là số nguyên trong khoảng 1-50.") from exc
     if not 1 <= count <= 50:
         raise ValueError("Số bot Mineflayer phải nằm trong khoảng 1-50.")
+    return count
+
+
+def validate_auralis_v2_bot_count(value: int | str) -> int:
+    count = validate_team_bot_count(value)
+    if not AURALIS_V2_MIN_BOT_COUNT <= count <= AURALIS_V2_MAX_BOT_COUNT:
+        raise ValueError(
+            f"Số bot Auralis v2 phải nằm trong khoảng {AURALIS_V2_MIN_BOT_COUNT}-{AURALIS_V2_MAX_BOT_COUNT}."
+        )
     return count
 
 
@@ -181,19 +205,32 @@ def _auralis_v2_plan_source_path(examples_dir: str | None = None, mineflayer_dir
     return os.path.join(auralis_v2_examples_directory(examples_dir=examples_dir, mineflayer_dir=mineflayer_dir), AURALIS_V2_PLAN_FILENAME)
 
 
-def _auralis_v2_bot_definitions() -> list[dict[str, object]]:
-    return [
-        {
-            "username": username,
-            "role": stage_name,
-            "assignedStages": [stage_name],
-            "teamIndex": index,
-        }
-        for index, (username, stage_name) in enumerate(AURALIS_V2_BOT_ASSIGNMENTS, start=1)
-    ]
+def build_auralis_v2_bot_definitions(team_bot_count: int) -> list[dict[str, object]]:
+    team_bot_count = validate_auralis_v2_bot_count(team_bot_count)
+    bots = []
+    for index in range(1, team_bot_count + 1):
+        stage_name = AURALIS_V2_STAGE_ORDER[(index - 1) % len(AURALIS_V2_STAGE_ORDER)]
+        bots.append(
+            {
+                "username": f"Builder_{index:02d}",
+                "role": stage_name,
+                "assignedStages": [stage_name],
+                "teamIndex": index,
+            }
+        )
+    return bots
 
 
-def build_auralis_v2_team_config(plan_path: str) -> dict[str, object]:
+def build_auralis_v2_server_setup_commands(team_bot_count: int) -> tuple[str, ...]:
+    team_bot_count = validate_auralis_v2_bot_count(team_bot_count)
+    return tuple(
+        [f"op Builder_{index:02d}" for index in range(1, team_bot_count + 1)]
+        + ["op Jonhbh", "op Jonh", "say Mineflayer bot operators configured"]
+    )
+
+
+def build_auralis_v2_team_config(plan_path: str, team_bot_count: int = AURALIS_V2_MIN_BOT_COUNT) -> dict[str, object]:
+    team_bot_count = validate_auralis_v2_bot_count(team_bot_count)
     return {
         "host": "localhost",
         "port": 25565,
@@ -210,7 +247,7 @@ def build_auralis_v2_team_config(plan_path: str) -> dict[str, object]:
         "preferCurrentPlayerArea": True,
         "buildPadding": 10,
         "scoutBot": "Builder_01",
-        "bots": _auralis_v2_bot_definitions(),
+        "bots": build_auralis_v2_bot_definitions(team_bot_count),
         "planFile": os.path.abspath(plan_path),
         "creativeMode": True,
         "issueCreativeCommands": True,
@@ -240,6 +277,47 @@ def build_auralis_v2_team_config(plan_path: str) -> dict[str, object]:
     }
 
 
+def build_auralis_v2_cinematic_config(plan_path: str, team_bot_count: int = AURALIS_V2_MIN_BOT_COUNT) -> dict[str, object]:
+    payload = build_auralis_v2_team_config(plan_path, team_bot_count=team_bot_count)
+    payload.update(
+        {
+            "cinematicMode": True,
+            "cameraPlayer": "Jonhbh",
+            "cameraGamemode": "spectator",
+            "cameraOrbitEnabled": True,
+            "cameraOrbitRadius": 24,
+            "cameraOrbitHeight": 12,
+            "cameraOrbitStepDelayMs": 1200,
+            "cameraOrbitStepsPerStage": 12,
+            "cameraFocus": "stage_center",
+            "gatherBotsAroundStage": True,
+            "gatherBotsAroundCamera": False,
+            "pauseBetweenStages": True,
+            "stagePauseMs": 8000,
+            "announceStages": True,
+        }
+    )
+    payload["buildStageOrder"] = list(AURALIS_V2_STAGE_ORDER)
+    return payload
+
+
+def load_auralis_v2_cinematic_template(examples_dir: str | None = None, mineflayer_dir: str | None = None) -> dict[str, object] | None:
+    template_path = os.path.join(
+        auralis_v2_examples_directory(examples_dir=examples_dir, mineflayer_dir=mineflayer_dir),
+        AURALIS_V2_CINEMATIC_CONFIG_FILENAME,
+    )
+    if not os.path.isfile(template_path):
+        return None
+    with open(template_path, "r", encoding="utf-8") as handle:
+        try:
+            template_payload = json.load(handle)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"File template cinematic không hợp lệ: {template_path}") from exc
+    if isinstance(template_payload, dict):
+        return template_payload
+    return None
+
+
 def _write_json(payload: dict[str, object], output_path: str) -> None:
     with open(output_path, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=2)
@@ -266,8 +344,10 @@ def format_auralis_v2_export_summary(result: dict[str, str]) -> str:
         f"Các file đã tạo:\n"
         f"- Plan: {result['plan']}\n"
         f"- Config chính: {result['config']}\n"
+        f"- Config cinematic: {result['cinematic_config']}\n"
         f"- Config alias để giữ lệnh cũ: {result['alias_config']}\n"
         f"- Lệnh OP server: {result['server_console_setup']}\n\n"
+        f"Số bot Auralis v2: {result['team_bot_count']}\n"
         f"Hãy dán nội dung {AURALIS_V2_SERVER_SETUP_FILENAME} vào cửa sổ server.jar, không dán vào CMD bot.\n"
         f"Sau đó chạy: {run_command}"
     )
@@ -275,9 +355,11 @@ def format_auralis_v2_export_summary(result: dict[str, str]) -> str:
 
 def export_auralis_v2_assets(
     output_dir: str,
+    team_bot_count: int = AURALIS_V2_MIN_BOT_COUNT,
     examples_dir: str | None = None,
     mineflayer_dir: str | None = None,
 ) -> dict[str, str]:
+    team_bot_count = validate_auralis_v2_bot_count(team_bot_count)
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
     resolved_examples_dir = auralis_v2_examples_directory(examples_dir=examples_dir, mineflayer_dir=mineflayer_dir)
@@ -289,25 +371,46 @@ def export_auralis_v2_assets(
         )
     plan_output_path = os.path.join(output_dir, AURALIS_V2_PLAN_FILENAME)
     config_output_path = os.path.join(output_dir, AURALIS_V2_CONFIG_FILENAME)
+    cinematic_config_output_path = os.path.join(output_dir, AURALIS_V2_CINEMATIC_CONFIG_FILENAME)
     alias_output_path = os.path.join(output_dir, AURALIS_V2_ALIAS_CONFIG_FILENAME)
     server_setup_output_path = os.path.join(output_dir, AURALIS_V2_SERVER_SETUP_FILENAME)
 
     with tempfile.TemporaryDirectory(dir=output_dir, prefix=".auralis_v2_export_") as temp_dir:
         temp_plan_output_path = os.path.join(temp_dir, AURALIS_V2_PLAN_FILENAME)
         temp_config_output_path = os.path.join(temp_dir, AURALIS_V2_CONFIG_FILENAME)
+        temp_cinematic_config_output_path = os.path.join(temp_dir, AURALIS_V2_CINEMATIC_CONFIG_FILENAME)
         temp_alias_output_path = os.path.join(temp_dir, AURALIS_V2_ALIAS_CONFIG_FILENAME)
         temp_server_setup_output_path = os.path.join(temp_dir, AURALIS_V2_SERVER_SETUP_FILENAME)
 
         shutil.copyfile(plan_source_path, temp_plan_output_path)
-        config_payload = build_auralis_v2_team_config(plan_output_path)
+        config_payload = build_auralis_v2_team_config(plan_output_path, team_bot_count=team_bot_count)
+        cinematic_payload = build_auralis_v2_cinematic_config(plan_output_path, team_bot_count=team_bot_count)
+        cinematic_template = load_auralis_v2_cinematic_template(
+            examples_dir=resolved_examples_dir,
+            mineflayer_dir=resolved_mineflayer_dir,
+        )
+        if cinematic_template:
+            cinematic_payload.update(
+                {
+                    key: value
+                    for key, value in cinematic_template.items()
+                    if key in AURALIS_V2_CINEMATIC_OVERRIDE_KEYS
+                }
+            )
+        cinematic_payload["scoutBot"] = "Builder_01"
+        cinematic_payload["bots"] = build_auralis_v2_bot_definitions(team_bot_count)
+        # Keep Auralis stage order deterministic for both regular and cinematic exports.
+        cinematic_payload["buildStageOrder"] = list(AURALIS_V2_STAGE_ORDER)
         _write_json(config_payload, temp_config_output_path)
+        _write_json(cinematic_payload, temp_cinematic_config_output_path)
         _write_json(config_payload, temp_alias_output_path)
         with open(temp_server_setup_output_path, "w", encoding="utf-8") as handle:
-            handle.write("\n".join(AURALIS_V2_SERVER_SETUP_COMMANDS) + "\n")
+            handle.write("\n".join(build_auralis_v2_server_setup_commands(team_bot_count)) + "\n")
 
         for temp_path, final_path in (
             (temp_plan_output_path, plan_output_path),
             (temp_config_output_path, config_output_path),
+            (temp_cinematic_config_output_path, cinematic_config_output_path),
             (temp_alias_output_path, alias_output_path),
             (temp_server_setup_output_path, server_setup_output_path),
         ):
@@ -317,9 +420,11 @@ def export_auralis_v2_assets(
         "output_dir": output_dir,
         "plan": plan_output_path,
         "config": config_output_path,
+        "cinematic_config": cinematic_config_output_path,
         "alias_config": alias_output_path,
         "server_console_setup": server_setup_output_path,
         "mineflayer_dir": resolved_mineflayer_dir,
+        "team_bot_count": str(team_bot_count),
     }
 
 

@@ -75,7 +75,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.export_auralis_v2:
         try:
-            result = export_auralis_v2_assets(args.output_dir)
+            result = export_auralis_v2_assets(args.output_dir, team_bot_count=args.team_bots)
+        except ValueError as exc:
+            parser.exit(2, f"{exc}\n")
         except Exception as exc:
             parser.exit(1, f"Không thể xuất Auralis v2: {exc}\n")
         print(format_auralis_v2_export_summary(result))
